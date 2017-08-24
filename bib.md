@@ -8,7 +8,7 @@
 * [Ruby Hacking Guide](https://ruby-hacking-guide.github.io/) by @minero-aoki
   * MRI Internal complete guide for Ruby 1.8 era.
   * Part 1, 2 (GC, Parser) are valuable yet.
-* [Ruby Under a Microscope] (http://patshaughnessy.net/ruby-under-a-microscope) by Pat Shaughnessy
+* [Ruby Under a Microscope](http://patshaughnessy.net/ruby-under-a-microscope) by Pat Shaughnessy
   * MRI Internal brief guild for Ruby 2.0.
   * Not completed but it is useful to understand internals for not experts.
 * [The Ruby Bibliography](http://rubybib.org/)
