@@ -104,6 +104,8 @@ Ruby のソースコードを修正すると、C プログラムなので容易�
 
 もし、ブレイクポイントを挿入したい場合は、`make gdb` コマンドでビルドディレクトリに生成される `run.gdb` というファイルに、例えば `b func_name` といったブレイクポイント指定を書いてください。
 
+（笹田は使わないのでよく知らないのですが、`$ make lldb` もあるようです）
+
 ### Ruby のテストを実行する
 
 1. `$ make btest` # run bootstrap tests in `ruby/bootstraptest/`
