@@ -1,155 +1,156 @@
-# (2) MRI �\�[�X�R�[�h�̍\��
+# (2) MRI ソースコードの構造
 
-## ���̎����ɂ���
+## この資料について
 
-MRI �̃\�[�X�R�[�h�̍\���ɂ��ďЉ�܂��B�܂��ARuby �̃\�[�X�R�[�h���n�b�N����Œ���̒m�����Љ�܂��B
+MRI のソースコードの構造について紹介します。また、Ruby のソースコードをハックする最低限の知識を紹介します。
 
-* ���K: MRI �̃\�[�X�R�[�h�� clone
-* ���K: MRI �̃r���h�A����уC���X�g�[��
-* MRI �̍\���̏Љ�
-* ���K: �r���h���� Ruby �Ńv���O���������s
+* 演習: MRI のソースコードを clone
+* 演習: MRI のビルド、およびインストール
+* MRI の構造の紹介
+* 演習: ビルドした Ruby でプログラムを実行
+* 演習： バージョン表記を変更してみよう
 
-## �{�e�őO��Ƃ���f�B���N�g���\��
+## 本稿で前提とするディレクトリ構造
 
-���L�̃R�}���h�́ALinux �� Mac OSX �Ȃǂ�O��Ƃ��Ă��܂��BWindows �����g���ꍇ�́A�ʓr�撣���Ă��������B
+下記のコマンドは、Linux や Mac OSX などを前提としています。Windows 等を使う場合は、別途頑張ってください。
 
-�O��Ƃ���f�B���N�g���\��:
+前提とするディレクトリ構造:
 
 * `workdir/`
-  * `ruby/` <- git clone ����f�B���N�g��
-  * `build/` <- �r���h�f�B���N�g���i�����ɁA�R���p�C������ `*.o` �Ȃǂ�����j
-  * `install/` <- �C���X�g�[���f�B���N�g�� (`workdir/install/bin/ruby` ���C���X�g�[�����ꂽ�f�B���N�g���ɂȂ�܂��j
+  * `ruby/` <- git clone するディレクトリ
+  * `build/` <- ビルドディレクトリ（ここに、コンパイルした `*.o` などが入る）
+  * `install/` <- インストールディレクトリ (`workdir/install/bin/ruby` がインストールされたディレクトリになります）
 
-�O��Ƃ���R�}���h�F
+前提とするコマンド：
 
-git�Aruby�Aautoconf�Abison�Agcc (or clang, etc�j�Amake ���K�{�ł��B���̑��A�ˑ����C�u����������΁A�g�����C�u��������G�t����܂��B
+git、ruby、autoconf、bison、gcc (or clang, etc）、make が必須です。その他、依存ライブラリがあれば、拡張ライブラリが作絵師されます。
 
-apt-get ���g������ł́A���L�̂悤�ȃR�}���h�ŃC���X�g�[������܂��B
+apt-get が使える環境では、下記のようなコマンドでインストールされます。
 
 ```
 $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev
 ```
 
-## ���K: MRI �̃\�[�X�R�[�h�� clone
+## 演習: MRI のソースコードを clone
 
 1. `$ mkdir workdir`
 2. `$ cd workdir`
-3. `$ git clone https://github.com/ruby/ruby.git` # workdir/ruby �Ƀ\�[�X�R�[�h�� clone ����܂�
+3. `$ git clone https://github.com/ruby/ruby.git` # workdir/ruby にソースコードが clone されます
 
-�i�l�b�g���[�N�ш�̖�肪����̂ŁA�ł���ΉƂȂǂōs���Ă��Ă��������j
+（ネットワーク帯域の問題があるので、できれば家などで行ってきてください）
 
-## ���K: MRI �̃r���h�A����уC���X�g�[��
+## 演習: MRI のビルド、およびインストール
 
-1. ��L�u�O��Ƃ���R�}���h�v���m�F
-2. `$ cd workdir/` # workdir �Ɉړ����܂�
-3. `$ cd ruby` # workdir/ruby �Ɉړ����܂�
+1. 上記「前提とするコマンド」を確認
+2. `$ cd workdir/` # workdir に移動します
+3. `$ cd ruby` # workdir/ruby に移動します
 4. `$ autoconf`
 5. `$ cd ..`
-6. `$ mkdir build` # `workdir/build` ���쐬���܂�
+6. `$ mkdir build` # `workdir/build` を作成します
 7. `$ cd build`
 8. `$ ../ruby/configure --prefix=$PWD/../install --enable-shared`
-  * `prefix` �́A�C���X�g�[�������̃f�B���N�g���ł��B��΃p�X�ŁA�D���ȏꏊ���w�肵�Ă��������i���̗�ł� `workdir/install`�j
-  * Homebrew �ŏ��X�C���X�g�[�����Ă���ꍇ�́A `--with-openssl-dir="$(brew --prefix openssl)" --with-readline-dir="$(brew --prefix readline)" --disable-libedit` ��t���Ă��������B
-9. `$ make -j` # �r���h���܂��B`-j` �͕���ɃR���p�C���Ȃǂ��s���I�v�V�����ł��B
-10. `$ make install` # tips: `make install-nodoc` �Ƃ���ƁArdoc/ri �h�L�������g�̃C���X�g�[�����X�L�b�v���܂�
-11. `$ ../install/bin/ruby -v` �ŁARuby ���C���X�g�[�����ꂽ���Ƃ��m�F���Ă�������
+  * `prefix` は、インストールする先のディレクトリです。絶対パスで、好きな場所を指定してください（この例では `workdir/install`）
+  * Homebrew で諸々インストールしている場合は、 `--with-openssl-dir="$(brew --prefix openssl)" --with-readline-dir="$(brew --prefix readline)" --disable-libedit` を付けてください。
+9. `$ make -j` # ビルドします。`-j` は並列にコンパイルなどを行うオプションです。
+10. `$ make install` # tips: `make install-nodoc` とすると、rdoc/ri ドキュメントのインストールをスキップします
+11. `$ ../install/bin/ruby -v` で、Ruby がインストールされたことを確認してください
 
-NOTE: `V=1` option �ɂ���āA`make` �R�}���h����̓I�ɂǂ̂悤�ȃR�}���h�����s���Ă��邩��\�����܂��B�f�t�H���g�i`V=0`�j�ł́A�����̕\����}�����Ă��܂��B
+NOTE: `V=1` option によって、`make` コマンドが具体的にどのようなコマンドを実行しているかを表示します。デフォルト（`V=0`）では、これらの表示を抑制しています。
 
-## ���K�F�r���h���� Ruby �Ńv���O���������s���Ă݂悤
+## 演習：ビルドした Ruby でプログラムを実行してみよう
 
-�r���h���� Ruby �Ŏ��ۂ� Ruby �X�N���v�g�����s������@�͂���������܂��B
+ビルドした Ruby で実際に Ruby スクリプトを実行する方法はいくつかあります。
 
-��Ԃ킩��₷�����@�́A�C���X�g�[���܂ŏI��点�A�C���X�g�[������ Ruby �𗘗p���Ď��s���邱�Ƃł��B�u���� Ruby ���g���Ă�����@�v�ƑS�������ł��B�ł����ARuby ���C�����邽�т� Ruby �̃C���X�g�[���܂ōs���ƁA�኱���Ԃ�������܂��i�}�V���ɂ��܂����A`make install` ���I���܂łɐ��\�b������܂��j�B
+一番わかりやすい方法は、インストールまで終わらせ、インストールした Ruby を利用して実行することです。「いつも Ruby を使っている方法」と全く同じです。ですが、Ruby を修正するたびに Ruby のインストールまで行うと、若干時間がかかります（マシンによりますが、`make install` が終わるまでに数十秒かかります）。
 
-�����ł́A����ȊO�́ARuby ���C������Ƃ��ɕ֗��Ȏ��s���@���Љ�܂��B
+ここでは、それ以外の、Ruby を修正するときに便利な実行方法を紹介します。
 
-### miniruby �Ŏ��s���悤
+### miniruby で実行しよう
 
-Ruby �̃r���h���I���ƁA�r���h�f�B���N�g���i`workdir/build`�j�ɁA`miniruby` �Ƃ������s�t�@�C������������܂��B`miniruby` �́ARuby �̃r���h���邽�߂ɍ����A�@�\�����ł� Ruby �C���^�v���^�ł��B�����A�����Ƃ����Ă��A�g�����C�u������ǂݍ��ނ��Ƃ��ł��Ȃ��A�G���R�[�f�B���O�ɐ��񂪂���A�Ƃ��������̂ł���ARuby ���@�̂قƂ�ǂ��T�|�[�g���Ă��܂��B
+Ruby のビルドが終わると、ビルドディレクトリ（`workdir/build`）に、`miniruby` という実行ファイルが生成されます。`miniruby` は、Ruby のビルドするために作られる、機能制限版の Ruby インタプリタです。ただ、制限といっても、拡張ライブラリを読み込むことができない、エンコーディングに制約がある、といったものであり、Ruby 文法のほとんどをサポートしています。
 
-`miniruby` �́ARuby �̃r���h�̏����i�K�Ő�������邽�߁AMRI�̏C�����s���A���̌��ʂ��m�F���邽�߂ɂ́A`miniruby` �����s���ďC�����ʂ��m�F����̂��ǂ��ł��B�܂�A
+`miniruby` は、Ruby のビルドの初期段階で生成されるため、MRIの修正を行い、その結果を確認するためには、`miniruby` を実行して修正結果を確認するのが良いです。つまり、
 
-1. MRI �̃\�[�X�R�[�h���C������
-2. `make miniruby` �Ƃ��āA`minirbuy` �𐶐�����i���ׂăr���h���ăC���X�g�[��������������I���j
-3. �C���Ɋ֌W����X�N���v�g�� `minirbuy` �Ŏ��s����
+1. MRI のソースコードを修正する
+2. `make miniruby` として、`minirbuy` を生成する（すべてビルドしてインストールするよりも速く終わる）
+3. 修正に関係あるスクリプトを `minirbuy` で実行する
 
-�Ƃ�������ŊJ����i�߂�ƌ����I�ł��B
+という流れで開発を進めると効率的です。
 
-���̗�����s�����߂ɁA`make run` �Ƃ��� make �̃��[��������܂��B������s���� `miniruby` ���r���h���A`workdir/ruby/test.rb` �i�\�[�X�f�B���N�g���j�ɏ����ꂽ���e�����s���܂��B
+この流れを行うために、`make run` という make のルールがあります。これを行うと `miniruby` をビルドし、`workdir/ruby/test.rb` （ソースディレクトリ）に書かれた内容を実行します。
 
-�܂�A���L�̂悤�ɐi�߂��܂��B
+つまり、下記のように進められます。
 
-1. `ruby/test.rb` �Ɏ��s������ Ruby �X�N���v�g��\������igem ��g�����C�u�����͎g���Ȃ��̂Œ��Ӂj�B�܂��ARuby �̃\�[�X�R�[�h���C������B
-2. �r���h�f�B���N�g���i`workdir/build`�j�� `$ make run` �����s����
+1. `ruby/test.rb` に実行したい Ruby スクリプトを表示する（gem や拡張ライブラリは使えないので注意）。また、Ruby のソースコードを修正する。
+2. ビルドディレクトリ（`workdir/build`）で `$ make run` を実行する
 
-### miniruby �ł͂Ȃ��A�t���Z�b�g�� ruby �Ŏ��s���悤
+### miniruby ではない、フルセットの ruby で実行しよう
 
-�g�����C�u�������܂ށu���ʂ́vRuby�����s���������́A`make run` �̑���� `make runruby` ���g���܂��B`make install` ���Ȃ��Ŏ��s�ł��邽�߁A�኱�����J�����i�߂��܂��B
+拡張ライブラリを含む「普通の」Rubyを実行したい時は、`make run` の代わりに `make runruby` を使います。`make install` しないで実行できるため、若干早く開発が進められます。
 
-1. `ruby/test.rb` �Ɏ��s������ Ruby �X�N���v�g��\������igem ��g�����C�u�����͎g���Ȃ��̂Œ��Ӂj�B�܂��ARuby �̃\�[�X�R�[�h���C������B
-2. �r���h�f�B���N�g���i`workdir/build`�j�� `$ make runruby` �����s����
+1. `ruby/test.rb` に実行したい Ruby スクリプトを表示する（gem や拡張ライブラリは使えないので注意）。また、Ruby のソースコードを修正する。
+2. ビルドディレクトリ（`workdir/build`）で `$ make runruby` を実行する
 
-### gdb ��p���ăf�o�b�O���悤
+### gdb を用いてデバッグしよう
 
-NOTE: Mac OSX �� gdb �𓮂����͓̂���悤�ł��B���L�́ALinux ����O���ɉ�����Ă��܂��B
+NOTE: Mac OSX で gdb を動かすのは難しいようです。下記は、Linux 等を念頭に解説しています。
 
-Ruby �̃\�[�X�R�[�h���C������ƁAC �v���O�����Ȃ̂ŗe�Ղ� SEGV �Ƃ������N���e�B�J���Ȗ����ȒP�ɔ��������邱�Ƃ��ł��܂��i���������Ⴂ�܂��j�B�����ŁAgdb ���g���ăf�o�b�O���邽�߂̕��@��p�ӂ��Ă��܂��B�������A�u���C�N�|�C���g��p�����f�o�b�O�Ȃǂł����p�\�ł��B
+Ruby のソースコードを修正すると、C プログラムなので容易に SEGV といったクリティカルな問題を簡単に発生させることができます（発生しちゃいます）。そこで、gdb を使ってデバッグするための方法を用意しています。もちろん、ブレイクポイントを用いたデバッグなどでも利用可能です。
 
-1. `ruby/test.rb` �Ƀe�X�g������ Ruby �X�N���v�g���L�q����
-2. �r���h�f�B���N�g���i`workdir/build`�j�� `$ make gdb` �����s����i��肪�N����Ȃ���΁A�������Ȃ��I�����܂��j
+1. `ruby/test.rb` にテストしたい Ruby スクリプトを記述する
+2. ビルドディレクトリ（`workdir/build`）で `$ make gdb` を実行する（問題が起こらなければ、何事もなく終了します）
 
-���̂Ƃ��A���p����̂� `./miniruby` �ɂȂ�܂��B`./ruby` ��p�������ꍇ�� `make gdb-ruby` �Ƃ��Ă��������B
+このとき、利用するのは `./miniruby` になります。`./ruby` を用いたい場合は `make gdb-ruby` としてください。
 
-�����A�u���C�N�|�C���g��}���������ꍇ�́A`make gdb` �R�}���h�Ńr���h�f�B���N�g���ɐ�������� `run.gdb` �Ƃ����t�@�C���ɁA�Ⴆ�� `b func_name` �Ƃ������u���C�N�|�C���g�w��������Ă��������B
+もし、ブレイクポイントを挿入したい場合は、`make gdb` コマンドでビルドディレクトリに生成される `run.gdb` というファイルに、例えば `b func_name` といったブレイクポイント指定を書いてください。
 
-### Ruby �̃e�X�g�����s����
+### Ruby のテストを実行する
 
 1. `$ make btest` # run bootstrap tests in `ruby/bootstraptest/`
 2. `$ make test-all` # run test-unit tests in `ruby/test/`
 3. `$ make test-spec` # run tests provided in `ruby/spec`
 
-�����̎O�́A���ꂼ��ʁX�̖ړI�E�����������ĊJ������Ă��܂��B
+これらの三つは、それぞれ別々の目的・特徴をもって開発されています。
 
-## MRI �̃\�[�X�R�[�h�̍\���̏Љ�
+## MRI のソースコードの構造の紹介
 
-### �C���^�v���^
+### インタプリタ
 
-��G�c�ɁA���L�̂悤�ȃf�B���N�g���\���ɂȂ��Ă��܂��B
+大雑把に、下記のようなディレクトリ構造になっています。
 
 * `ruby/*.c` MRI core files
     * VM cores
         * VM
-            * `vm*.[ch]`: VM �̎���
-            * `vm_core.h`: VM �f�[�^�\���̒�`
-            * `insns.def`: VM �̖��ߒ�`
-        * `compile.c, iseq.[ch]`: ���ߗ�֌W�̏���
-        * `gc.c`: GC �ƃ������Ǘ�
-        * `thread*.[ch]`: �X���b�h�Ǘ�
-        * `variable.c`: �ϐ��Ǘ�
-        * `dln*.c`: C�g���̂��߂̃_�C�i�~�b�N�����N���C�u�����Ǘ�
-        * `main.c`, `ruby.c`: MRI �̃G���g���[�|�C���g
-        * `st.c`: �n�b�V���e�[�u���A���S���Y���̎��� (�Q�l: https://blog.heroku.com/ruby-2-4-features-hashes-integers-rounding)
-    * �g�ݍ��݃N���X
+            * `vm*.[ch]`: VM の実装
+            * `vm_core.h`: VM データ構造の定義
+            * `insns.def`: VM の命令定義
+        * `compile.c, iseq.[ch]`: 命令列関係の処理
+        * `gc.c`: GC とメモリ管理
+        * `thread*.[ch]`: スレッド管理
+        * `variable.c`: 変数管理
+        * `dln*.c`: C拡張のためのダイナミックリンクライブラリ管理
+        * `main.c`, `ruby.c`: MRI のエントリーポイント
+        * `st.c`: ハッシュテーブルアルゴリズムの実装 (参考: https://blog.heroku.com/ruby-2-4-features-hashes-integers-rounding)
+    * 組み込みクラス
         * `string.c`: String class
         * `array.c`: Array class
-        * ... (���������A�N���X���ɑΉ�����t�@�C�����ɒ�`���i�[����Ă��܂��j
-* `ruby/*.h`: ������`�B�g�����C�u�����͊�{�I�Ɏg���܂���
-* `ruby/include/ruby/*`: �O����`�B�g�����C�u�����ŎQ�Ƃł��܂�
-* `enc/`: �G���R�[�f�B���O�̂��߂̃\�[�X�R�[�h����
-* `defs/`: �e���`
-* `tools/`: MRI ���r���h�E���s���邽�߂̃c�[��
-* `missing/`: �������� OS �ő���Ȃ����̂̎���
-* `cygwin/`, `nacl/`, `win32`, ...: OS/system �ˑ��̃\�[�X�R�[�h
+        * ... (だいたい、クラス名に対応するファイル名に定義が格納されています）
+* `ruby/*.h`: 内部定義。拡張ライブラリは基本的に使えません
+* `ruby/include/ruby/*`: 外部定義。拡張ライブラリで参照できます
+* `enc/`: エンコーディングのためのソースコードや情報
+* `defs/`: 各種定義
+* `tools/`: MRI をビルド・実行するためのツール
+* `missing/`: いくつかの OS で足りないものの実装
+* `cygwin/`, `nacl/`, `win32`, ...: OS/system 依存のソースコード
 
-### ���C�u����
+### ライブラリ
 
-���C�u������ 2 ��ނ���܂��B
+ライブラリは 2 種類あります。
 
-* `lib/`: �W���Y�t�̃��C�u�����iRuby �ŋL�q���ꂽ���C�u�����j
-* `ext/`: �W���Y�t�̊g�����C�u�����iC �ŋL�q���ꂽ���C�u�����j
+* `lib/`: 標準添付のライブラリ（Ruby で記述されたライブラリ）
+* `ext/`: 標準添付の拡張ライブラリ（C で記述されたライブラリ）
 
-### �e�X�g
+### テスト
 
 * `basictest/`: place of old test
 * `bootstraptest/`: bootstrap test
@@ -158,48 +159,48 @@ Ruby �̃\�[�X�R�[�h���C������ƁAC �v���O�����Ȃ̂ŗe�Ղ� SEGV �Ƃ������N���e�B�
 
 ### misc
 
-* `doc/`, `man/`: �h�L�������g
+* `doc/`, `man/`: ドキュメント
 
-## Ruby �̃r���h�v���Z�X
+## Ruby のビルドプロセス
 
-Ruby �̃r���h�ł́A�\�[�X�R�[�h�𐶐����Ȃ���r���h��i�߂Ă����܂��B�\�[�X�R�[�h�𐶐����邢�����̃c�[���� Ruby ��p���邽�߁ARuby �̃r���h�ɂ� Ruby ���K�v�ɂȂ�܂��B�\�[�X�R�[�h�z�z�p�� tar ball �ɂ́A����琶�����ꂽ�\�[�X�R�[�h�����킹�Ĕz�z���Ă���̂ŁAtar ball ��p����̂ł���΁ARuby �̃r���h�� Ruby �i��A���̑� bison �Ȃǂ̊O���c�[���j�͕s�v�ł��B
+Ruby のビルドでは、ソースコードを生成しながらビルドを進めていきます。ソースコードを生成するいくつかのツールは Ruby を用いるため、Ruby のビルドには Ruby が必要になります。ソースコード配布用の tar ball には、これら生成されたソースコードもあわせて配布しているので、tar ball を用いるのであれば、Ruby のビルドに Ruby （や、その他 bison などの外部ツール）は不要です。
 
-�t�Ɍ����ƁASubversion �� Git ���|�W�g������\�[�X�R�[�h���擾�����ꍇ�́ARuby �C���^�v���^���K�v�ɂȂ�܂��B
+逆に言うと、Subversion や Git リポジトリからソースコードを取得した場合は、Ruby インタプリタが必要になります。
 
-�r���h�E�C���X�g�[���́A���̂悤�ɐi�݂܂��B
+ビルド・インストールは、次のように進みます。
 
-1. miniruby �̃r���h
+1. miniruby のビルド
     1. parse.y -> parse.c: Compile syntax rules to C code by bison
     2. insns.def -> vm.inc: Compile VM instructions to C code by ruby (`BASERUBY`)
     3. `*.c` -> `*.o` (`*.obj` on Windows): Compile C codes to object files.
     4. link object files into miniruby
-2. �G���R�[�f�B���O�̃r���h
+2. エンコーディングのビルド
     1. translate enc/... to appropriate C code by `miniruby`
     2. compile C code
-3. C �g�����C�u�����̃r���h
+3. C 拡張ライブラリのビルド
     1. Make `Makefile` from `extconf.rb` by `mkmf.rb` and `miniruby`
     2. Run `make` using generated `Makefile`.
-4. `ruby` �R�}���h�̃r���h
-5. `rdoc`, `ri` �h�L�������g�̐���
-6. �������ꂽ�t�@�C���̃C���X�g�[���i�C���X�g�[����� `configure` �� `--prefix` �Ŏw�肵�����́j
+4. `ruby` コマンドのビルド
+5. `rdoc`, `ri` ドキュメントの生成
+6. 生成されたファイルのインストール（インストール先は `configure` の `--prefix` で指定したもの）
 
-���́A�{���͂����ƐF�X����Ă���̂ł����A�����؂�Ȃ����A�����c�����Ă��Ȃ��̂ŁA�ȗ����Ă��܂��B`common.mk` �Ƃ����� make �p�̃��[���W�ɁA���낢��ȃt�@�C���������Ă��܂��B
+実は、本当はもっと色々やっているのですが、書き切れないし、私も把握していないので、省略しています。`common.mk` といった make 用のルール集に、いろいろなファイルが入っています。
 
-# 2.1 �o�[�W�����\�L�̏C���i�����j
+## 演習：バージョン表記の修正（改造）
 
-�ł́A���ۂ� Ruby ���C�����Ă����܂��傤�B�\�[�X�R�[�h�͂��ׂ� `workdir/ruby/' �ɂ���Ɖ��肵�܂��B
+では、実際に Ruby を修正していきましょう。ソースコードはすべて `workdir/ruby/' にあると仮定します。
 
-�܂��́A`ruby -v`�i�������� `./miniruby -v`�j�����s�����Ƃ��ɁA������ Ruby ���Ƃ킩��悤�ɁA�����\����ς��Ă݂܂��傤�B
+まずは、`ruby -v`（もしくは `./miniruby -v`）を実行したときに、自分の Ruby だとわかるように、何か表示を変えてみましょう。
 
-1. �o�[�W�����\�L���s���R�[�h�� `version.c` �ɂ���̂ŁA������J���܂��B
-2. �����A�\�[�X�R�[�h�S�̂𒭂߂Ă݂܂��傤�B
-3. `ruby_show_version()` �Ƃ����֐������������ł��i�֐�������Ύ����H�j�B
-4. `fflush()` ���A�o�͂��m�肷��i�o�̓o�b�t�@��f���o���j C �̊֐��Ȃ̂ŁA���̑O�ɉ��炩�̏o�͂�����Ηǂ��Ɛ����B
-5. `printf("...\n");` �i`...` �̕����ɂ́A�D���ȕ�����j���L���B
-6. `$ make miniruby` �Ńr���h�i�r���h�f�B���N�g���Ɉړ����Ă����j�B
-7. `$ ./miniruby -v` �Ō��ʂ��m�F�B
-8. `$ make install` �ŃC���X�g�[���B
-9. `$ ../install/bin/ruby -v` �ŃC���X�g�[�����ꂽ ruby �R�}���h�ɂ��ύX�����f���ꂽ���Ƃ��m�F�B
+1. バージョン表記を行うコードは `version.c` にあるので、これを開きます。
+2. 少し、ソースコード全体を眺めてみましょう。
+3. `ruby_show_version()` という関数が怪しそうです（関数名見れば自明？）。
+4. `fflush()` が、出力を確定する（出力バッファを吐き出す） C の関数なので、この前に何らかの出力をすれば良いと推測。
+5. `printf("...\n");` （`...` の部分には、好きな文字列）を記入。
+6. `$ make miniruby` でビルド（ビルドディレクトリに移動しておく）。
+7. `$ ./miniruby -v` で結果を確認。
+8. `$ make install` でインストール。
+9. `$ ../install/bin/ruby -v` でインストールされた ruby コマンドにも変更が反映されたことを確認。
 
-�Ō�� `printf(...)` �����ނ����ł͂Ȃ��A`ruby ...` �Ə����ꂽ�s��ύX���Ă��ʔ�����������܂���ˁB`perl` �Əo�͂��Ă݂�Ƃ��B
+最後に `printf(...)` を挟むだけではなく、`ruby ...` と書かれた行を変更しても面白いかもしれませんね。`perl` と出力してみるとか。
 
