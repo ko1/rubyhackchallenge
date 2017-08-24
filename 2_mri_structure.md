@@ -23,7 +23,7 @@ MRI のソースコードの構造について紹介します。また、Ruby �
 
 前提とするコマンド：
 
-git、ruby、autoconf、bison、gcc (or clang, etc）、make が必須です。その他、依存ライブラリがあれば、拡張ライブラリが作絵師されます。
+git、ruby、autoconf、bison、gcc (or clang, etc）、make が必須です。その他、依存ライブラリがあれば、拡張ライブラリが作成されます。
 
 apt-get が使える環境では、下記のようなコマンドでインストールされます。
 
