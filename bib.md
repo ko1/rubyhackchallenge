@@ -24,6 +24,6 @@
    * 通称 RHG。完全ガイドだけど 1.8 向け。
    * 1, 2 部（GC やパーサー）は今でも十分に役に立ちます。
 * [Rubyのしくみ Ruby Under a Microscope](http://magazine.rubyist.net/?0049-BookRUM_ja) by Pat Shaughnessy
-   * Ruby 2.0 向けの話。RHG よりも新しい（1.9 移行の VM の概要が書いてあります）。
+   * Ruby 2.0 向けの話。RHG よりも新しい（1.9 以降の VM の概要が書いてあります）。
    * 完全網羅ではないが、ガチ勢じゃなければそこそこ役に立ちます。
   
