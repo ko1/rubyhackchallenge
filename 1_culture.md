@@ -132,6 +132,6 @@ Ruby / MRI ‚É‚ÍA‚Ü‚¾‚Ü‚¾Žè‚ð•t‚¯‚½‚¢–â‘è‚ª‚½‚­‚³‚ñ‚ ‚è‚Ü‚·B‰º‹L‚É‚¢‚­‚Â‚©‚ ‚°‚
 ## ‘åØ‚È‚±‚Æ
 
 –{e‚Å‚ÍA‚¢‚­‚Â‚©–Ê“|‚»‚¤‚Èƒ‹[ƒ‹“I‚È‚±‚Æ‚ð‘‚«‚Ü‚µ‚½‚ªA‰äX Ruby ƒCƒ“ƒ^ƒvƒŠƒ^ŠJ”­ŽÒ‚ªÅ‚àdŽ‹‚µ‚Ä‚¢‚é‚Ì‚ÍuƒnƒbƒLƒ“ƒOv‚Å‚·B
-‚à‚µAˆÌ‘å‚Èƒpƒbƒ`‚ðŠñ‘¡‚µ‚Ä‚­‚¾‚³‚é‚Ì‚Å‚ ‚ê‚ ‚‚A‘½­ƒ‹[ƒ‹‚©‚ç‚»‚ê‚Ä‚àA‘S—Í‚ÅƒTƒ|[ƒg‚µ‚Ü‚·i‚à‚µ‚­‚ÍA‘S—Í‚Å‹c˜_‚µ‚Ü‚·jB
+‚à‚µAˆÌ‘å‚Èƒpƒbƒ`‚ðŠñ‘¡‚µ‚Ä‚­‚¾‚³‚é‚Ì‚Å‚ ‚ê‚ÎA‘½­ƒ‹[ƒ‹‚©‚ç‚»‚ê‚Ä‚àA‘S—Í‚ÅƒTƒ|[ƒg‚µ‚Ü‚·i‚à‚µ‚­‚ÍA‘S—Í‚Å‹c˜_‚µ‚Ü‚·jB
 
 ƒR[ƒh‚ð‘‚«‚Ü‚µ‚å‚¤B
