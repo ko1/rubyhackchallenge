@@ -1,4 +1,4 @@
-# MRI Internal bibliography / Ql•¶Œ£
+# MRI Internal bibliography / å‚è€ƒæ–‡çŒ®
 
 ## English
 
@@ -16,12 +16,14 @@
 ## Japanese
 
 * Redmine wiki
-    * https://bugs.ruby-lang.org/projects/ruby/wiki
-    * https://bugs.ruby-lang.org/projects/ruby/wiki/DeveloperHowto
+   * https://bugs.ruby-lang.org/projects/ruby/wiki
+   * https://bugs.ruby-lang.org/projects/ruby/wiki/DeveloperHowto
+* [Rubyã®æ‹¡å¼µãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ä½œã‚Šæ–¹](https://docs.ruby-lang.org/en/2.4.0/extension_ja_rdoc.html)
+   * Ruby (MRI) ã®æ‹¡å¼µãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ä½œã‚Šæ–¹ã¨ã€è©³ç´°ãª API ã®æƒ…å ±ãŒã¾ã¨ã¾ã£ã¦ã„ã¾ã™ã€‚
 * [Ruby Hacking Guide](http://i.loveruby.net/ja/rhg/) by @minero-aoki
-   * Š®‘SƒKƒCƒh‚¾‚¯‚Ç 1.8 Œü‚¯B
-   * 1, 2 •”iGC ‚âƒp[ƒT[j‚Í¡‚Å‚à\•ª‚É–ğ‚É—§‚ÂB
-* [Ruby‚Ì‚µ‚­‚İ Ruby Under a Microscope](http://magazine.rubyist.net/?0049-BookRUM_ja) by Pat Shaughnessy
-   * Ruby 2.0 Œü‚¯‚Ì˜bB
-   * Š®‘S–Ô—…‚Å‚Í‚È‚¢‚ªAƒKƒ`¨‚¶‚á‚È‚¯‚ê‚Î‚»‚±‚»‚±–ğ‚É—§‚ÂB
+   * é€šç§° RHGã€‚å®Œå…¨ã‚¬ã‚¤ãƒ‰ã ã‘ã© 1.8 å‘ã‘ã€‚
+   * 1, 2 éƒ¨ï¼ˆGC ã‚„ãƒ‘ãƒ¼ã‚µãƒ¼ï¼‰ã¯ä»Šã§ã‚‚ååˆ†ã«å½¹ã«ç«‹ã¡ã¾ã™ã€‚
+* [Rubyã®ã—ãã¿ Ruby Under a Microscope](http://magazine.rubyist.net/?0049-BookRUM_ja) by Pat Shaughnessy
+   * Ruby 2.0 å‘ã‘ã®è©±ã€‚RHG ã‚ˆã‚Šã‚‚æ–°ã—ã„ï¼ˆ1.9 ç§»è¡Œã® VM ã®æ¦‚è¦ãŒæ›¸ã„ã¦ã‚ã‚Šã¾ã™ï¼‰ã€‚
+   * å®Œå…¨ç¶²ç¾…ã§ã¯ãªã„ãŒã€ã‚¬ãƒå‹¢ã˜ã‚ƒãªã‘ã‚Œã°ãã“ãã“å½¹ã«ç«‹ã¡ã¾ã™ã€‚
   
