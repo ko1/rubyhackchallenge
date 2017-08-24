@@ -1,111 +1,111 @@
-# (1) MRI �J�������̏Љ�
+# (1) MRI 開発文化の紹介
 
-## ���̎����ɂ���
+## この資料について
 
-MRI �̊J�������ɂ��ďЉ�܂��BMRI: Matz Ruby Interpreter �i�v����� ruby �R�}���h�j�̓I�[�v���\�[�X�� 1993 �N����J�����s���Ă��܂����i���ۂɁA�\�[�X�R�[�h�����J���ꂽ�̂� 1995 �N 12 ���ł��j�B�N�ł��J���ɎQ�����ėǂ��A�Ƃ������ƂɂȂ��Ă��܂����A�����m��Ȃ��ƎQ���͍���ł��B�����ŁA�{�e�ł͂܂��AMRI �̊J�����ǂ̂悤�ɍs���Ă��邩�A���c���c�����Ă���͈͂ŏЉ�܂��B
+MRI の開発文化について紹介します。MRI: Matz Ruby Interpreter （要するに ruby コマンド）はオープンソースで 1993 年から開発が行われてきました（実際に、ソースコードが公開されたのは 1995 年 12 月です）。誰でも開発に参加して良い、ということになっていますが、何も知らないと参加は困難です。そこで、本稿ではまず、MRI の開発がどのように行われているか、笹田が把握している範囲で紹介します。
 
-�{�e�ň������e�F
+本稿で扱う内容：
 
-* �ǂ̂悤�� MRI �͊J������Ă��邩�i�J���t���[�◘�p���Ă���c�[���̏Љ�j
-* �i�o�O�Ȃǂ́j�`�P�b�g�͂ǂ̂悤�ɊǗ�����Ă��邩
-* �ǂ̂悤�� MRI �̒��g�ɂ��Ă̏���m��̂��A���ꂩ��J���R�~���j�e�B�̏��𓾂�̂�
-* MRI �ɂ́A�ǂ̂悤�Ȗ�������肪�c���Ă���̂�
+* どのように MRI は開発されているか（開発フローや利用しているツールの紹介）
+* （バグなどの）チケットはどのように管理されているか
+* どのように MRI の中身についての情報を知るのか、それから開発コミュニティの情報を得るのか
+* MRI には、どのような未解決問題が残っているのか
 
-## MRI �J���̗���
+## MRI 開発の流れ
 
-Ruby �̓I�[�v���\�[�X�ŊJ������Ă��邽�߁A�N�ł��J���ɎQ���ł��܂��B
+Ruby はオープンソースで開発されているため、誰でも開発に参加できます。
 
-Ruby �̊J���ƈꌾ�Ō����Ă��A���̓���w���܂��B
+Ruby の開発と一言で言っても、次の二つを指します。
 
-* Ruby �̎d�l
-* MRI �Ƃ��� Ruby �C���^�v���^�̎���
+* Ruby の仕様
+* MRI という Ruby インタプリタの実装
 
-MRI �� Ruby ����̃��t�@�����X�����Ƃ��Ĉ����Ă��邽�߁A�̗p�����肳�ꂽ Ruby �̎d�l�́AMRI �֓��ڂ���܂��B�܂��A�o�O�C���ɔ����� MRI �̎d�l���ς�����ꍇ�́A����� Ruby �̎d�l���ύX���ꂽ�A�Ƃ������ƂȂ�܂��i���̂��߁A�o�O�C���ɂ����Ă��A�݊����������Ȃ邱�Ƃɑ΂��錟�����T�d�ɍs���Ă��܂��B�����j�i�����ɂ́AMRI �݂̂ɓ���@�\�i�Ⴆ�� MRI �̃o�C�g�R�[�h���L�̋@�\�j�����邽�߁AMRI �̕ύX == Ruby ����̕ύX�Ƃ͌���܂���j�B
+MRI は Ruby 言語のリファレンス実装として扱われているため、採用が決定された Ruby の仕様は、MRI へ搭載されます。また、バグ修正に伴って MRI の仕様が変わった場合は、それは Ruby の仕様が変更された、ということなります（そのため、バグ修正においても、互換性が無くなることに対する検討が慎重に行われています。多分）（厳密には、MRI のみに入る機能（例えば MRI のバイトコード特有の機能）もあるため、MRI の変更 == Ruby 言語の変更とは限りません）。
 
-### ���|�W�g���� Ruby �R�~�b�^
+### リポジトリと Ruby コミッタ
 
-Ruby �̃v���C�}�����|�W�g���� Subversion �ŊǗ�����Ă��܂� <https://www.ruby-lang.org/ja/documentation/repository-guide/>�B������̐l�X�����̃��|�W�g�����C�����邱�Ƃ��ł��A���̐l�X�̂��Ƃ��u�R�~�b�^�v�ƌĂ�ł��܂��B���݁A�S���E��80�l���x�̃R�~�b�^����������Ⴂ�܂��i�������A���݃A�N�e�B�u�Ɋ������Ă���l���́A�����Ə��Ȃ��ł��B�ߋ��ɃR�~�b�^�ɂȂ�ƁA�i���̂Ƃ���j�R�~�b�^�𔲂��邱�Ƃ͂ł��܂���B�|���ł��ˁj�B
+Ruby のプライマリリポジトリは Subversion で管理されています <https://www.ruby-lang.org/ja/documentation/repository-guide/>。ある一定の人々がこのリポジトリを修正することができ、その人々のことを「コミッタ」と呼んでいます。現在、全世界で80人程度のコミッタがいらっしゃいます（ただし、現在アクティブに活動している人数は、もっと少ないです。過去にコミッタになると、（今のところ）コミッタを抜けることはできません。怖いですね）。
 
-�R�~�b�^�� Ruby �̑S�\�[�X�R�[�h���C�����邱�Ƃ��ł��܂����A�i�Ȃ�ƂȂ��j�S���͈͂����܂��Ă��邽�߁A�S���͈͊O�̏C�����s���ꍇ�́A�S���̃R�~�b�^�̈ӌ��𑸏d���邱�Ƃ����߂��Ă��܂��B�Ⴆ�΁A���c�͌��� Ruby �ŗ��p���Ă��� VM �̊J���҂Ȃ̂ŁAVM �ɑ傫�ȕύX��������ꍇ�͍��c�ɏC���𑊒k���ė~�����A�Ǝv���Ă��܂��i�����I�ɂ́A����Ȃ����Ƃ������ł��j�B
+コミッタは Ruby の全ソースコードを修正することができますが、（なんとなく）担当範囲が決まっているため、担当範囲外の修正を行う場合は、担当のコミッタの意見を尊重することが求められています。例えば、笹田は現在 Ruby で利用している VM の開発者なので、VM に大きな変更を加える場合は笹田に修正を相談して欲しい、と思っています（現実的には、されないことも多いです）。
 
-�R�~�b�^�Ԃł̃R�[�h���r���[�̐��͂Ȃ��A�R�~�b�g���ꂽ�C���𒭂߂ċC�Â�����w�E������A���i�o�O�񍐓��j���������Ƃ��� bisect ����A�Ƃ������̐��ŊJ���͍s���Ă��܂��B�傫�ȏC���ł́A�R�~�b�^�ԂŃ��r���[�����ߍ������肵�܂��B
+コミッタ間でのコードレビュー体制はなく、コミットされた修正を眺めて気づいたら指摘したり、問題（バグ報告等）があったときに bisect する、といった体制で開発は行われています。大きな修正では、コミッタ間でレビューを求め合ったりします。
 
-�Ȃ��A<https://github.com/ruby/ruby/> �Ƃ��� GitHub �̃��|�W�g���Ƀ~���[������܂��B
+なお、<https://github.com/ruby/ruby/> という GitHub のリポジトリにミラーがあります。
 
-## �`�P�b�g�Ǘ�
+## チケット管理
 
-�d�l�ύX�A�o�O�C���ȂǁA���ׂĂ̋c�_�� Redmine <https://bugs.ruby-lang.org/issues/> �Ƀ`�P�b�g�Ƃ��ăt�@�C������܂��i�����ׂ��ł��j�BTicket �̓o�^��R�����g�Ȃǂ́A���[�����O���X�g�ɔz�M����܂��B���[�����O���X�g�ɂ͓��{������� ruby-dev �ƁA�p������� ruby-core ������܂� <https://www.ruby-lang.org/ja/community/mailing-lists/>�B
+仕様変更、バグ修正など、すべての議論は Redmine <https://bugs.ruby-lang.org/issues/> にチケットとしてファイルされます（されるべきです）。Ticket の登録やコメントなどは、メーリングリストに配信されます。メーリングリストには日本語向けの ruby-dev と、英語向けの ruby-core があります <https://www.ruby-lang.org/ja/community/mailing-lists/>。
 
-�d�l�ύX�Ƃ������厖�ȃ`�P�b�g�́A�p��Ńt�@�C�����A���E���Ɏ��m���A�L���c�_���邱�Ƃ�������������Ă��܂��B�y���ȏC���́A���{��ł��󂯕t���Ă��܂��B���{��ŋc�_���n�߂�����ǁA�u�d�l�̋c�_������p��̃`�P�b�g�ɂ��悤�v�Ƃ��������Ƃ��s���Ă��܂��B
+仕様変更といった大事なチケットは、英語でファイルし、世界中に周知し、広く議論することを強く推奨されています。軽微な修正は、日本語でも受け付けています。日本語で議論を始めたけれど、「仕様の議論だから英語のチケットにしよう」といったことも行われています。
 
-�`�P�b�g�ɂ́A�傫�������āA�u�@�\�ǉ��v���iFeature request�j�v�Ɓu�o�O�񍐁iBug report�j�v������܂��B
+チケットには、大きく分けて、「機能追加要求（Feature request）」と「バグ報告（Bug report）」があります。
 
 * Feature requests 
-  * Ruby �d�l�̒ǉ���C���iRuby ����ւ̗v����������AMRI �ւ̗v����������j�B
-  * �Ƃ���ŁARedmine �� URL �� `bugs` �Ŏn�܂��Ă܂��ˁB
+  * Ruby 仕様の追加や修正（Ruby 言語への要求だったり、MRI への要求だったり）。
+  * ところで、Redmine の URL は `bugs` で始まってますね。
 * Bug reports
-  * �������ȋ�����A���\�̖��Ƃ������A�d�l�ύX�ȊO�̂��ׂĂ��܂܂�܂��B
+  * おかしな挙動や、性能の問題といった、仕様変更以外のすべてが含まれます。
 
-�`�P�b�g��o�^����ہA�`�P�b�g�ɋL�q���錾����p�ꂩ���{�ꂩ�Ńh���b�v�_�E�����j���[����I�т܂��B�I����������ɂ���āA�`�P�b�g�̓��e��z�M���郁�[�����O���X�g�iruby-core �� ruby-dev�j�����肳��܂��B
+チケットを登録する際、チケットに記述する言語を英語か日本語かでドロップダウンメニューから選びます。選択した言語によって、チケットの内容を配信するメーリングリスト（ruby-core か ruby-dev）が決定されます。
 
-�ǂ��o�O�񍐂ɂ́A���̂悤�ȓ��e���܂܂�Ă��邱�Ƃ����҂���܂��B
+良いバグ報告には、次のような内容が含まれていることが期待されます。
 
-* Summary�i���̒Z���܂Ƃ߁j
-* �Č��R�[�h�ƍČ����iruby -v �̌��ʁi�K�{�ł��j�AOS�A�R���p�C���Ȃǂ̃o�[�W�����A���̑��j
-* ���҂��鋓��
-* ���ۂɓ���ꂽ����
-* �i�\�Ȃ�j���̖����C�����邽�߂̃p�b�`
+* Summary（問題の短いまとめ）
+* 再現コードと再現環境（ruby -v の結果（必須です）、OS、コンパイラなどのバージョン、その他）
+* 期待する挙動
+* 実際に得られた挙動
+* （可能なら）その問題を修正するためのパッチ
 
-�ڍׂ́A�p�� <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReport> (English) �������͓��{�� <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJa> �̃h�L�������g������܂��̂ł��Q�Ƃ��������B
+詳細は、英語 <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReport> (English) もしくは日本語 <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJa> のドキュメントがありますのでご参照ください。
 
-�ǂ� Feature request �i�@�\�ǉ��v���j�ɂ́A���̂悤�ȓ��e���܂܂�Ă��邱�Ƃ����҂���܂��B
+良い Feature request （機能追加要求）には、次のような内容が含まれていることが期待されます。
 
-* Abstract�i��Ă̒Z���܂Ƃ߁j
-* Background�i�w�i�F���݁A�������Ȃ̂��A���ۂɍ����Ă���͉̂��ł��邩�A���ۂ̃��[�X�P�[�X�͉����j
-* Proposal�i��āj
-* Implementation �i�����F����������΁A���̒�Ă������\�ł��邩�𔻒f���鋭���؋��ɂȂ�܂��j
-* Evaluation�i�]���F��Ăɂ���āA�����ǂ̂悤�ɗǂ��Ȃ����̂��A����������΁A���̐��\�͏\���ł��邩�A�Ȃǁj
-* Discussion �i�c�_�F��������ׂ����e�A���̃A�v���[�`�Ƃ̔�r�Ȃǁj
-* Summary�i�܂Ƃ߁j
+* Abstract（提案の短いまとめ）
+* Background（背景：現在、何が問題なのか、実際に困っているのは何であるか、実際のユースケースは何か）
+* Proposal（提案）
+* Implementation （実装：実装があれば、その提案が実現可能であるかを判断する強い証拠になります）
+* Evaluation（評価：提案によって、何がどのように良くなったのか、実装があれば、その性能は十分であるか、など）
+* Discussion （議論：検討するべき内容、他のアプローチとの比較など）
+* Summary（まとめ）
 
-�@�\�ǉ��v���ł́u���ۂɂǂ�ȃ��[�X�P�[�X������̂��v�Ƃ����_���i�ŋ߂��ƂƂ��Ɂj�悭���߂��܂��B�Ⴆ�΁A�u�g��Ȃ����ǁA�������̂��߂ɂ͂��������d�l�̂ق��������̂ł͂Ȃ����v�Ƃ�����ẮA���܂�ʂ�Ȃ����Ƃ������ł��i���̏ꍇ�A�����������݊����̂ق����D�悳��܂��j�B
+機能追加要求では「実際にどんなユースケースがあるのか」という点が（最近だととくに）よく求められます。例えば、「使わないけど、整合性のためにはこういう仕様のほうがいいのではないか」という提案は、あまり通らないことが多いです（この場合、整合性よりも互換性のほうが優先されます）。
 
-����Ȃ�ڍׂ� <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToRequestFeatures> �i�p��j�����Q�Ƃ��������B
+さらなる詳細は <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToRequestFeatures> （英語）をご参照ください。
 
-GitHub �ւ� issue ����� Pull request �͉^���ǂ���ΑΉ�����܂����A�^��������Ε��u����܂��B�������쐬�����ꍇ�ARedmine �ւ� issue ��ʓr�쐬���AGithub �̓��Y URL �������A�Ƃ����̂��ǂ��Ǝv���܂��i�������́A�N���R�~�b�^�ɘA������΁A�Ή����Ă���邩������܂���j�B
+GitHub への issue および Pull request は運が良ければ対応されますが、運が悪ければ放置されます。それらを作成した場合、Redmine への issue を別途作成し、Github の当該 URL を示す、というのが良いと思います（もしくは、誰かコミッタに連絡すれば、対応してくれるかもしれません）。
 
-## MRI �ɂ����関�������
+## MRI における未解決問題
 
-Ruby / MRI �ɂ́A�܂��܂����t��������肪�������񂠂�܂��B���L�ɂ����������Ă����܂��B
+Ruby / MRI には、まだまだ手を付けたい問題がたくさんあります。下記にいくつかあげておきます。
 
-* �d�l�̋c�_
+* 仕様の議論
   * Ruby 2.x (2.5, ...)
   * Ruby 3
     * JIT compilation (only for performance? drop backward compatibility?)
     * Static checking
     * Concurrent execution
-* ���\���P
-  * �x���`�}�[�N�̐���
-  * ���\���P
-* �h�L�������e�[�V����
-* �o�O�C��
+* 性能改善
+  * ベンチマークの整備
+  * 性能改善
+* ドキュメンテーション
+* バグ修正
 
-�ŋߍ��c���Ȃ�Ƃ��������Ǝv���Ă�����i�C���^�[�i���������j�������Ă����܂��B
+最近笹田がなんとかしたいと思っている問題（インターナルが多い）もあげておきます。
 
-* �o�C�g�R�[�h�V���A���C�U�̐��\�E�i������
-* ���\�b�h�Ăяo���̎d�g�ݕύX�ɂ�鍂����
-* �R�[�h�̃C�����C�����̑Ή�
-* ����� GC �Ή��I�u�W�F�N�g�𑝂₵�Đ��\����
-* ���Ԃ� gem �� Ruby �� CI �Ńe�X�g����d�g�݂̗p��
+* バイトコードシリアライザの性能・品質向上
+* メソッド呼び出しの仕組み変更による高速化
+* コードのインライン化の対応
+* 世代別 GC 対応オブジェクトを増やして性能向上
+* 世間の gem を Ruby の CI でテストする仕組みの用意
 
-## Ruby �J���̏��
+## Ruby 開発の情報
 
-### MRI �C���^�[�i�����n�b�N���邽�߂̏��
+### MRI インターナルをハックするための情報
 
-[�Q�l����](./bib.md) �����Q�Ƃ��������B
-�܂��A�[���n�b�N����ꍇ�́AC ����̒m�����K�v�ɂȂ�܂��B
+[参考文献](./bib.md) をご参照ください。
+また、深くハックする場合は、C 言語の知識が必要になります。
 
-### �R�~���j�P�[�V�����`�����l��
+### コミュニケーションチャンネル
 
 * Ruby's redmine: https://bugs.ruby-lang.org/projects/ruby/
     * Ticket
@@ -115,23 +115,23 @@ Ruby / MRI �ɂ́A�܂��܂����t��������肪�������񂠂�܂��B���L�ɂ����������
     * ruby-core (English)
     * ruby-dev (Japanese)
 * Conference, meetup
-    * RubyConf and other international conferences�i�قځA�p��ŋc�_���Ă��܂��j
-    * ���{����
+    * RubyConf and other international conferences（ほぼ、英語で議論しています）
+    * 日本国内
         * RubyKaigi
         * RegionalRubyKaigi
         * Asakusa.rb, *.rb
-* Ruby �J���҉�c
-    * �����A�����̂ǂ����ōs���Ă��܂��B
-* �l�ւ̃R���^�N�g
+* Ruby 開発者会議
+    * 毎月、東京のどこかで行っています。
+* 個人へのコンタクト
     * Twitter
         * @yukihiro_matz
         * ...
 * Gitter <https://gitter.im/ruby/ruby>
-  * ������@�ɍ��܂����B
+  * これを機に作りました。
 
-## ��؂Ȃ���
+## 大切なこと
 
-�{�e�ł́A�������ʓ|�����ȃ��[���I�Ȃ��Ƃ������܂������A��X Ruby �C���^�v���^�J���҂��ł��d�����Ă���̂́u�n�b�L���O�v�ł��B
-�����A�̑�ȃp�b�`���񑡂��Ă�������̂ł���΁A�������[�����炻��Ă��A�S�͂ŃT�|�[�g���܂��i�������́A�S�͂ŋc�_���܂��j�B
+本稿では、いくつか面倒そうなルール的なことを書きましたが、我々 Ruby インタプリタ開発者が最も重視しているのは「ハッキング」です。
+もし、偉大なパッチを寄贈してくださるのであれば、多少ルールからそれても、全力でサポートします（もしくは、全力で議論します）。
 
-�R�[�h�������܂��傤�B
+コードを書きましょう。
