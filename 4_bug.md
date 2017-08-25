@@ -1,35 +1,35 @@
-# �o�O�̏C��
+﻿# バグの修正
 
-## ���̎����ɂ���
+## この資料について
 
-MRI �̕ύX�̑啔���́A�o�O�̏C���ɂȂ�܂��B�{�e�ł́A�o�O�C�����ǂ̂悤�ɍs���Ă����̂��A������Ă����܂��B
+MRI の変更の大部分は、バグの修正になります。本稿では、バグ修正をどのように行っていくのか、解説していきます。
 
 ## `Kernel#hello(name)`
 
-### `Kernel#hello(name)` �̎���
+### `Kernel#hello(name)` の実装
 
-�܂��͕��K�ł��B`hello` �Ƃ����֐����ۂ����\�b�h���`���܂��傤�B`p` ���\�b�h�̂悤�� `Kernel` �ɒ�`���܂��B
+まずは復習です。`hello` という関数っぽいメソッドを定義しましょう。`p` メソッドのように `Kernel` に定義します。
 
-���̃��\�b�h�́A"Hello #{name}\n" �Ƃ�����������o�͂��܂��B
+このメソッドは、"Hello #{name}\n" という文字列を出力します。
 
-Ruby �Ŏ�������ƁA����Ȋ����ł��B
+Ruby で実装すると、こんな感じです。
 
 ```
 def hello name
   puts "Hello #{name}"
 end
 
-hello 'ko1' #=> "Hello ko1" �Əo��
+hello 'ko1' #=> "Hello ko1" と出力
 ```
 
-������AC �ŏ��������AMRI �ɖ��ߍ��݂܂��傤�B
-`rb_define_global_function()` ���g�����ƂŁA`Kernel#hello` �Ƃ��� private ���\�b�h����邱�Ƃ��ł��܂��B
+これを、C で書き直し、MRI に埋め込みましょう。
+`rb_define_global_function()` を使うことで、`Kernel#hello` という private メソッドを作ることができます。
 
 ```
 Index: io.c
 ===================================================================
---- io.c	(���r�W���� 59647)
-+++ io.c	(��ƃR�s�[)
+--- io.c	(リビジョン 59647)
++++ io.c	(作業コピー)
 @@ -12327,6 +12327,14 @@
      }
  }
@@ -56,14 +56,14 @@ Index: io.c
  
 ```
 
-�|�C���g�� `RSTRING_PTR(name)` �ŁA������I�u�W�F�N�g���� C ������̃|�C���^�𓾂邱�Ƃ��ł��܂��B
+ポイントは `RSTRING_PTR(name)` で、文字列オブジェクトから C 文字列のポインタを得ることができます。
 
-`test.rb` �ɃT���v���R�[�h���L�q���A`$ make run` ��p���Ď��s���Ă݂܂��傤�B�����Ɠ����܂������H�@�����A�����Ă�񂶂�Ȃ����Ǝv���܂��B
+`test.rb` にサンプルコードを記述し、`$ make run` を用いて実行してみましょう。ちゃんと動きましたか？　多分、動いてるんじゃないかと思います。
 
-### �o�O��
+### バグ報告
 
-`hello()` ���\�b�h���܂߂� Ruby �̍ŐV�o�[�W�����������[�X���ꂽ�ƍl���Ă��������B���E���ő�l�C�ɂȂ�A�����̃��[�U�[�� `hello()` ���g�����Ƃ��܂��B
-�����̃��[�U�[���g���Ă���ƁA�s�����������̂ŁA����� Redmine �̂ق��ɁA���̂悤�ȃo�O�񍐂����܂����B
+`hello()` メソッドを含めて Ruby の最新バージョンがリリースされたと考えてください。世界中で大人気になり、多くのユーザーが `hello()` を使ったとします。
+多くのユーザーが使っていると、不具合も見つかるもので、ある日 Redmine のほうに、次のようなバグ報告がきました。
 
 ```
 My script causes SEGV.
@@ -71,7 +71,7 @@ My script causes SEGV.
 See attached log for details.
 ```
 
-�Y�t����Ă������O�ɂ͎��̂悤�ɏ�����Ă��܂����B
+添付されていたログには次のように書かれていました。
 
 ```
 ../../trunk/test.rb:2: [BUG] Segmentation fault at 0x0000000000000008
@@ -181,39 +181,39 @@ For details: http://www.ruby-lang.org/bugreport.html
 make: *** [run] Aborted (core dumped)
 ```
 
-���̃o�O�񍐂ɂ͎��̓_�������Ă��܂��B
+このバグ報告には次の点が欠けています。
 
-* �Č��R�[�h
-* ���s��
+* 再現コード
+* 実行環境
 
-�����A�Y�t���ꂽ���O�t�@�C��������ƁA`ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` �Ə����Ă���̂ŁALinux ���� Ruby 2.5.0dev �i�J���Łj���g���Ă���̂��ȁA�Ƃ������Ƃ��킩��܂��B
+ただ、添付されたログファイルを見ると、`ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` と書いているので、Linux 環境で Ruby 2.5.0dev （開発版）を使っているのだな、ということがわかります。
 
-�Č��R�[�h���Ȃ��̂͂悭�Ȃ��̂ŁA�u�Č��R�[�h�����������v�ƕԎ������邱�ɂ��܂����B
-�i���̓Y�t�̃��O��ǂނƁA���͎肪���肪�������񂠂�̂ŁA���̒��x�������炷���Ɏ���̂ł����A����͂킩��Ȃ������Ƃ��܂��j
+再現コードがないのはよくないので、「再現コードをください」と返事をするこにしました。
+（この添付のログを読むと、実は手がかりがたくさんあるので、この程度だったらすぐに治るのですが、今回はわからなかったとします）
 
 ```
 Please send us your reproducible code. Small code is awesome.
 ```
 
-�Г��� Rails �A�v���P�[�V�����Ȃǂ��ƁA���̂܂ܑ���킯�ɂ͂����Ȃ��̂ŁA�܂Ƃ߂đ��邱�Ƃ͂ł��܂���B
-�܂��A�u���X������v�Ƃ��������́A�Č��R�[�h�����͓̂���ł��B
+社内の Rails アプリケーションなどだと、そのまま送るわけにはいかないので、まとめて送ることはできません。
+また、「時々落ちる」といった問題は、再現コードを作るのは難しいです。
 
-������A���͑傫�ȃA�v���P�[�V�����̈ꕔ�������Ɖ��肵�A���肩����uSorry we can't make such repro�v�Ƃ������Ԏ��������Ƃ��܂��B
+今回も、実は大きなアプリケーションの一部だったと仮定し、相手からも「Sorry we can't make such repro」といった返事が来たとします。
 
-�����ŁA�f�o�b�O���J�n���邱�Ƃɂ��܂����B
+そこで、デバッグを開始することにしました。
 
-### `[BUG]` �̌���
+### `[BUG]` の見方
 
-`[BUG]` �́AMRI �ɉ�����肪�N�������Ƃ��ɐ����܂��B��{�I�ɂ́A�C���^�v���^�̃o�O�ɂȂ�܂��B
+`[BUG]` は、MRI に何か問題が起こったときに生じます。基本的には、インタプリタのバグになります。
 
 ```
 ../../trunk/test.rb:2: [BUG] Segmentation fault at 0x0000000000000008
 ```
 
-�܂��A�s���ł����A����� `../../trunk/test.rb:2` �Ƃ����ꏊ�����s���ɉ�����肪�������A�Ƃ������Ƃ������Ă��܂��B
-���ɁA`Segmentation fault at 0x0000000000000008` �́A`[BUG]` �̌����ł��B���̏ꍇ�A0x0000000000000008 �Ԓn�ւ̃������̓ǂݏ����ŁASegmentation fault �����������A�Ƃ����Ӗ��ɂȂ�܂��B��ʓI�ɂ́A�ǂݏ����֎~�̈�ɑ΂���ǂݏ����ɂ����Đ����܂��B�u�����ԁv�Ƃ��A�u�����ӂ��v�Ƃ����������̂ŁAC �v���O�����Ńo�O������ƁA��r�I�������邱�Ƃ��ł��܂��B
+まず、行頭ですが、これは `../../trunk/test.rb:2` という場所を実行中に何か問題が生じた、ということを示しています。
+次に、`Segmentation fault at 0x0000000000000008` は、`[BUG]` の原因です。この場合、0x0000000000000008 番地へのメモリの読み書きで、Segmentation fault が発生した、という意味になります。一般的には、読み書き禁止領域に対する読み書きにおいて生じます。「せぐぶ」とか、「せぐふぉ」とか略されるもので、C プログラムでバグがあると、比較的多く見ることができます。
 
-���� `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` �ŁA`ruby -v` �œ�����o�[�W�����ԍ��i����ю��s���j�������Ă���܂��B
+次の `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` で、`ruby -v` で得られるバージョン番号（および実行環境）が書いてあります。
 
 ```
 -- Control frame information -----------------------------------------------
@@ -222,17 +222,17 @@ c:0002 p:0007 s:0006 e:000005 EVAL   ../../trunk/test.rb:2 [FINISH]
 c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
 ```
 
-���̃u���b�N�ł́A�uControl frame information�v�Ə����Ă���Ƃ���ARuby �� VM �̐���t���[����񂪋L�q����Ă��܂��B
-�����ŕ\���������e�́AVM �̓����\���ɋ����ˑ����邽�߁AVM �f�o�b�O�ȊO�ł͎g���܂��񂪁A�e�s�ɂ͎��̓��e���܂܂�Ă��܂��B
+このブロックでは、「Control frame information」と書いてあるとおり、Ruby の VM の制御フレーム情報が記述されています。
+ここで表示される内容は、VM の内部構造に強く依存するため、VM デバッグ以外では使いませんが、各行には次の内容が含まれています。
 
-* `c`: �t���[���ԍ��icf �C���f�b�N�X�j
-* `p`: �v���O�����J�E���^
-* `s`: �X�^�b�N�̐[��
-* `e`: ���|�C���^�iep�j�̒l�i�X�^�b�N�̐[���A�������� heap �Ɋm�ۂ������̃A�h���X�j
-* �t���[���^�C�v�B`EVAL` �� `eval` �Őς񂾃t���[���A`CFUNC` �� C �Ŏ������ꂽ���\�b�h
-* �t���[���̏ꏊ�BRuby ���x���Ȃ�t�@�C�����ƍs�ԍ��AC �֐��Ȃ烁�\�b�h��
+* `c`: フレーム番号（cf インデックス）
+* `p`: プログラムカウンタ
+* `s`: スタックの深さ
+* `e`: 環境ポインタ（ep）の値（スタックの深さ、もしくは heap に確保した環境のアドレス）
+* フレームタイプ。`EVAL` は `eval` で積んだフレーム、`CFUNC` は C で実装されたメソッド
+* フレームの場所。Ruby レベルならファイル名と行番号、C 関数ならメソッド名
 
-�Ō�̏ꏊ��������ƁA�����镁�ʂ̃o�b�N�g���[�X���Ƃ��ė��p�ł��܂��B
+最後の場所情報を見ると、いわゆる普通のバックトレース情報として利用できます。
 
 ```
 -- Ruby level backtrace information ----------------------------------------
@@ -240,7 +240,7 @@ c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
 ../../trunk/test.rb:2:in `hello'
 ```
 
-���̂��̃u���b�N�́A�uRuby level backtrace information�v�A�܂� Ruby �Œʏ퓾�邱�Ƃ��ł���o�b�N�g���[�X���ł��B
+次のこのブロックは、「Ruby level backtrace information」、つまり Ruby で通常得ることができるバックトレース情報です。
 
 ```
 -- Machine register context ------------------------------------------------
@@ -252,7 +252,7 @@ c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
  R14: 0x0000000000ec78f0 R15: 0x0000000000e562d0 EFL: 0x0000000000010202
 ```
 
-���̂����肩����Ɉˑ������b�ɂȂ��Ă��܂����A�uMachine register context�v�܂� CPU ���W�X�^�̏��ł��B
+このあたりから環境に依存した話になってきますが、「Machine register context」つまり CPU レジスタの情報です。
 
 ```
 -- C level backtrace information -------------------------------------------
@@ -271,13 +271,13 @@ c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
 /mnt/sdb1/ruby/build/trunk/miniruby(main+0x5f) [0x41a61f] ../../trunk/main.c:42
 ```
 
-�́AC ���x���ł̃o�b�N�g���[�X�ł��BOS �Ȃǂɂ���āA�Ƃꂽ����Ȃ�������A�ʂ̃t�@�C���ɕۑ�����Ă��邱�Ƃ��������b�Z�[�W��\�����邱�Ƃ�����܂��B
+は、C レベルでのバックトレースです。OS などによって、とれたり取れなかったり、別のファイルに保存されていることを示すメッセージを表示することがあります。
 
 ```
 * Loaded script: ../../trunk/test.rb
 ```
 
-�ł́A�ǂ̃t�@�C���� ruby �R�}���h�ɓn��������������Ă��܂��B
+では、どのファイルを ruby コマンドに渡したかが示されています。
 
 ```
 * Loaded features:
@@ -288,7 +288,7 @@ c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
     3 complex.so
 ```
 
-�ł́A�ǂ̃t�@�C���� `require` �ȂǂŃ��[�h���Ă��邩�������Ă��܂��i`$LOADED_FEATURES` �̓��e�ł��j�B
+では、どのファイルを `require` などでロードしているかを示しています（`$LOADED_FEATURES` の内容です）。
 
 ```
 * Process memory map:
@@ -344,17 +344,17 @@ c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
 ```
 
-����́A���� Linux ��������Ȃ����Ǝv���܂����AOS ���Ǘ�����v���Z�X�̃������}�b�v�������Ă��܂��B`/proc/self/maps` �ŏo�Ă�����e�ł��B
+これは、多分 Linux だけじゃないかと思いますが、OS が管理するプロセスのメモリマップを示しています。`/proc/self/maps` で出てくる内容です。
 
-�f�o�b�O����Ƃ��A���ɒ��ڂ���ׂ��̓o�b�N�g���[�X���ł��B�ǂ����AControl frame information �ɂ��ƁA`hello` �ŃG���[���N�����Ă��邱�Ƃ��킩��܂��B
+デバッグするとき、特に注目するべきはバックトレース情報です。どうやら、Control frame information によると、`hello` でエラーが起こっていることがわかります。
 
-�����ŁA`hello` �̎������A������x�����ƌ������Ă݂܂��傤�B
+そこで、`hello` の実装を、もう一度じっと見直してみましょう。
 
-NOTE: ���ӏ����o�b�N�g���[�X�Ɍ����o�O�́A��r�I�ȒP�ȃo�O�ł��B����o�O�ɂȂ�ƁA�Ⴆ�΃v���O�����̊֌W�Ȃ��ӏ��Ńf�[�^�����Ă���A��ɂ��̏����Q�Ƃ����ӏ��� `[BUG]` �ɂȂ�ƁA�����̉ӏ����킩��Ȃ��A�Ƃ������Ƃ��悭�N���܂��B
+NOTE: 問題箇所がバックトレースに現れるバグは、比較的簡単なバグです。難しいバグになると、例えばプログラムの関係ない箇所でデータが壊れており、後にその情報を参照した箇所で `[BUG]` になると、原因の箇所がわからない、ということがよく起きます。
 
-### `f_hello()` �֐��̌�����
+### `f_hello()` 関数の見直し
 
-`hello` ���\�b�h�̎��͎̂��� C �֐��ł����B
+`hello` メソッドの実体は次の C 関数でした。
 
 ```
 static VALUE
@@ -366,15 +366,15 @@ f_hello(VALUE self, VALUE name)
 }
 ```
 
-�����ƌ��܂��ƁA`name` �œn���Ă��������ɑ΂��� `RSTRING_PTR()` ���g���Ă��܂��B
-`RSTRING_PTR()` �́A������I�u�W�F�N�g�i`T_STRING` �ƌ^�t�����ꂽ�I�u�W�F�N�g�j�ɂ̂ݗL���ȃ}�N���ł���A���̑��̃I�u�W�F�N�g�ɂ͑Ή����܂���i�����N���邩�ۏ؂���Ă��܂���j�B
-�����A���ꂪ�����Ȃ񂶂�Ȃ��ł��傤���B
+じっと見ますと、`name` で渡ってきた引数に対して `RSTRING_PTR()` を使っています。
+`RSTRING_PTR()` は、文字列オブジェクト（`T_STRING` と型付けされたオブジェクト）にのみ有効なマクロであり、その他のオブジェクトには対応しません（何が起きるか保証されていません）。
+多分、これが原因なんじゃないでしょうか。
 
-NOTE: �u�����ƌ���v���ƂŖ�肪�킩�邩�́AMRI �̓����\�����ǂ̒��x�c�����Ă��邩�ɂ��܂��B����͋K�͂����������ߊȒP�ł����A�ʏ�͂����Ɠ���ł��B
+NOTE: 「じっと見る」ことで問題がわかるかは、MRI の内部構造をどの程度把握しているかによります。今回は規模が小さいため簡単ですが、通常はもっと難しいです。
 
-�ł́A���������؂��邽�߂ɁA`hello(nil)` �Ƃł����Ă݂܂��傤�B���l�� `[BUG]` ���o�͂��ꂽ�̂ł͂Ȃ����Ǝv���܂��B
+では、仮説を検証するために、`hello(nil)` とでもしてみましょう。同様の `[BUG]` が出力されたのではないかと思います。
 
-�����ŁA�`�P�b�g�ɍČ��R�[�h�𓊍e���Ă����܂��傤�B
+そこで、チケットに再現コードを投稿しておきましょう。
 
 ```
 The following code can reproduce this issue:
@@ -382,11 +382,11 @@ The following code can reproduce this issue:
   hello(nil)
 ```
 
-���ꂾ�������ȍČ��R�[�h������΁A���Ƃ͓��ӂȐl�ɔC���Ă����Ȃ��Ǝv���܂��B����́A�p�b�`�̍쐬�܂ōs���܂��傤�B
+これだけ小さな再現コードがあれば、あとは得意な人に任せても問題ないと思います。今回は、パッチの作成まで行いましょう。
 
-### gdb ��p�����f�o�b�O
+### gdb を用いたデバッグ
 
-`test.rb` �� `hello(nil)` �ƋL�����A`make gdb` �Ǝ��s���܂��傤�B
+`test.rb` に `hello(nil)` と記入し、`make gdb` と実行しましょう。
 
 ```
 Program received signal SIGSEGV, Segmentation fault.
@@ -394,9 +394,9 @@ f_hello (self=9904840, name=8) at ../../trunk/io.c:12333
 12333       const char *name_ptr = RSTRING_PTR(name);
 ```
 
-�Əo�͂����ΐ����ł��B����́A`SEGV` �V�O�i�������������߁A`gdb` ���f�o�b�O�Ώۃv���O�������ꎞ��~�����A�Ƃ����Ӗ��ł��B
+と出力されれば成功です。これは、`SEGV` シグナルをうけたため、`gdb` がデバッグ対象プログラムを一時停止した、という意味です。
 
-������ƁA`name` �ɉ��������Ă��邩�m�F���Ă݂܂��傤�B
+ちょっと、`name` に何が入っているか確認してみましょう。
 
 ```
 (gdb) p name
@@ -405,20 +405,20 @@ $1 = 8
 nil
 ```
 
-`p name` �ɂ���āA`name` �̒l�i���l�j�� 8 �ł��邱�Ƃ��킩��܂��B���A8 �������Ƃ悭�킩��܂���B
-`rp name` �ɂ���āA���� 8 �Ƃ����l�� `nil` �ł��邱�Ƃ��킩��܂����B
+`p name` によって、`name` の値（数値）が 8 であることがわかります。が、8 だけだとよくわかりません。
+`rp name` によって、その 8 という値が `nil` であることがわかりました。
 
-SEGV �ɂ���Ē�~�����ꏊ�� io.c:12333 �ł���A`const char *name_ptr = RSTRING_PTR(name);` �Ƃ����s�ŋN�����Ă��邱�Ƃ��킩��܂��B
-�ǂ����A�u`RSTRING_PTR()`����肾�v�Ƃ��������͐����������悤�ł��B
+SEGV によって停止した場所は io.c:12333 であり、`const char *name_ptr = RSTRING_PTR(name);` という行で起こっていることがわかります。
+どうやら、「`RSTRING_PTR()`が問題だ」という仮説は正しかったようです。
 
-����I�u�W�F�N�g���� C �̕�����|�C���^���Ƃ�ɂ́A`StringValueCStr()` ���g���܂��B�K�v�Ȃ� `to_s` �����s���A������ɕϊ����Ă��� C �̕�����|�C���^�ɕϊ����܂��B
-��������Ă݂܂��傤�B
+あるオブジェクトから C の文字列ポインタをとるには、`StringValueCStr()` を使います。必要なら `to_s` を実行し、文字列に変換してから C の文字列ポインタに変換します。
+早速やってみましょう。
 
 ```
   const char *name_ptr = StringValueCStr(name);
 ```
 
-���̂悤�ɏC�����A������x `$ make gdb` �����s���Ă݂܂��傤�B
+このように修正し、もう一度 `$ make gdb` を実行してみましょう。
 
 ```
 ko1@u64:~/ruby/build/trunk$ make gdb
@@ -438,20 +438,20 @@ Traceback (most recent call last):
 [Inferior 1 (process 17710) exited with code 01]
 ```
 
-�܂��A�C�������̂� `io.c` ���ăR���p�C�����A�C���𔽉f���� `miniruby` �𐶐����܂��B
-���ɁAgdb ��� `test.rb` �����s���Ă��܂��B
+まず、修正したので `io.c` を再コンパイルし、修正を反映した `miniruby` を生成します。
+次に、gdb 上で `test.rb` を実行しています。
 
-���s���ʂ́A`nil.to_s` ���Ȃ����߁A`TypeError` ���������A�I�����܂��BRuby �I�ɂ͗�O�����ŏI�����܂������AMRI �I�ɂ́A���̂悤�Ɉُ�I�����邱�Ƃ�����i�킩��Â炢�ł��ˁj�Ȃ̂ŁA���Ȃ��Ɣ��f���Agdb ���I�������܂��B
+実行結果は、`nil.to_s` がないため、`TypeError` が発生し、終了します。Ruby 的には例外発生で終了しましたが、MRI 的には、そのように異常終了することが正常（わかりづらいですね）なので、問題ないと判断し、gdb を終了させます。
 
-�ł́A�������̂ŁA`f_hello()` �֐��ɍs�����C�����A�`�P�b�g�ɔ��f�����܂��傤�B�C�����@��`����̂́A�ǂ̂悤�ȕ��@�ł����܂��܂���B
+では、治ったので、`f_hello()` 関数に行った修正を、チケットに反映させましょう。修正方法を伝えるのは、どのような方法でもかまいません。
 
-�悭����͎̂��̂悤�ȕ��@�ł��B
+よくあるのは次のような方法です。
 
-* Redmine �`�P�b�g�ɁAdiff ���܂߃R�����g����
-* github �� pull request �����A���� URL ���`�P�b�g�ɋL�q����
+* Redmine チケットに、diff を含めコメントする
+* github で pull request を作り、その URL をチケットに記述する
 
-## `Integer#add(n)` �̃o�O
+## `Integer#add(n)` のバグ
 
-��قǎ������� `Integer#add(n)` �ɂ͖�肪����Ɖ��ׂ܂����B
+先ほど実装した `Integer#add(n)` には問題があると延べました。
 
 TBD

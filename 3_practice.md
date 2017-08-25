@@ -1,16 +1,16 @@
-# 3. ���K�F���\�b�h�̒ǉ�
+﻿# 3. 演習：メソッドの追加
 
-## ���̎����ɂ���
+## この資料について
 
-���ۂɁAMRI �Ƀ��\�b�h��ǉ����Ă݂܂��傤�B�C�������������Ă���̂ŁA���ۂɎ�𓮂����Ēǉ����Ă݂Ă��������B
+実際に、MRI にメソッドを追加してみましょう。修正する例を書いているので、実際に手を動かして追加してみてください。
 
-�Ȃ��Agit ���|�W�g�����g���Ă���Ǝv���̂ŁA�e�C�����Ƃ� commit ���邩�A�u�����`�����悤�ɂ��Ă����Ă��������B
+なお、git リポジトリを使っていると思うので、各修正ごとに commit するか、ブランチを作るようにしておいてください。
 
 ## `Array#second`
 
-`Array#second` ���\�b�h��ǉ����Ă݂܂��傤�B`Array#first` �͍ŏ��̗v�f��Ԃ��܂��B`Array#second` �͓�ڂ̗v�f��Ԃ����\�b�h�ł��B
+`Array#second` メソッドを追加してみましょう。`Array#first` は最初の要素を返します。`Array#second` は二つ目の要素を返すメソッドです。
 
-Ruby �Œ�`����Ƃ���Ȋ����ł��B
+Ruby で定義するとこんな感じです。
 
 ```ruby
 # specification written in Ruby
@@ -21,17 +21,17 @@ class Array
 end
 ```
 
-1. `array.c` ���J���܂��傤�B
-2. `ary_second()` �Ƃ����֐���ǉ����܂��傤�B`Init_array()` �̑O���ǂ��Ǝv���܂��B
-3. `rb_define_method(rb_cArray, "second", ary_second, 0)` �Ƃ����s�� `Init_array()` �֐��ɒǉ����܂��傤�B
-4. �r���h���A`ruby/test.rb` �ɃT���v���R�[�h���L�q���āA`make run` �œ����������Ă݂܂��傤�B
-5. �e�X�g�� `ruby/test/ruby/test_array.rb` �ɋL�����܂��傤�Bminitest �t�H�[�}�b�g�ł��B
-6. `$ make test-all` �Ǝ��s����ƁA�������e�X�g�����s����܂��B�������A�����̃e�X�g�������Ă��܂��̂ŁAArray �̃e�X�g�����ɍi��܂��傤�B
-  * `$ make test-all TESTS='ruby/test_array.rb'` �Ƃ��邱�ƂŁA`ruby/test/ruby/test_array.rb` �����e�X�g���܂��B
-  * `$ make test-all TESTS='-j8'` �Ƃ��邱�ƂŁA8 ����Ńe�X�g�𑖂点�܂��B
-7. �ق��̃��\�b�h���Q�l�ɁA`Array#second` �� rdoc �h�L�������g���L�����Ă݂܂��傤�B
+1. `array.c` を開きましょう。
+2. `ary_second()` という関数を追加しましょう。`Init_array()` の前が良いと思います。
+3. `rb_define_method(rb_cArray, "second", ary_second, 0)` という行を `Init_array()` 関数に追加しましょう。
+4. ビルドし、`ruby/test.rb` にサンプルコードを記述して、`make run` で動くか試してみましょう。
+5. テストを `ruby/test/ruby/test_array.rb` に記入しましょう。minitest フォーマットです。
+6. `$ make test-all` と実行すると、書いたテストが実行されます。ただし、数万のテストが走ってしまうので、Array のテストだけに絞りましょう。
+  * `$ make test-all TESTS='ruby/test_array.rb'` とすることで、`ruby/test/ruby/test_array.rb` だけテストします。
+  * `$ make test-all TESTS='-j8'` とすることで、8 並列でテストを走らせます。
+7. ほかのメソッドを参考に、`Array#second` に rdoc ドキュメントを記入してみましょう。
 
-C �ł̒�`�͂���Ȋ����ɂȂ�܂��i���L diff ������Ă��玞�Ԃ������Ă���̂ŁA�s�ԍ��́A����Ă���Ǝv���܂��j�B
+C での定義はこんな感じになります（下記 diff を取ってから時間がたっているので、行番号は、ずれていると思います）。
 
 ```diff
 diff --git a/array.c b/array.c
@@ -62,22 +62,22 @@ index bd24216af3..79c1c1d334 100644
      id_div = rb_intern("div");
 ```
 
-����������Ă����܂��B
+少し解説しておきます。
 
-* `ary_second()` �������ł��B
-* `VALUE` �� Ruby �̃I�u�W�F�N�g�ł���A`self` �̓��\�b�h�Ăяo���ł̃��V�[�o�i`ary.second` �̎��� `ary`�j�ł��B���ׂẴ��\�b�h�Ăяo���́ARuby �̔z���Ԃ��̂ŁA�Ԓl�� `VALUE` �ƂȂ�܂��B
-* `rb_ary_entry(self, n)` �� `self[n]` �̈Ӗ��ł���A`n = 1` �Ȃ̂ŁA2�Ԗځi0 origin �Ȃ̂Łj��Ԃ��܂��B
-* `Init_Array` �Ƃ����֐����AMRI �N�����Ɏ��s����܂��B
-* `rb_define_method(rb_cArray, "second", ary_second, 0);` �ŁA`Array` �N���X�� `second` ���\�b�h���`���Ă��܂��B
-  * `rb_cArray` �� Array �N���X�̃I�u�W�F�N�g�ł��B`rb_` �� Ruby �̉����A`c` ���N���X�ł��邱�Ƃ��Ӗ������邽�߁A`rb_cArray` �� Ruby �� `Array` �N���X�ł��邱�Ƃ��킩��܂��B���Ȃ݂ɁA���W���[���̏ꍇ�� `m`�i�Ⴆ�΁A`rb_mEnumerable`�A�G���[�N���X�̏ꍇ�� `e`�i�Ⴆ�΁A`rb_eArgError`�j�B
-  * `rb_define_method` ���C���X�^���X���\�b�h���`����֐��ł��B
-  * �u`rb_cArray` �ɁA`"second"` �Ƃ������O�̃��\�b�h���`����B���\�b�h���Ă΂ꂽ�� `ary_second` ���Ăяo���B�Ȃ��A�����̐��� 0 �ł���v�Ƃ����Ӗ��ɂȂ�܂��B
+* `ary_second()` が実装です。
+* `VALUE` は Ruby のオブジェクトであり、`self` はメソッド呼び出しでのレシーバ（`ary.second` の時の `ary`）です。すべてのメソッド呼び出しは、Ruby の配列を返すので、返値も `VALUE` となります。
+* `rb_ary_entry(self, n)` が `self[n]` の意味であり、`n = 1` なので、2番目（0 origin なので）を返します。
+* `Init_Array` という関数が、MRI 起動時に実行されます。
+* `rb_define_method(rb_cArray, "second", ary_second, 0);` で、`Array` クラスに `second` メソッドを定義しています。
+  * `rb_cArray` が Array クラスのオブジェクトです。`rb_` が Ruby の何か、`c` がクラスであることを意味しするため、`rb_cArray` が Ruby の `Array` クラスであることがわかります。ちなみに、モジュールの場合は `m`（例えば、`rb_mEnumerable`、エラークラスの場合は `e`（例えば、`rb_eArgError`）。
+  * `rb_define_method` がインスタンスメソッドを定義する関数です。
+  * 「`rb_cArray` に、`"second"` という名前のメソッドを定義しろ。メソッドが呼ばれたら `ary_second` を呼び出せ。なお、引数の数は 0 である」という意味になります。
 
 ## `String#palindrome?`
 
-�񕶔��胁�\�b�h `String#palindrome?` ���`���Ă݂܂��傤�B
+回文判定メソッド `String#palindrome?` を定義してみましょう。
 
-���̃R�[�h�� Ruby �ŏ��������́A����т�����Ƃ����e�X�g�ł��B
+次のコードは Ruby で書いたもの、およびちょっとしたテストです。
 
 ```ruby
 class String
@@ -95,8 +95,8 @@ end
  "A man, a plan, a canal - Panama!",
  "Madam, I'm Adam",
  "NisiOisiN",
- "�킩�݂����̂Ƃ��Ȃ��Ƃ̂����݂���",
- "�A�j�}���}�j�A",
+ "わかみかものとかなかとのもかみかわ",
+ "アニマルマニア",
  # NG
  "",
  "ab",
@@ -105,8 +105,8 @@ end
 }
 ```
 
-Ruby �R�[�h���AC �̃R�[�h�ɒ��ړI�ɕϊ����Ă݂܂��B
-`Array#second` �ł̎菇���Q�l�ɁA���L��ύX���Ă݂Ă��������B
+Ruby コードを、C のコードに直接的に変換してみます。
+`Array#second` での手順を参考に、下記を変更してみてください。
 
 ```diff
 diff --git a/string.c b/string.c
@@ -143,23 +143,23 @@ index c140148778..0f170bd20b 100644
      rb_define_hooked_variable("$-F", &rb_fs, 0, rb_fs_setter);
 ```
 
-������܂��B
+解説します。
 
-* `rb_reg_regcomp(pat)` �ɂ���āA`pat` �Ƃ��� C �̕�����𐳋K�\���I�u�W�F�N�g�Ƃ��ăR���p�C�����܂��B
-* `rb_str_new_cstr("")` �ŁA��� Ruby ������𐶐����܂��B
-* `str_gsub()` �ŁA`String#gsub` �����̏������s���܂��B�����ł́A���K�\�����g���āA���������ȊO������Ă��܂��B
-* `rb_str_downcase()` �ŁA���̌��ʂ��������ɂ��낦�܂��B
-* `rb_str_empty()` �ŁA�t�B���^���ʂ��󕶎���ł��邩�ǂ������`�F�b�N���܂��B
-* `rb_str_reverse()` �ŁA������̏����̋t�]�����Ă��܂��B
-* `rb_str_equal()` �ŁA������̔�r�����Ă��܂��B
+* `rb_reg_regcomp(pat)` によって、`pat` という C の文字列を正規表現オブジェクトとしてコンパイルします。
+* `rb_str_new_cstr("")` で、空の Ruby 文字列を生成します。
+* `str_gsub()` で、`String#gsub` 相当の処理を行います。ここでは、正規表現を使って、扱う文字以外を削っています。
+* `rb_str_downcase()` で、その結果を小文字にそろえます。
+* `rb_str_empty()` で、フィルタ結果が空文字列であるかどうかをチェックします。
+* `rb_str_reverse()` で、文字列の順序の逆転をしています。
+* `rb_str_equal()` で、文字列の比較をしています。
 
-�Ȃ�ƂȂ��ARuby �̃R�[�h�ƈ�Έ�ɑΉ����Ă���̂��킩��ł��傤���B
+なんとなく、Ruby のコードと一対一に対応しているのがわかるでしょうか。
 
 ## `Integer#add(n)`
 
-`Integer` �N���X�ɁA`n` �������\�b�h�����܂��傤�B
+`Integer` クラスに、`n` 足すメソッドを作りましょう。
 
-Ruby �ŏ����ƁA����Ȋ����ł��B
+Ruby で書くと、こんな感じです。
 
 ```
 class Integer
@@ -175,8 +175,8 @@ p 1.add(4.5) #=> 5.5
 ```
 Index: numeric.c
 ===================================================================
---- numeric.c	(���r�W���� 59647)
-+++ numeric.c	(��ƃR�s�[)
+--- numeric.c	(リビジョン 59647)
++++ numeric.c	(作業コピー)
 @@ -5238,6 +5238,12 @@
      }
  }
@@ -201,17 +201,17 @@ Index: numeric.c
  #endif
 ```
 
-1�������K�{�Ȃ̂ŁA`rb_define_method()` �̍Ō�̈����� `1` �ɂȂ��Ă���A`int_add()` �̈����� `VALUE n` ���ǉ�����Ă��܂��B
+1引数が必須なので、`rb_define_method()` の最後の引数が `1` になっており、`int_add()` の引数に `VALUE n` が追加されています。
 
-���ۂɁA�����Z���s�������� `rb_int_plus()` ���s���Ă��܂��B���̂��߁A��������͏����Ă��܂���B�����A`self` �� `n` �� `Fixnum`�i������̏����Ȑ��l�AC �� `int` �ւ̕ϊ��A`int` ����̕ϊ����e�Ձj�ł���ꍇ�����AC �ő����Z�����Ă݂܂��傤�B
+実際に、足し算を行う処理は `rb_int_plus()` が行っています。そのため、難しい処理は書いていません。ただ、`self` と `n` が `Fixnum`（ある一定の小さな数値、C の `int` への変換、`int` からの変換が容易）である場合だけ、C で足し算をしてみましょう。
 
-�Ȃ��ARuby 2.3 �܂ł́A�����l�� `Fixnum` �N���X�� `Bignum` �N���X�ɕ�����Ă��܂������ARuby 2.4 ����� `Integer` �ɓ�������܂����B�������AMRI �����ł́A�i���\��̊ϓ_����j��������ʂ��ĊǗ����Ă��܂��i�Ⴆ�΁A`FIXNUM_P(bignum)` �Ƃ���ƋU���Ԃ�܂��j�B
+なお、Ruby 2.3 までは、整数値は `Fixnum` クラスと `Bignum` クラスに分かれていましたが、Ruby 2.4 からは `Integer` に統合されました。ただし、MRI 内部では、（性能上の観点から）それらを区別して管理しています（例えば、`FIXNUM_P(bignum)` とすると偽が返ります）。
 
 ```
 Index: numeric.c
 ===================================================================
---- numeric.c	(���r�W���� 59647)
-+++ numeric.c	(��ƃR�s�[)
+--- numeric.c	(リビジョン 59647)
++++ numeric.c	(作業コピー)
 @@ -5238,6 +5238,22 @@
      }
  }
@@ -237,16 +237,16 @@ Index: numeric.c
   *
 ```
 
-`FIXNUM_P(self) && FIXNUM_P(n)` �ɂ���āA`self` �� `n` �� `Fixnum` �ł��邩�ǂ������`�F�b�N���Ă��܂��B
-���������ł���΁A`FIX2INT()` �ɂ���āA`int` �ɕϊ��ł���̂ŁA�ϊ����v�Z���Ă��܂��B�v�Z���ʂ� `FIX2NUM()` �ɂ���āAVALUE �^�i�܂�ARuby �� `Integer` �N���X�̃I�u�W�F�N�g�j�֕ϊ����A
+`FIXNUM_P(self) && FIXNUM_P(n)` によって、`self` と `n` が `Fixnum` であるかどうかをチェックしています。
+もしそうであれば、`FIX2INT()` によって、`int` に変換できるので、変換し計算しています。計算結果を `FIX2NUM()` によって、VALUE 型（つまり、Ruby の `Integer` クラスのオブジェクト）へ変換し、
 
-�����ӁF���́A���̏C���ł̃v���O�����ɂ̓o�O������܂��B
+※注意：実は、この修正版のプログラムにはバグがあります。
 
 ## `Time#day_before(n=1)`
 
-`Time` �N���X�� n ���O�̒l�i�������������1���O�j��Ԃ����\�b�h�������Ă݂܂��傤�B
+`Time` クラスに n 日前の値（引数が無ければ1日前）を返すメソッドを加えてみましょう。
 
-Ruby �ŏ����Ƃ���Ȋ����ł��B24���� * n �̕b�������炵�Ă��܂��B�����ɂ́A���̕��@�� n ���O���v�Z����Ƃ������Ƃ͏o���܂���i�[�b�Ƃ��B�������� n ���O�Ƃ́H�j�B���A����̓T���v���Ȃ̂ŁA���܂�ׂ������Ƃ��l���Ȃ��悤�ɂ��悤�Ǝv���܂��B
+Ruby で書くとこんな感じです。24時間 * n の秒数を減らしています。厳密には、この方法で n 日前を計算するということは出来ません（閏秒とか。そもそも n 日前とは？）。が、今回はサンプルなので、あまり細かいことを考えないようにしようと思います。
 
 ```
 class Time
@@ -260,13 +260,13 @@ p Time.now.day_before    #=> 2017-08-23 14:48:44 +0900
 p Time.now.day_before(3) #=> 2017-08-21 14:48:44 +0900
 ```
 
-C �ŏ����Ă݂�ƁA����Ȋ����ł��B
+C で書いてみると、こんな感じです。
 
 ```
 Index: time.c
 ===================================================================
---- time.c	(���r�W���� 59647)
-+++ time.c	(��ƃR�s�[)
+--- time.c	(リビジョン 59647)
++++ time.c	(作業コピー)
 @@ -4717,6 +4717,22 @@
      return time;
  }
@@ -301,71 +301,71 @@ Index: time.c
      rb_define_private_method(rb_singleton_class(rb_cTime), "_load", time_load, 1);
 ```
 
-�|�C���g��������܂��B
+ポイントを説明します。
 
-* �ϒ������ɂ��邽�߂ɁA`rb_define_method()` �� `-1` ���w�肵�Ă��܂��B�����邩�킩��܂����A�Ƃ����Ӗ��ɂȂ�܂��B
-* `time_day_before(int argc, VALUE *argv, VALUE self)` �Ƃ����֐��Ń��\�b�h�̎��̂��`���Ă��܂��B`argc` �Ɉ����̐��A`argv` �ɒ��� `argc` VALUE �̔z��ւ̃|�C���^���i�[����Ă��܂��B
-* `rb_scan_args()` ���g���A�������`�F�b�N���Ă��܂��B`"01"` �Ƃ����̂́A�K�{������ 0 �A�I�v�V���i�������� 1 �A�Ƃ����Ӗ��ɂȂ�܂��B�܂�A0 or 1 �̈��������A�Ƃ������ƂɂȂ�A���� 1 ����������Ă���΁A`nth` �Ɋi�[����܂��B�����A������ 0 �̏ꍇ�i�܂�A�����������ꍇ�j�́A`nth` �ɂ� `Qnil` �iRuby �ł� `nil` ���AC �ł͂��̂悤�ɕ\�����Ă���j���i�[����܂��B
-* `Time.at()` ���������邽�߂ɁA`rb_funcall(recv, mid, argc, ...)` �𗘗p���Ă��܂��B
-  * �������̓��V�[�o�A�܂� `recv.mid(...)` �̎��� `recv` �ɂȂ�܂��B`Time.at` �ł́A���V�[�o�� `Time` �N���X�I�u�W�F�N�g�A�Ƃ������ƂɂȂ�܂��B
-  * ���\�b�h���̎w��� ID �ōs���܂��BID �𐶐����邽�߂ɂ́A`rb_intern("...")` �𗘗p���܂��BID �́A���镶����ɑ΂��āAMRI �v���Z�X���ň�ӂȒl�̂��Ƃł��BRuby �ł��� Symbol�AJava �ł��� "intern" ����������ł��B
-  * 1 �����Ȃ̂ŁA1 �Ǝw�肵�A���̌�Ŏ��ۂ̈������w�肵�܂��B
+* 可変長引数にするために、`rb_define_method()` で `-1` を指定しています。何個来るかわかりませんよ、という意味になります。
+* `time_day_before(int argc, VALUE *argv, VALUE self)` という関数でメソッドの実体を定義しています。`argc` に引数の数、`argv` に長さ `argc` VALUE の配列へのポインタが格納されています。
+* `rb_scan_args()` を使い、引数をチェックしています。`"01"` というのは、必須引数が 0 個、オプショナル引数が 1 個、という意味になります。つまり、0 or 1 個の引数を取る、ということになり、もし 1 個引数を取っていれば、`nth` に格納されます。もし、引数が 0 個の場合（つまり、引数が無い場合）は、`nth` には `Qnil` （Ruby での `nil` を、C ではこのように表現している）が格納されます。
+* `Time.at()` を実現するために、`rb_funcall(recv, mid, argc, ...)` を利用しています。
+  * 第一引数はレシーバ、つまり `recv.mid(...)` の時の `recv` になります。`Time.at` では、レシーバは `Time` クラスオブジェクト、ということになります。
+  * メソッド名の指定は ID で行います。ID を生成するためには、`rb_intern("...")` を利用します。ID は、ある文字列に対して、MRI プロセス中で一意な値のことです。Ruby でいう Symbol、Java でいう "intern" した文字列です。
+  * 1 引数なので、1 と指定し、その後で実際の引数を指定します。
 
-�Ȃ��A���̎����ɂ͐F�X�Ɩ�肪����܂��BRuby �����Ɖ����Ⴄ�̂��A�������Ă݂Ă��������B
+なお、この実装には色々と問題があります。Ruby 実装と何が違うのか、検討してみてください。
 
-## �g�����C�u����
+## 拡張ライブラリ
 
-MRI ���ォ��@�\�g�����邽�߂́AC �g�����C�u�����́A�قړ����悤�ȗ��V�ō�邱�Ƃ��ł��܂��B
+MRI を後から機能拡張するための、C 拡張ライブラリは、ほぼ同じような流儀で作ることができます。
 
-�Ⴆ�΁A`Array#second` �� MRI �ɒ��ڑg�ݍ��ނ̂ł͂Ȃ��A�g�����C�u�����Œ񋟂��邱�Ƃ��l���܂��B
+例えば、`Array#second` を MRI に直接組み込むのではなく、拡張ライブラリで提供することを考えます。
 
-���̎菇�� `.so` �����܂��B
+次の手順で `.so` を作ります。
 
-1. �f�B���N�g�� `array_second/` ���쐬����B
-2. `array_second/extconf.rb` ���쐬����
-  * `require 'mkmf'` �Ƃ��āAmkmf ���C�u�������g����悤�ɂ���Bmkmf ���C�u�����́AMakefile �𐶐����邽�߂̃��C�u�����ŁA�e��ݒ�i���Ƃ��΁AOS �ɂ���ė��p���郉�C�u������ς���Ȃǁj���s���܂��B����́A�Ƃ��ɐݒ�͂Ȃ��B
-  * �ݒ��i����͂Ȃ��j�A`create_makefile('array_second') �Ə����Ă����B
-3. `array_second.c` ���쐬����
-  * ���̃t�@�C���ɂ́A(1) ���\�b�h�̎��̂ƁA(2) `Array` �N���X�ւ̏������������Ă����B
-  * (1) �́A��L `ary_second()` �֐��Ƃ܂����������B
-  * (2) �́A`Init_array_second()` �֐����ŁA`rb_define_method()` �𗘗p����B`Init_array_second` �Ƃ������O�́A`create_makefile` �Ŏw�肵�����O���玩���I�Ɍ��܂�B
-4. `$ ruby extconf.rb` �����s���āAMakefile �𐶐�����B
-5. `$ make` �����s���A`array_second.so` ���r���h����B�ł���΁A����� `require` �Ŏg�����Ƃ��ł���B�Ⴆ�΁A`$ ruby -r ./array_second -e 'p [1, 2].second'` �� 2 ���o�͂���B
-6. `$ make install` �Ƃ���΁A�C���X�g�[���f�B���N�g���� .so ���R�s�[�����B
+1. ディレクトリ `array_second/` を作成する。
+2. `array_second/extconf.rb` を作成する
+  * `require 'mkmf'` として、mkmf ライブラリを使えるようにする。mkmf ライブラリは、Makefile を生成するためのライブラリで、各種設定（たとえば、OS によって利用するライブラリを変えるなど）を行います。今回は、とくに設定はない。
+  * 設定後（今回はない）、`create_makefile('array_second') と書いておく。
+3. `array_second.c` を作成する
+  * このファイルには、(1) メソッドの実体と、(2) `Array` クラスへの初期化を書いておく。
+  * (1) は、上記 `ary_second()` 関数とまったく同じ。
+  * (2) は、`Init_array_second()` 関数内で、`rb_define_method()` を利用する。`Init_array_second` という名前は、`create_makefile` で指定した名前から自動的に決まる。
+4. `$ ruby extconf.rb` を実行して、Makefile を生成する。
+5. `$ make` を実行し、`array_second.so` をビルドする。できれば、これを `require` で使うことができる。例えば、`$ ruby -r ./array_second -e 'p [1, 2].second'` は 2 を出力する。
+6. `$ make install` とすれば、インストールディレクトリに .so がコピーされる。
 
-`array_second` �́A���̃f�B���N�g���ɂ����݂���̂ŎQ�Ƃ��Ă��������B
+`array_second` は、このディレクトリにも存在するので参照してください。
 
-`extconf.rb` ��ʓr�r���h�E�C���X�g�[���̂������������ Ruby �̑g�ݍ��݃��\�b�h�͊g�����C�u�����ƋL�q���@���܂����������ł��B
+`extconf.rb` や別途ビルド・インストールのくだりを除けば Ruby の組み込みメソッドは拡張ライブラリと記述方法がまったく同じです。
 
-�g�����C�u������z�z���邽�߂ɂ� 2, 3 �ō쐬�����t�@�C�����܂Ƃ߂Ĕz�z���܂��B�����ARubyGems �p�b�P�[�W�Ƃ��Ĕz�z����������p�҂ɂ͕֗��ł��傤�B
+拡張ライブラリを配布するためには 2, 3 で作成したファイルをまとめて配布します。ただ、RubyGems パッケージとして配布する方が利用者には便利でしょう。
 
-## Tips: �f�o�b�O
+## Tips: デバッグ
 
-https://docs.ruby-lang.org/en/2.4.0/extension_ja_rdoc.html �ɏڍא���������̂Ń`�F�b�N���܂��傤�B
+https://docs.ruby-lang.org/en/2.4.0/extension_ja_rdoc.html に詳細説明があるのでチェックしましょう。
 
-MRI �̃\�[�X�R�[�h���������A�����悤�Ȃ��Ƃ�����Ă��郁�\�b�h��T���܂��傤�B
+MRI のソースコードを検索し、似たようなことをやっているメソッドを探しましょう。
 
-Ruby �v���O�����������Ƃ��́A`p(obj)` ���\�b�h�𗘗p���邱�Ƃ�����Ǝv���܂��BC �ł� `rb_p(obj)` �Ƃ��邱�ƂŁA���l�ɏo�͂��邱�Ƃ��ł��܂��B
+Ruby プログラムを書くときは、`p(obj)` メソッドを利用することがあると思います。C では `rb_p(obj)` とすることで、同様に出力することができます。
 
-gdb ���g����悤�ł�����A�u���C�N�|�C���g���w�肵�� `$ make gdb` ���g���Ď��s����ƁA�������m�F���邱�Ƃ��ł��܂��B
-`#include "debug.h"` �Ƃ���ƁA`bp()` �Ƃ����}�N�����g����悤�ɂȂ�܂��B���� `bp()` �����ߍ��܂ꂽ�Ƃ���̓u���C�N�|�C���g�Ƃ��čŏ�����o�^����Ă��邽�߁A�C�ɂȂ�Ƃ���� `bp()` ��u���ƕ֗���������܂���i�܂�A`binding.pry` �̂悤�Ɏg���܂��j�B
+gdb が使えるようでしたら、ブレイクポイントを指定して `$ make gdb` を使って実行すると、処理を確認することができます。
+`#include "debug.h"` とすると、`bp()` というマクロが使えるようになります。この `bp()` が埋め込まれたところはブレイクポイントとして最初から登録されているため、気になるところに `bp()` を置くと便利かもしれません（つまり、`binding.pry` のように使えます）。
 
-GDB �ł́A`p expr` �Ƃ��邱�ƂŁA`expr` �̒l���������Ƃ��ł��܂��i�Ⴆ�΁A�ϐ� `foo` �̒l��\���������Ƃ��́A`p fpp`�j�B`VALUE obj` �̒l��\������ƁA`obj` �̃N���X�ɂ�����炸�A�������\������܂��B����͌��Â炢�̂ŁA`rp` �Ƃ��� GDB �p�̃R�}���h����`����Ă��܂��i`ruby/.gdbinit` �Œ�`�j�B���̃R�}���h���g���ƁA���₷�����`���ďo�͂��Ă���܂��B
+GDB では、`p expr` とすることで、`expr` の値を示すことができます（例えば、変数 `foo` の値を表示したいときは、`p fpp`）。`VALUE obj` の値を表示すると、`obj` のクラスにかかわらず、数字が表示されます。これは見づらいので、`rp` という GDB 用のコマンドが定義されています（`ruby/.gdbinit` で定義）。このコマンドを使うと、見やすく整形して出力してくれます。
 
-## ���W���K
+## 発展演習
 
-���̃g�s�b�N���A���ۂɉ������Ă݂Ă��������B�����悤�Ȏ����� MRI �̃\�[�X�R�[�h�� grep ���ĒT���Ă݂Ă��������B
+次のトピックを、実際に解決してみてください。似たような実装を MRI のソースコードを grep して探してみてください。
 
-* �����Z���s�� `Integer#sub(n)` ���������Ă݂Ă��������B
-* `Array#second` �́A�v�f���� 1 �ȉ��̏ꍇ�� `nil` ��Ԃ��܂��B�Ƃ����̂��A`rb_ary_entry()` �́A���݂��Ȃ��v�f�C���f�b�N�X���w�肳���� `nil`�i`Qnil`�j��Ԃ����߂ł��B�����ŁA2�v�f�ڂ��Ȃ��ꍇ�͗�O�𔭐�����悤�ɂ��Ă݂Ă��������B`rb_raise()` �Ƃ����֐��𗘗p���܂��B
-* `String#palindrome?` �́A������Ȏ����ɂȂ��Ă��܂��B�ǂ���������ł���A�ǂ̂悤�ɉ����ł��邩�������Ă݂Ă��������B�܂��A�\�Ȃ琫�\�����P����悤�Ɏ�����ύX���Ă݂Ă��������B
-* `Time#day_before` �͖��O�������ł��B�ǂ����O���l���Ă݂Ă��������B
-* MRI �ɂ������炵�Ă݂܂��傤�B`Integer#+` �̌��ʂ��A�����Z�ł͂Ȃ��A�����Z�������ʂɂȂ�悤�ɂ��Ă��������Bgit �̐V�����u�����`�Ŏ��s����Ƃ����ł���B
-* �z���͂������܂������āA�D���ȃ��\�b�h��ǉ����Ă݂܂��傤�B
+* 引き算を行う `Integer#sub(n)` を実装してみてください。
+* `Array#second` は、要素数が 1 個以下の場合は `nil` を返します。というのも、`rb_ary_entry()` は、存在しない要素インデックスが指定されると `nil`（`Qnil`）を返すためです。そこで、2要素目がない場合は例外を発生するようにしてみてください。`rb_raise()` という関数を利用します。
+* `String#palindrome?` は、非効率な実装になっています。どこが非効率であり、どのように解決できるか検討してみてください。また、可能なら性能を改善するように実装を変更してみてください。
+* `Time#day_before` は名前が微妙です。良い名前を考えてみてください。
+* MRI にいたずらしてみましょう。`Integer#+` の結果を、足し算ではなく、引き算した結果になるようにしてください。git の新しいブランチで実行するといいですよ。
+* 想像力をたくましくして、好きなメソッドを追加してみましょう。
 
-���̏͂ň����܂����A
+次の章で扱いますが、
 
-* `Time#day_before` �̎����̖��_�� `Integer#add(n)` �Ɠ��l�ɍl���Ă݂Ă��������B
-* `Integer#add(n)` �ɂ̓o�O������ƌ����܂����B�ǂ̂悤�ȃo�O������ł��傤���B�܂��A�ǂ̂悤�ɉ����ł���ł��傤���B
-  * �܂��͎��s����e�X�g�������܂��傤�B
-  * �����������A�e�X�g���ʂ邱�Ƃ��m�F���܂��傤�B
+* `Time#day_before` の実装の問題点を `Integer#add(n)` と同様に考えてみてください。
+* `Integer#add(n)` にはバグがあると言いました。どのようなバグがあるでしょうか。また、どのように解決できるでしょうか。
+  * まずは失敗するテストを書きましょう。
+  * 問題を解決し、テストが通ることを確認しましょう。
