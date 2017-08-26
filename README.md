@@ -1,46 +1,46 @@
 # Cookpad Ruby Hack Challenge
 
-* 2017/08/30, 31 @ �N�b�N�p�b�h�������
-* ��W�y�[�W: https://cookpad.connpass.com/event/60450/
+* 2017/08/30, 31 @ クックパッド株式会社
+* 募集ページ: https://cookpad.connpass.com/event/60450/
 
-# �S�[��
+# ゴール
 
-## ���ʉۑ�i1���ځj�̃S�[��
+## 共通課題（1日目）のゴール
 
-* Ruby �̃\�[�X�R�[�h�̍\����m��
-* Ruby �̃r���h���ł���悤�ɂȂ�
-* Ruby �̒��g��M�邱�Ƃ��ł���悤�ɂȂ�
+* Ruby のソースコードの構造を知る
+* Ruby のビルドができるようになる
+* Ruby の中身を弄ることができるようになる
 
-## ���W�ۑ�i2���ځj�̃S�[���i�ł���΁j
+## 発展課題（2日目）のゴール（できれば）
 
-* ������������������
-* ���ۂ� Ruby �C���^�v���^�ւ̍v����̌�����
-* �J���R�~���j�e�B�ւ̎Q����̌�����
+* 未解決問題を解決する
+* 実際に Ruby インタプリタへの貢献を体験する
+* 開発コミュニティへの参加を体験する
 
-# �X�P�W���[��
+# スケジュール
 
-## 2017/08/30 (��) �����
+## 2017/08/30 (水) 一日目
 
-* 10:00 �I�[�v�j���O
-* 10:30 �n�b�N�ɕK�v�ƂȂ鎖�O�m���̍u�`
-* 12:00 �����`�i�e���ł���肭�������j
-  * �ׂɎO�z������A�n���ɂ��ٓ����L�x�ł��j
-  * ���X��������������܂�
-* 13:00 ���ʉۑ�
-* 16:00 ���W�ۑ�̏Љ�
+* 10:00 オープニング
+* 10:30 ハックに必要となる事前知識の講義
+* 12:00 ランチ（各自でお取りください）
+  * 隣に三越があり、地下にお弁当等豊富です）
+  * お店もそこそこあります
+* 13:00 共通課題
+* 16:00 発展課題の紹介
 
-## 2017/08/31 (��) �����
+## 2017/08/31 (木) 二日目
 
-* 10:00 ���W�ۑ�̊J�n
-* 11:30 �܂��Ƃ䂫�Ђ뎁�@���ʍu��
-* 12:00 Ruby�J���҂������Ẵ����`
-* 13:00 Ruby�J���҂Ƃ� Q&A �Z�b�V����
-* 14:00 ���W�ۑ�̍ĊJ
-* 18:30 �ł��グ�p�[�e�B�[
-  * �\�Ȃ�A���g�񂾔��W�ۑ���Љ�Ă��������B
+* 10:00 発展課題の開始
+* 11:30 まつもとゆきひろ氏　特別講演
+* 12:00 Ruby開発者を交えてのランチ
+* 13:00 Ruby開発者との Q&A セッション
+* 14:00 発展課題の再開
+* 18:30 打ち上げパーティー
+  * 可能なら、取り組んだ発展課題を紹介してください。
 
-# �R�~���j�P�[�V�������@
+# コミュニケーション方法
 
-* �Q���Ҋ�: https://gitter.im/rubyhackchallenge/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link
-* �L���ҁiRuby�R�~�b�^�j�ɑ��k: https://gitter.im/ruby/ruby
+* 参加者間: https://gitter.im/rubyhackchallenge/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link
+* 有識者（Rubyコミッタ）に相談: https://gitter.im/ruby/ruby
 

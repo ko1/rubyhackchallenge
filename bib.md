@@ -1,4 +1,4 @@
-﻿# MRI Internal bibliography / 参考文献
+# MRI Internal bibliography / 参考文献
 
 ## English
 
