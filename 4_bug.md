@@ -538,7 +538,7 @@ p a.add(b) #=> `add': integer 3000000000 too big to convert to `int' (RangeError
 
 を書くのでした。これをコピペして使いましょう。Markdown にします。
 
-```
+~~~markdown
 # Summary（問題の短いまとめ）
 
 `Integer#+` で意図しない `UnexpectedError` が発生する。
@@ -547,19 +547,19 @@ p a.add(b) #=> `add': integer 3000000000 too big to convert to `int' (RangeError
 
 次のコードで再現します。
 
- ```
- a = 3_000_000_000
- b = 2_000_000_000
- p a+b #=> 5000000000
- p a.add(b) #=> `add': integer 3000000000 too big to convert to `int' (RangeError)
- ```
+```
+a = 3_000_000_000
+b = 2_000_000_000
+p a+b #=> 5000000000
+p a.add(b) #=> `add': integer 3000000000 too big to convert to `int' (RangeError)
+```
 
 実行したのは下記の環境です。
 
- ```
- $ uname -a
- Linux u64 3.13.0-126-generic #175-Ubuntu SMP Thu Jul 20 17:33:56 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
- ```
+```
+$ uname -a
+Linux u64 3.13.0-126-generic #175-Ubuntu SMP Thu Jul 20 17:33:56 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+```
 
 # 期待する挙動
 
@@ -568,7 +568,7 @@ p a.add(b) #=> `add': integer 3000000000 too big to convert to `int' (RangeError
 # 実際に得られた挙動
 
 `p a.add(b) #=> `add': integer 3000000000 too big to convert to `int' (RangeError)` のように、`RangeError` が発生しました。
-```
+~~~
 
 さて、ここまでくれば OK です。「作成」ボタンを押して、チケットを作成しましょう。
 
