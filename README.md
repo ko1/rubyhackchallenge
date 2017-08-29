@@ -2,6 +2,7 @@
 
 * 2017/08/30, 31 @ クックパッド株式会社
 * 募集ページ: https://cookpad.connpass.com/event/60450/
+* hashtag: #cookpad_rhc
 
 # ゴール
 
