@@ -139,29 +139,29 @@ Ruby のソースコードを修正すると、C プログラムなので容易�
         * ... (だいたい、クラス名に対応するファイル名に定義が格納されています）
 * `ruby/*.h`: 内部定義。拡張ライブラリは基本的に使えません
 * `ruby/include/ruby/*`: 外部定義。拡張ライブラリで参照できます
-* `enc/`: エンコーディングのためのソースコードや情報
-* `defs/`: 各種定義
-* `tools/`: MRI をビルド・実行するためのツール
-* `missing/`: いくつかの OS で足りないものの実装
-* `cygwin/`, `nacl/`, `win32`, ...: OS/system 依存のソースコード
+* `ruby/enc/`: エンコーディングのためのソースコードや情報
+* `ruby/defs/`: 各種定義
+* `ruby/tools/`: MRI をビルド・実行するためのツール
+* `ruby/missing/`: いくつかの OS で足りないものの実装
+* `ruby/cygwin/`, `ruby/nacl/`, `ruby/win32`, ...: OS/system 依存のソースコード
 
 ### ライブラリ
 
 ライブラリは 2 種類あります。
 
-* `lib/`: 標準添付のライブラリ（Ruby で記述されたライブラリ）
-* `ext/`: 標準添付の拡張ライブラリ（C で記述されたライブラリ）
+* `ruby/lib/`: 標準添付のライブラリ（Ruby で記述されたライブラリ）
+* `ruby/ext/`: 標準添付の拡張ライブラリ（C で記述されたライブラリ）
 
 ### テスト
 
-* `basictest/`: place of old test
-* `bootstraptest/`: bootstrap test
-* `test/`: tests written by test-unit notation
-* `spec/`: tests written by RSpec notation
+* `ruby/basictest/`: place of old test
+* `ruby/bootstraptest/`: bootstrap test
+* `ruby/test/`: tests written by test-unit notation
+* `ruby/spec/`: tests written by RSpec notation
 
 ### misc
 
-* `doc/`, `man/`: ドキュメント
+* `ruby/doc/`, `ruby/man/`: ドキュメント
 
 ## Ruby のビルドプロセス
 
@@ -190,7 +190,7 @@ Ruby のビルドでは、ソースコードを生成しながらビルドを進
 
 ## 演習：バージョン表記の修正（改造）
 
-では、実際に Ruby を修正していきましょう。ソースコードはすべて `workdir/ruby/' にあると仮定します。
+では、実際に Ruby を修正していきましょう。ソースコードはすべて `workdir/ruby/` にあると仮定します。
 
 まずは、`ruby -v`（もしくは `./miniruby -v`）を実行したときに、自分の Ruby だとわかるように、何か表示を変えてみましょう。
 
