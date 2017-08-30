@@ -324,8 +324,9 @@ MRI を後から機能拡張するための、C 拡張ライブラリは、ほ�
 1. ディレクトリ `array_second/` を作成する。
 2. `array_second/extconf.rb` を作成する
   * `require 'mkmf'` として、mkmf ライブラリを使えるようにする。mkmf ライブラリは、Makefile を生成するためのライブラリで、各種設定（たとえば、OS によって利用するライブラリを変えるなど）を行います。今回は、とくに設定はない。
-  * 設定後（今回はない）、`create_makefile('array_second') と書いておく。
+  * 設定後（今回はない）、`create_makefile('array_second')` と書いておく。
 3. `array_second.c` を作成する
+  * 最初に `#include <ruby/ruby.h>` を記載する。
   * このファイルには、(1) メソッドの実体と、(2) `Array` クラスへの初期化を書いておく。
   * (1) は、上記 `ary_second()` 関数とまったく同じ。
   * (2) は、`Init_array_second()` 関数内で、`rb_define_method()` を利用する。`Init_array_second` という名前は、`create_makefile` で指定した名前から自動的に決まる。
