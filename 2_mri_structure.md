@@ -88,7 +88,7 @@ Ruby のビルドが終わると、ビルドディレクトリ（`workdir/build`
 
 拡張ライブラリを含む「普通の」Rubyを実行したい時は、`make run` の代わりに `make runruby` を使います。`make install` しないで実行できるため、若干早く開発が進められます。
 
-1. `ruby/test.rb` に実行したい Ruby スクリプトを表示する（gem や拡張ライブラリは使えないので注意）。また、Ruby のソースコードを修正する。
+1. `ruby/test.rb` に実行したい Ruby スクリプトを表示する（gem は使えないので注意）。また、Ruby のソースコードを修正する。
 2. ビルドディレクトリ（`workdir/build`）で `$ make runruby` を実行する
 
 ### gdb を用いてデバッグしよう
