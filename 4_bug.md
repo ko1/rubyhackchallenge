@@ -392,6 +392,8 @@ The following code can reproduce this issue:
 
 `test.rb` に `hello(nil)` と記入し、`make gdb` と実行しましょう。
 
+(lldb を用いる場合は、 `make lldb` と実行した後に、 `run` を実行。)
+
 ```
 Program received signal SIGSEGV, Segmentation fault.
 f_hello (self=9904840, name=8) at ../../trunk/io.c:12333
