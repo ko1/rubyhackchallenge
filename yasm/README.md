@@ -1,2 +1,2 @@
-"Cookpad 17 day Tech internship 2017 Œ¾Œêˆ—Œn“ü–å Ruby‚ğƒRƒ“ƒpƒCƒ‹‚µ‚æ‚¤" ‚Å—˜—p‚µ‚½ƒ\[ƒXƒR[ƒhŒQ‚Å‚·B
-‘—¿‚Í https://www.slideshare.net/KoichiSasada/cookpad-17-day-tech-internship-2017-ruby ‚É‚ ‚è‚Ü‚·B
+"Cookpad 17 day Tech internship 2017 è¨€èªå‡¦ç†ç³»å…¥é–€ Rubyã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ã‚ˆã†" ã§åˆ©ç”¨ã—ãŸã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ç¾¤ã§ã™ã€‚
+è³‡æ–™ã¯ https://www.slideshare.net/KoichiSasada/cookpad-17-day-tech-internship-2017-ruby ã«ã‚ã‚Šã¾ã™ã€‚

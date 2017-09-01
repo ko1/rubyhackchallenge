@@ -148,7 +148,7 @@ end
 
 assert iseq, true
 
-# combination: p(efoof.upcase) #=> 'FOO'
+# combination: p(â€˜fooâ€™.upcase) #=> 'FOO'
 iseq = YASM.asm label: 'a = 1; b = 2; c = 3; a + b * c' do
   putself
   putstring 'foo'
