@@ -1,47 +1,67 @@
-# Cookpad Ruby Hack Challenge
+# Cookpad Ruby Hack Challenge #2
 
-* 2017/08/30, 31 @ クックパッド株式会社
-* 募集ページ: https://cookpad.connpass.com/event/60450/
+* 2018/01/29 @ Cookpad Tokyo office
+* Event page: https://cookpad.connpass.com/event/74231/
 * hashtag: #cookpad_rhc
 
-# ゴール
+# About the Cookpad Ruby Hack Challenge
 
-## 共通課題（1日目）のゴール
+Hack the Ruby interpreter at Cookpad!
 
-* Ruby のソースコードの構造を知る
-* Ruby のビルドができるようになる
-* Ruby の中身を弄ることができるようになる
+The Programming language Ruby is widely used on web application development. Of course, programs written in Ruby run on Ruby interpreter.
 
-## 発展課題（2日目）のゴール（できれば）
+Cookpad Ruby Hack Challenge (RHC) is a one-day event where we'll teach you how to extend Ruby features, fix bugs, and to improve performance of Ruby.
 
-* 未解決問題を解決する
-* 実際に Ruby インタプリタへの貢献を体験する
-* 開発コミュニティへの参加を体験する
+The first Ruby Hack Challenge was a great success, but it was offered only in Japanese. This time, the Ruby Hack Challenge will be offered in English (English lecture materials and English announcements) as well as Japanese.
 
-# スケジュール
+Lecture materials: https://github.com/ko1/rubyhackchallenge (currently being translating into English!)
 
-## 2017/08/30 (水) 一日目
+Note that we offer support for English at the event (English lecture materials, announcements and English hacking supports) but we don't restrict our support to English. Japanese language users are also welcome. (in Japanese: イベント自体は英語で行いますが、日本語話者も歓迎します）
 
-* 10:00 オープニング
-* 10:30 ハックに必要となる事前知識の講義
-* 12:00 ランチ（各自でお取りください）
-  * 隣に三越があり、地下にお弁当等豊富です）
-  * お店もそこそこあります
-* 13:00 共通課題
-* 16:00 発展課題の紹介
+One more note: Koichi and another supporter Endoh-san are not native English speakers.
 
-## 2017/08/31 (木) 二日目
+# Details
 
-* 10:00 発展課題の開始
-* 11:30 まつもとゆきひろ氏　特別講演
-* 12:00 Ruby開発者を交えてのランチ
-* 13:00 Ruby開発者との Q&A セッション
-* 14:00 発展課題の再開
-* 18:30 打ち上げパーティー
-  * 可能なら、取り組んだ発展課題を紹介してください。
+This event held over 1 day.
 
-# コミュニケーション方法
+You can choose several options what you want to do.
 
-* 参加者間: https://gitter.im/rubyhackchallenge/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link
-* 有識者（Rubyコミッタ）に相談: https://gitter.im/ruby/ruby
+* (1) Read the lecture materials at the event and try hacks along with texts.
+* (2) Read the lecture materials in advance, and ask us if you have any questions.
+* (3) Read the lecture materials in advance, and try advanced hacking with our support.
+
+Unlike the first RHC, for RHC#2 we don't offer any lessons. We only offer lecture materials and assistants to support attendees.
+
+
+## Requirements
+
+* You can attend the whole day
+* You bring your own laptop which is capable of building Ruby interpreters.
+
+## Goal with lecture materials
+
+* You can understand Ruby's source code structures.
+* You can build the Ruby interpreter.
+* You can modify Ruby interpreter internals.
+
+## Goal with advanced hacks
+
+* You can solve unsolved problems.
+* You can experience contributing to the Ruby interpreter.
+* You can experience participation in the Ruby development community.
+
+# Schedule
+
+## 1/29 (Mon)
+
+* 10:00 Opening
+* 10:30 Hack: start
+* 12:00 Lunch
+* 13:00 Hack: continue
+* 18:00 Closing
+* 18:30 After party / networking
+
+## Communication channel
+
+Feel free to join gitter channel: https://gitter.im/rubyhackchallenge/LobbyEn (English) and https://gitter.im/rubyhackchallenge/Lobby (in Japanese, past RHC attendees are there) 
 
