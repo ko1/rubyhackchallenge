@@ -2,68 +2,68 @@
 
 ## About this document
 
-This document introduces about MRI development cultures. MRI: Matz Ruby Interpreter (a.k.a. ruby command you are using) is OSS: Open Source Software. Development of MRI is started since 1993 (published at Dec. 1995). Because MRI is OSS, everyone can join development. Howeve if you don't know anything about MRI development, it is hard to join. So that this article introduces how we develop MRI.
+This document introduces the development culture of MRI. MRI: Matz's Ruby Interpreter (a.k.a. the ruby command you are using) is OSS: Open Source Software. Development of MRI started in 1993 (published in Dec. 1995). Because MRI is OSS, anyone can join in its development. However if you don't know anything about MRI development, it is hard to join. So, this article introduces how we develop MRI.
 
 This document contains:
 
 * How to develop MRI (development flow and suppoprt tools)
 * How to manage bug tickets
-* How to know MRI internals and how to get community information
+* How to learn about MRI internals and how to get information about the community
 * What kind of unsolved issues are there in MRI.
 
 ## MRI development flow
 
-Ruby is OSS so that people can join.
+Ruby is OSS so that anyone can participate.
 
 "Ruby development" has two meanings:
 
-* Ruby's specification.
-* MRI implementation which is one of Ruby implementation.
+* Ruby's specification
+* the MRI implementation (one of many Ruby implementations)
 
-MRI is the reference implementation of Ruby language, so that approved Ruby features are implemented on MRI. If we fix MRI's bug, it means we change the Ruby's specification (so that we decide bug fix carefully to avoid incompatibility issues). To be exact, there are several features are MRi specific (such as Virtual machine instructions and so on) so that all of MRI's change doesn't mean Ruby's change.
+MRI is the reference implementation of the Ruby language, so that approved Ruby features are implemented on MRI. If we fix a bug in MRI, it means that we also change Ruby's specification. Therefore, when deciding whether to fix bugs, care must be taken to consider loss of compatibility. To be precise, several MRI-specific features exist, such as Virtual machine instructions, so not all changes to MRI result in a change to Ruby's specification.
 
 ### Repository and Ruby committers
 
-Ruby's primary repository is manged by Subversion <https://www.ruby-lang.org/en/documentation/repository-guide/>. Some people can modify this repository and we call then "Ruby committers". Now we have about 80 Ruby committers all over the world (but active members are not so many. If you become a Ruby committer, you can't throw away the title of "Ruby committer").
+Ruby's primary repository uses Subversion for source control <https://www.ruby-lang.org/en/documentation/repository-guide/>. Some people can modify this repository and we call them "Ruby committers". Now we have about 80 Ruby committers all over the world, but the number of active members is much smaller. If you become a Ruby committer, you can't throw away the title of "Ruby committer".
 
-Committers can modify all of source code of MRi. However each committer has area in charge. If someone want to modify other area, he/she may need to ask other committers and respect them. For example, ko1 is a VM developer, so that if someone want to change the VM drastically, I want to be asked before commit it.
+Committers can modify any of the source code of MRI. However, each committer has an area of responsibility. If a committer wants to modify another area, he/she is expected to ask and respect the advice of the responsible committers. For example, ko1 is a VM developer, so that if someone want to change the VM drastically, he wants to be consulted before any changes are committed.
 
-There are no code review system. Sometimes we check committed patches and point out some issues. Sometimes we use `git bisect` (or similar technique) to find out the issue. If we have big change, we ask other committers to review it.s
+There is no formal code review system. We may check committed patches and point out issues that we notice. We use `git bisect` (or similar techniques) to investigate problems (e.g. bug reports). If we have a big change, we ask other committers for a review.
 
-BTW, there is a Git mirror on GitHub <https://github.com/ruby/ruby/>.
+BTW, there is a mirror of the repository on GitHub <https://github.com/ruby/ruby/>.
 
 ## Ticket management
 
-Discussions about specification changes, fixing bugs and so on are (should be) filed in a ticket.
-Any changes about tickets are delivered into mailing list.
-There are ruby-dev mailing list (for Japanese language users) and ruby-core mailing list (for English language users)
-<https://www.ruby-lang.org/en/community/mailing-lists/>。
+Discussions about specification changes, bug fixes, etc., are (or should be) filed in a ticket on [Redmine](https://bugs.ruby-lang.org/issues/).
+Notifications of new tickets and Any changes about tickets are delivered to the Ruby mailing lists.
+There are mailing lists in  English (ruby-core) and Japanese (ruby-dev).
+<https://www.ruby-lang.org/en/community/mailing-lists/>
 
-Most of important issues/proposals are filed in English language.
-There are several tickets written in Japanese. They should be easy and small issues.
+Most important issues/proposals are filed in the English language.
+Tickets written in Japanese are also acceptable for easy and small issues.
 
-Tickets can be devided into two categories. "Feature request" and "Bug repport".
+Tickets can be devided into two categories. "Feature request" and "Bug report".
 
-* Feature requests 
-  * Requests for Ruby language itself.
-  * BTW, bug tracker's URL <https://bugs.ruby-lang.org/projects/ruby-trunk/> contains "bugs" :)
+* Feature requests
+  * Requests for additions or changes to the Ruby language itself.
+  * incidentally, Redmine's URL <https://bugs.ruby-lang.org/projects/ruby-trunk/> contains the word "bugs" :)
 * Bug reports
-  * Strange behaviour, performance issue and so on. All except about specification.
+  * Strange behaviour, performance issues and so on. Everything except for changes to the specification.
 
-When you submit a ticket, then you need to choose description language (English or Japanese). A mailing list is chosen by this specified language (ruby-core or ruby-dev).
+When you submit a ticket, you will be asked to choose a description language (English or Japanese). The forwarded  mailing list is chosen by this specified language (ruby-core or ruby-dev).
 
-Good bug report should contains the following topics:
+Good bug reports should contain the following:
 
 * Summary
 * Reproducible code and environment information to reproduce it (the result of ruby -v, OS, compiler's version and so on)
 * Expected behavior.
-* Actual return value.
-* A patch which solves the issue (if it is possible).
+* Actual behaviour exhibited.
+* A patch which solves the issue (if possible).
 
 For details, please check <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReport> (English)
-or Japanese version <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJ.
+or Japanese version <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJ>.
 
-Good feature request should contains the following topics:
+Good feature request should contains the following:
 
 * Abstract (short summary)
 * Background (What is the issue you want to solve and why. Use-cases)
@@ -72,39 +72,29 @@ Good feature request should contains the following topics:
 * Evaluation
 * Discussion
 * Summary
-If you submit a proposal "Feature request", then you will be asked about "what is your actual use cases?"
-For example, if you proposed that "this feature should be changed because of inconsistency, but I don't use this feature any more", then your proposal will be rejected (fixing inconsistency is not important than compatibility)..
+If you submit a "Feature request", then you will certainly be asked "what are your actual use cases?"
+For example, if you proposed that "this feature should be changed because of inconsistency, but I don't use this feature any more", then your proposal will be rejected (fixing inconsistency is not more important than compatibility).
 
 For further information, please check <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToRequestFeatures>.
 
-Issues or Pull Requests on GitHub will be checked sometimes. In other words, sometimes they are ignored.
-I recommend you to make a new ticket on Redmine and refer to GitHub issues and so on.
-(Or contact to Ruby committers directly)
+Issues or Pull Requests on GitHub are hecked occasionally. In other words, sometimes they are ignored.
+I recommend you to make a new ticket on Redmine and link to your issue or pull request on GitHub.
+Or, you can try to  contact to a Ruby committer directly.
 
 ## CI on MRI
 
-MRI is big and complex software, so that we need a Quality Assurance (QA) by automatic tests. We have about tests in 5,000 files, 450,000 lines.
+MRI is a big and complex piece ofsoftware, so it is necessary to use automated testing for Quality Assurance (QA). We have about 450,000 lines of tests across some 5,000 files.
 
-We also need to prepare variety of environments we can run tests. For example, Linux, Mac OSX, Windows are popular OSs.
-Also we have *BSD, Solaris and so on. Usually we use Intel x86/64 CPU or ARM processors, but there are other processors.
-Ruby defines supported platforms: <https://bugs.ruby-lang.org/projects/ruby-trunk/wiki/SupportedPlatforms>
+We also need to prepare a variety of environments to run our tests. For example, well-known OSes such as Linux, Mac OSX, Windows, as well as lesser known OSes \*BSD, Solaris and so on. Usually we use Intel x86/64 CPU or ARM processors, but there are other processors that we try to test on.
+The list of Ruby's supported platforms can be found at: <https://bugs.ruby-lang.org/projects/ruby-trunk/wiki/SupportedPlatforms>
 
-Like this, MRI is used on many enviroments, it is preferable to run tests on variety of environments.
-Now a day, it is general to use CI framework for automatic tests. We have prepared CI environments.
+Because MRI is used on many enviroments, it is preferable to run tests on as wide a variety of environments as possible. It's common practice to use Continuous Integration (CI) to run automated tests. Ruby is no exception.
 
-We use popular Travis-CI service. We also prepare <http://rubyci.org> site to collect test results on variety of environments.
-Usually, a CI system uses own computing resources. However we don't have so many computers.
-Instead of preparing all kind of computers, we gather test results on people's computers.
-A software "Chkbuild" achieves this kind of collection.
-Chkbuild can output with diff style so that we can know difference between the last test result and the current test resullt.
+In addition to using the popular Travis-CI service, we also run the <http://rubyci.org> site to collect test results run on a wider variety of environments. Typically, a CI system uses its own computing resources. However, our resources are limited. So, instead of preparing and managing the computers for the multitude of environments we need, we gathers the results from tests run by volunteers in the community who run tests on their own computing resources. The tool [chkbuild](https://github.com/ruby/chkbuild) builds Ruby, runs tests, generates results, and performs a diff on the output so that we can determine which versions of Ruby have particular bugs.
 
+`chkbuild` is good test/CI framework but, for various reasons (for example, chkbuild downloads source code each time) it can be quite slow(typically tens of minutes). To overcome this limitation, we use another CI system <http://ci.rvm.jp/> that can reuse previous builds, and can build/test in parallel, reducing the time required for testing to the order of 2-3 minutes. This allows us to run our tests hundreds of times every day, which can be helpful for revealing hard-to-reproduce bugs (e.g. timing bugs).
 
-"chkbuild" is good test/CI framework but it has several issues (for example, chkbuild downloads source code each time) and execution time becomes longer (?0 mins).
-So we prepare another CI system <http://ci.rvm.jp/> and run many tests with some techniques: Don't remove last build results and reuse them if it is possible, use parallel builds and tests and so on.
-Sometimes repeating tests can reveal timing bugs sometimes.
-
-Ruby committers should run tests on their own machines.
-If a Ruby committer introduce a bug, at first, <http://ci.rvm.jp/> show alerts.
+Ruby committers are expected to run tests on their own machines. If a Ruby committer accidentally adds a commit that doesn't pass the tests, the error should be detected on <http://ci.rvm.jp/> and hopefully committers will be alerted.
 
 ## Unresolved issues on MRI
 
@@ -122,7 +112,7 @@ Ruby / MRI has many unresolved issues. The following issues are examples of them
 * Documentation
 * Bug fixes
 
-The following issues are internal problems I want to fix:
+The following issues are internal problems I (ko1)  want to fix:
 
 * Improve performance and quality of bytecode serializer.
 * Improve method dispatch mechanism.
@@ -134,11 +124,11 @@ The following issues are internal problems I want to fix:
 
 ### How to hack MRI internals
 
-Please check (../bib.md).
+Please refer to the [Bibliography](../bib.md).
 
-If you want to hack MRI deeply, you need to know C language.
+If you want to hack deeply into MRI, you need to know the C language.
 
-### Communication channlel
+### Communication channels
 
 * Ruby's redmine: https://bugs.ruby-lang.org/projects/ruby/
     * Ticket
@@ -162,7 +152,7 @@ If you want to hack MRI deeply, you need to know C language.
 
 ## Important note
 
-This article introduces several rules. However, we interpreter developers make a point of "Hacking".
-If you contribute a great patch, we will support your contribution if you don't satisfy the above rules.
+This article introduces several rather pendantic "rules". However, what we interpreter developers value the most is "Hacking".
+If you contribute a great patch, we will support your contribution, even if you don't strictly abide by the above rules.
 
-Wirte a code with fun.
+Write code, and have fun!
