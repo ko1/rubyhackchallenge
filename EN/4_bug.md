@@ -1,15 +1,15 @@
-# Modify bugs
+# Fix bugs
 
 ## About this document
 
-Most of modification on MRI is bug fixes.
-This document describe how to fix bugs with imaginary bug reports.
+Most of the modifications on MRI are bug fixes.
+This document describes how to fix bugs with imaginary bug reports.
 
 ## `Kernel#hello(name)` (check bugs reported by others)
 
 ### `Kernel#hello(name)`: Implementation
 
-Let's review how to add a method to MRI. Try to add `hello` method, a function like method.
+Let's review how to add a method to MRI. Try to add `hello` method, a function-like method.
 Like `p` method, define `hello` in `Kernel` module and make it private.
 
 This method prints "Hello #{name}\n".
@@ -25,7 +25,7 @@ hello 'ko1' #=> output "Hello ko1"
 ```
 
 Let's rewrite it in C.
-You can use `rb_define_global_function()` to define `Kernel#hello` as private method.
+You can use `rb_define_global_function()` to define `Kernel#hello` as a private method.
 
 ```diff
 Index: io.c
@@ -64,10 +64,10 @@ Write a sample code in `test.rb` and run `$ make run`. Could you check it? Maybe
 
 ### Bug report
 
-Let's consider that new Ruby (such as Ruby 2.6.0) is released with `hello()` method. Many Ruby users love `hello()` method and this method is used so much times. You got a reputation by writing this method. Congratulations!
+Let's consider that a new Ruby (such as Ruby 2.6.0) is released with `hello()` method. Many Ruby users love `hello()` method and this method is used so much times. You got a reputation by writing this method. Congratulations!
 
-But many users use it, issues are also reported.
-Redmine ticket are filed.
+But as many users use it, issues are also reported.
+A ticket are filed into Redmine.
 
 
 ```
@@ -191,36 +191,36 @@ This bug report lacks the following points:
 * Reproducible code
 * Execution environment
 
-But you can see `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` in attached log file so that you can understand this script cause SEGV bug on Linux environment and using Ruby 2.5.0dev (development version of MRI).
+But you found `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` in an attached log file, so you guessed that this script caused SEGV bug on Linux environment and using Ruby 2.5.0dev (development version of MRI).
 
-Reproducible code is very important so you ask the repro-code.
+A reproducible code is very important so you ask the repro-code.
 
-(In fact, this attached log files contain enough information to solve, but assume we can't understand)
+(In fact, this attached log files contain enough information to solve, but assume that we can't understand)
 
 ```
-Please send us your reproducible code. Small code is awesome.
+Please send us your reproducible code. A small code is awesome.
 ```
 
-It is difficult to make reproducible code and send it when we got an error with production rails application, for example.
-Also it is difficult to find out non-deterministic bugs (errors in sometimes, somewheres).
+It is difficult to make a reproducible code and send it when we got an error with production rails application, for example.
+Also it is difficult to find out non-deterministic bugs (errors that occur occasionally, somewheres).
 
 Let's assume that this error is in big production application, and reporter said "Sorry we can't make such repro".
 
 It's a time to start debugging with a log file.
 
-### How to see `[BUG]` log file?
+### How to see `[BUG]` log file
 
-`[BUG]` is displayed when MRI has critical errors. Basically, it should be MRI's bug.
+`[BUG]` is displayed when MRI has encounterd critical errors. Basically, it should be MRI's bug.
 
 ```
 ../../trunk/test.rb:2: [BUG] Segmentation fault at 0x0000000000000008
 ```
 
-At the beginning of the log, this line says that there is a critical error at `../../trunk/test.rb:2` line.
-Second, `Segmentation fault at 0x0000000000000008` shows the reason of `[BUG]`. In this case, Segmentation fault occurs by reading or writing at address 0x0000000000000008.
-Generally, it should be a bug caused by reading or writing at reading/writing prohibitted memory area. You can see this error with bug containing C programs.
+At the beginning of the log, this line says that a critical error occurred at `../../trunk/test.rb:2` line.
+Second, `Segmentation fault at 0x0000000000000008` shows the reason of `[BUG]`. In this case, segmentation fault occurred by reading or writing at address 0x0000000000000008.
+Generally, it should be a bug caused by reading or writing at access-prohibited memory area. You can see this error with buggy C programs.
 
-Next line `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` shows the version description which we can see with `ruby -v`.
+The next line `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` shows the version description which we can see with `ruby -v`.
 
 ```
 -- Control frame information -----------------------------------------------
@@ -231,13 +231,13 @@ c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
 
 This block shows "Control frame information", Ruby VM's frame information.
 These lines are strongly connected with VM implementation.
-Each lines contain the following information:
+Each line contains the following information:
 
 * `c`: Frame number (cf index)
 * `p`: Program counter
 * `s`: Stack pointer (depth)
 * `e`: Environment pointer (ep) which points an area of local variables.
-* Frame type. `EVAL` means a frame pushed by `eval`. `CFUNC` means a frame pushed by C implemented method.
+* Frame type. `EVAL` means a frame pushed by `eval`. `CFUNC` means a frame pushed by a method that is implemented in C.
 * Frame location. File path and line number for Ruby level frame. Method name for CFUNC.
 
 "Frame location" is similar to backtrace information.
@@ -248,7 +248,7 @@ Each lines contain the following information:
 ../../trunk/test.rb:2:in `hello'
 ```
 
-This block shows "Ruby level backtrace information", Normal Ruby level backtrace information.
+This block shows "Ruby level backtrace information", normal Ruby level backtrace information.
 
 ```
 -- Machine register context ------------------------------------------------
@@ -359,11 +359,11 @@ Maybe this block only on Linux. OS managed process memory map. Same as `/proc/se
 ----
 
 At first, we need to see backtrace information.
-"Control frame information" shows that error is at `hello` method.
+"Control frame information" shows that an error is at `hello` method.
 
 Check the `hello` implementation again.
 
-NOTE: It is easy bug which we can find out on backtrace. Difficult bug doesn't appear on backtrace information. For example, break data by a bug and expose a problem when we read its data. This case, we can't find which line break the data.
+NOTE: It is an easy bug which we can find out on backtrace. A difficult bug doesn't appear on backtrace information. For example, a bug sometimes breaks data, and then a problem occurs when we read the data. This case, we can't find which line broke the data.
 
 ### Revisit `f_hello()`
 
@@ -381,7 +381,7 @@ f_hello(VALUE self, VALUE name)
 
 Let's gaze this code. We use `RSTRING_PTR()` for a parameter `name`.
 The macro `RSTRING_PTR()` is valid only for String objects (`T_STRING` typed objects) and MRI doesn't guarantee other type of objects. Maybe it will cause a critical bug.
-Okay. We may find out the issue.
+Okay. Parhaps we could find out the issue.
 
 To verify the hypothesis, try `hello(nil)`. We will have similar `[BUG]` outputs.
 Let's add this repro-code to the ticket.
@@ -392,7 +392,7 @@ The following code can reproduce this issue:
   hello(nil)
 ```
 
-Such small repro-code helps other people. You can ask someone to fix the issue.
+Such a small repro-code helps other people. You can ask someone to fix the issue.
 In this case, however, let's make a patch for this issue.
 
 ### Debugging with gdb
@@ -425,14 +425,14 @@ nil
 Stopping place by SEGV is `io.c:12333` and the line is `const char *name_ptr = RSTRING_PTR(name);`.
 The hypothesis "`RSTRING_PTR()` is an issue" seems correct.
 
-To soleve this problem, we need to check `name` is a `String` instance.
-What should happen on type error? We can raise a type mismatch error.
+To solve this problem, we need to check if `name` is a `String` instance.
+What should happen on a type error? We can raise a type mismatch error.
 But Ruby has a convention that if an object responds to `to_str`, then we call `to_str` and get converting String object. We want to support this feature.
 But (continue...) if a result of `to_str` is not a String instance? It is okay to raise an exception.
 
 For convinience, MRI has a macro `StringValueCStr()` to do everything we want to do.
 When you want to get a C string buffer pointer, use `StringValueCStr()`.
-This macro calls `to_str` if needed and return a C string pointer.
+This macro calls `to_str` if needed and returns a C string pointer.
 If there is a problem, then raise an error.
 
 Let's use this macro.
@@ -461,14 +461,14 @@ Traceback (most recent call last):
 [Inferior 1 (process 17710) exited with code 01]
 ```
 
-At first, compiling modified `io.c` again and generate fixed `miniruby`.
+At first, compiling the modified `io.c` again and generate a fixed `miniruby`.
 Next, run `test.rb` on gdb.
 
-The execution results shows that `TypeError` is raised because there are no `nil.to_str`.
-Exception is raised on Ruby level, and no SEGV. OK. gdb is terminated automatically.
+The execution result shows that a `TypeError` is raised because there are no `nil.to_str`.
+The exception is raised on Ruby level, and no SEGV. OK. gdb is terminated automatically.
 
-We can fix the problem, so report the modification for the `f_hello()` function.
-The are several way to report the modification.
+We could fix the problem, so report the modification for the `f_hello()` function.
+The are several ways to report the modification.
 
 * Add a comment on Redmine.
 * Make a pull request on GitHub and comment this URL on redmine ticket.
@@ -478,11 +478,11 @@ The are several way to report the modification.
 #### If we are ignored...
 
 Even if we propose a patch, a bug is not fixed until a ruby committer commits it.
-Most of case, fast worker (nobu and others) committers commits bug fixes.
+Most of cases, fast worker (nobu and others) committers will commit bug fixes.
 But it is possible to postpone accepting the patch.
 
 * Low priority: if committers think "nobody use `hello()` method", it can be thought as troublesome and postponed.
-* Busy: nobody has duty to keep quality assurance, so if people are busy, it can be postponed.
+* Busy: nobody has a duty to keep quality assurance, so if people are busy, it can be postponed.
 * Modification is not mature: another committer should fix the patch. If the committer who has a charge is busy, it can be postponed.
 * Unable to reproduce the problem: if there is no repro-code or repro-code doesn't work well, it can be postponed.
 
@@ -493,7 +493,7 @@ You can ask at Ruby developers meeting (monthly). Visit https://bugs.ruby-lang.o
 
 #### Backport
 
-When latet development version (such as ruby 2.6.0dev) accepts the patch, we also want to apply the fix to older stable version such as Ruby 2.5 or Ruby 2.4.
+When the latest development version (such as ruby 2.6.0dev) accepts the patch, we also want to apply the fix to older stable versions such as Ruby 2.5 or Ruby 2.4.
 
 If you want to backport the issues, ask backporting at the ticket comment.
 
@@ -501,8 +501,8 @@ Stable version branch maintainers manage ticket's "Backport" field. Tickets will
 
 ## `Integer#add(n)` (when you find a bug)
 
-Previous chapter, we implemented `Integer#add(n)` method and I wrote that there is a problem on that implementaiton.
-Let's assume we release a new Ruby version with this prbolem (in fact, there are such accidents frequently).
+In the previous chapter, we implemented `Integer#add(n)` method and I wrote that there is a problem on that implementaiton.
+Let's assume we release a new Ruby version with this problem (in fact, there are such accidents frequently).
 
 You think `Integer#add` is cooler than `Integer#+` and use it many times. And you got an unexpected exception.
 
@@ -618,7 +618,7 @@ end
 p point_value
 ```
 
-`trial` method tries with a values from `low` to `high` and checks the return value. It find out the timing where return value is changed from false -> true.
+`trial` method tries with values from `low` to `high` and checks the return value. It finds out the timing where return value is changed from false -> true.
 Make a block which returns false if `Integer#add()` does not raise an exception and returns true if `Integer#add()` cause exception.
 Let's call `trial` method with this block and check the boundary.
 
@@ -665,17 +665,17 @@ With my observation,
 * There is exception if a is 2_147_483_648 or bigger
 ```
 
-A Ruby committer see the this report and the person can understand the problem immediately. The person fixed the issue. Congratulation!
+A Ruby committer read the this report and could understand the problem immediately. The person fixed the issue. Congratulations!
 
 ### Answer checking
 
 Some of you can understand with the number 2,147,483,648, it is equal to 2^31. There is no problem if a < 2^31.
 
-Original error message was `integer 3000000000 too big to convert to `int' (RangeError)`.
-Converting fails because the value exceeds the maximum number of C's integer value.
+The original error message was `integer 3000000000 too big to convert to `int' (RangeError)`.
+The convertion fails because the value exceeds the maximum number of C's integer value.
 On this environment, the range of C's integer value is -2^31 ～ 2^31-1, so the value 2^31 exceeds the range.
 
-Let's check original implementation.
+Let's check the original implementation.
 
 ```
 static VALUE
@@ -717,7 +717,7 @@ int_add(VALUE self, VALUE n)
 
 And we can fix this problem. Yay.
 
-Ruby can represent huge numbers if memory is available. However, C or other languages have a limitation for integer representation.
+Ruby can represent huge numbers as long as memory is available. However, C or other languages have a limitation for integer representation.
 It is important that we need to recognize such limitation (it is not only for Ruby).
 
 ## Debugging tips
@@ -730,5 +730,5 @@ You should use version management system (git and so on) so it is easy to restor
 There are non-deterministic bugs related to GC bugs, threading bugs, VM bugs and so on (Koichi got such errors frequently).
 
 MRI has many assertions to check assumptions. Usually we disable such assertion checking because of performance. But you can use it to debug.
-Set `RGENGC_CHECK_MODE` in `gc.c` to 2, set `VM_CHECK_MODE` in `vm_core.h` to 1 will enable this feature.
-If you want to pass these options to c compiler, pass `-DRGENGC_CHECK_MODE=2 -DVM_CHECK_MODE=1` options as cflags (and you need to run `make clean` before this trial).
+Setting `RGENGC_CHECK_MODE` in `gc.c` to 2, and `VM_CHECK_MODE` in `vm_core.h` to 1, will enable this feature.
+If you want to pass these options to C compiler, pass `-DRGENGC_CHECK_MODE=2 -DVM_CHECK_MODE=1` options as cflags (and you need to run `make clean` before this trial).
