@@ -2,14 +2,14 @@
 
 ## About this document
 
-Let's add methods into MRI. This document shows how to add methods by step by step. Write codes by yourself.
+Let's add some new methods into MRI. This document shows how to add a method by step by step. Write codes by yourself.
 
 ## `Array#second`
 
 Let's add `Array#second` method. `Array#first` returns first element of  an Array.
 `Array#second` returns a second element of an Array.
 
-Definision in Ruby is here:
+Here is a definition in Ruby:
 
 ```ruby
 # specification written in Ruby
@@ -25,9 +25,9 @@ Steps:
 1. Open `array.c`.
 2. Add a `ary_second()` function definition into `array.c`. Just before `Init_array()` should be good place to add.
 3. Add a line `rb_define_method(rb_cArray, "second", ary_second, 0)` in `Init_array()` function.
-4. Build and write a sample code in `ruby/test.rb` and run with `make run`.
-5. Add a test in `ruby/test/ruby/test_array.rb`. These tests are written by minitest format.
-6. `$ make test-all` will run write code. However it runs all tremendous number of ruby tests so that let's limit to run only Array related tests.
+4. Build it, write a sample code in `ruby/test.rb` and run with `make run`.
+5. Add a test in `ruby/test/ruby/test_array.rb`. These tests are written in minitest format.
+6. `$ make test-all` will run write code. However it runs all tremendous number of ruby tests, so you may want to run only Array related tests.
   * `$ make test-all TESTS='ruby/test_array.rb'` and test only `ruby/test/ruby/test_array.rb`.
   * `$ make test-all TESTS='-j8'` and run in parallel with 8 processes.
 7. Add a rdoc documentation of `Array#second` by checking other documents.
@@ -66,20 +66,20 @@ index bd24216af3..79c1c1d334 100644
 
 Explanations:
 
-* `ary_second()` is an implementation.
-* `VALUE` represents a type of Ruby objects in C and `self` is receiver (`ary` where `ary.second`). All Ruby methods return a Ruby object, so that type of return value should be `VALUE`.
-* `rb_ary_entry(self, n)` does same thing `self[n]` in Ruby and `rb_ary_entry(self, 1)` returns second element (note: 0 origin).
-* The function `Init_Array` invoked at interpreter setting up time.
+* `ary_second()` is an implementation of the method.
+* `VALUE` represents a type of Ruby objects in C and `self` is the receiver (`ary` where `ary.second`). All Ruby methods return a Ruby object, so the type of return value should be `VALUE`.
+* `rb_ary_entry(self, n)` does the same thing `self[n]` in Ruby and `rb_ary_entry(self, 1)` returns the second element (note: C uses 0-based index).
+* The function `Init_Array` is invoked at interpreter at the setting up time.
 * `rb_define_method(rb_cArray, "second", ary_second, 0);` defines `second` method in `Array` class.
-  * `rb_cArray` points the `Array` class object. `rb_` prefix means Ruby related stuff and `c` represents "Class". So that we can see `rb_cArray` is Ruby's Array class object. Btw module object prefix is `m` (such as `rb_mEnumerable` == `Enumerable` module object) and error classes use `e` prefix (such as `rb_eArgError` == `ArgumentError` object).
+  * `rb_cArray` points the `Array` class object. `rb_` prefix means Ruby related stuff and `c` represents "Class". So we can see `rb_cArray` is Ruby's Array class object. BTW, a module object prefix is `m` (such as `rb_mEnumerable` == `Enumerable` module object) and error classes use `e` prefix (such as `rb_eArgError` == `ArgumentError` object).
   * `rb_define_method` defines instance methods.
-  * This line menas "define `Array#second` method. If the `Array#second` is called, then call `ary_second` C function. This method accepts 0 arguments".
+  * This line means "define `Array#second` method. If the `Array#second` is called, then call `ary_second` C function. This method accepts 0 arguments".
 
 ## `String#palindrome?`
 
-Let's define palindrome checking method `String#palindrome?`.
+Let's define a method `String#palindrome?` that checks if the string is a palindrome or not.
 
-The following code is sample definition of `String#palindrome?` with several tests.
+The following code is a sample definition of `String#palindrome?` with several tests.
 
 
 ```ruby
@@ -109,7 +109,7 @@ end
 ```
 
 Translate the above Ruby code into C code.
-Please remembjer the steps of `Array#second` and implement this method into MRI.
+Please remember the steps of `Array#second` and implement this method into MRI.
 
 ```diff
 diff --git a/string.c b/string.c
@@ -150,11 +150,11 @@ Explanations:
 
 * `rb_reg_regcomp(pat)` compiles `pat` C string into a RegExp object.
 * `rb_str_new_cstr("")` generates an empty Ruby string.
-* `str_gsub()` does replacement same as `String#gsub`.
-* `rb_str_downcase()` does replacement same as `String#downcase`.
-* `rb_str_empty()` does checking same as `String#empty?`.
-* `rb_str_reverse()` does reordering same as `String#reverse`.
-* `rb_str_equal()` does comparison same as `String#==`.
+* `str_gsub()` does the same replacement as `String#gsub`.
+* `rb_str_downcase()` does the same replacement as `String#downcase`.
+* `rb_str_empty()` does the same checking as `String#empty?`.
+* `rb_str_reverse()` does the same reordering as `String#reverse`.
+* `rb_str_equal()` does the same comparison as `String#==`.
 
 Maybe you can understand corresponding Ruby code and C code.
 
@@ -204,7 +204,7 @@ Index: numeric.c
  #endif
 ```
 
-This method should accept 1 argument so that the last argument of `rb_define_method()` is `1` and the definition of `int_add()` accepts one parameter with `VALUE n`.
+This method should accept 1 argument, so the last argument of `rb_define_method()` is `1` and the definition of `int_add()` accepts one parameter with `VALUE n`.
 
 Actual addition is executed in `rb_int_plus()` so we don't see any complex code.
 
@@ -242,8 +242,8 @@ Index: numeric.c
   *
 ```
 
-`FIXNUM_P(self) && FIXNUM_P(n)` checks `self` and `n` are `Fixnum`.
-If they are `Fixnum`, they can be converted into C `int` values so that this method returns calculated value with converted integer values.
+`FIXNUM_P(self) && FIXNUM_P(n)` checks if `self` and `n` are `Fixnum`.
+If they are `Fixnum`, they can be converted into C `int` values so this method returns calculated value with converted integer values.
 Calculated value is converted from C integer value into Ruby's Integer value with `FIX2NUM()`.
 
 Note: This definition has a bug. See next document.
@@ -252,7 +252,7 @@ Note: This definition has a bug. See next document.
 
 Add a method into Time class which returns `n` days ago (default value of `n` is 1).
 
-Example definition in Ruby is here. It returns reduced time with seconds of 24 hours * `n`.
+Here is an example definition in Ruby. It returns reduced time with seconds of 24 hours * `n`.
 To be exact, it will be wrong time (because of complex time calculation, such as leap seconds). But we don't care such details because it is an example.
 
 ```ruby
@@ -267,7 +267,7 @@ p Time.now.day_before    #=> 2017-08-23 14:48:44 +0900
 p Time.now.day_before(3) #=> 2017-08-21 14:48:44 +0900
 ```
 
-A definition written in C is here:
+Here is a definition written in C:
 
 ```diff
 Index: time.c
@@ -310,20 +310,20 @@ Index: time.c
 
 Explanations:
 
-* To accept optioanl arguments (0 or 1 arguments), specify `-1` at the last argument of `rb_define_method()`. It means this function accept any number of argumets.
+* To accept optional arguments (0 or 1 arguments), specify `-1` at the last argument of `rb_define_method()`. It means this function accepts any number of arguments.
 * The function `time_day_before(int argc, VALUE *argv, VALUE self)` defines the method. `argc` is a number of given arguments and `argv` is a pointer to a C array of `VALUE` sized `argc`.
-* Checking arguments with `rb_scan_args()`. `"01"` means the number of required parameters is 0 and optional parameters is 1. So that it means this method accepts 0 or 1 parameters. If 1 parameter is passed, then `nth` points given parameter, and if there are no arguments, then `nth` points `Qnil` (C representation of Ruby's `nil`).
+* Checking arguments with `rb_scan_args()`. `"01"` means the number of required parameters is 0 and optional parameters is 1. So it means this method accepts 0 or 1 parameters. If 1 parameter is passed, then `nth` points given parameter, and if there are no arguments, then `nth` points `Qnil` (C representation of Ruby's `nil`).
 * To call Ruby's method `Time.at()`, `rb_funcall(recv, mid, argc, ...)` is used.
-  * First argument is a receiver (`recv` in `recv.mid(...)`). A receiver of `Time.at` is `Time`.
-  * Method name should be `ID` for `rb_funcall`. To generate `ID` in C, we can use `rb_intern("...")`. `ID` is unique value for a C string in a Ruby process. Ruby's symbol and Java's intern'ed strign.
+  * The first argument is a receiver (`recv` in `recv.mid(...)`). A receiver of `Time.at` is `Time`.
+  * Method name should be `ID` for `rb_funcall`. To generate `ID` in C, we can use `rb_intern("...")`. `ID` is a unique value for a C string in a Ruby process. Ruby's symbol and Java's intern'ed string.
   * We want to call `Time.at` with 1 argument, so we specify `1` and pass actual one argument `INT2NUM(day_before_sec)`.
 
-This implementation has several problems. Let's compare with a Ruby's implementation.
+This implementation has several problems. Let's compare it with a Ruby's implementation.
 
 ## Extension libraries
 
-C extension libraries can extend MRI's feature after building MRi.
-We can make C extension libraries with same process with MRI internal hack.
+C extension libraries can extend MRI's feature after building MRI.
+We can make C extension libraries with the same process with MRI internal hack.
 
 For example, let's make an extension library to add `Array#second` method instead of modifying MRI itself.
 
@@ -331,20 +331,20 @@ Steps to make `.so` file (extension libarary):
 
 1. Make a directory `array_second/`.
 2. Make a file `array_second/extconf.rb`.
-  * Write `require 'mkmf'` to enable mkmf library. mkmf libary enables to make Makefile. We can add configurations with this library. This case we don't need any configurations.
+  * Write `require 'mkmf'` to enable mkmf library. We can use mkmf to make Makefile. We can add configurations with this library. This case we don't need any configurations.
   * After adding configuration (in this case, we can omit configurations), call `create_makefile('array_second')`. This method creates a Makefile.
 3. Make a file `array_second.c`.
   * At first, write `#include <ruby/ruby.h>` to enable MRI C-API.
-  * This file should contains (1) method body and (2) method adding code into `Array`.
-  * (1) is same as `ary_second()` written above.
-  * (2) should be `Init_array_second()` function which calls `rb_define_method()`. The name `Init_array_second` should be same as a parameter of `create_makefile` method in `extconf.rb`.
+  * This file should contain (1) method body and (2) code that adds the method into `Array`.
+  * (1) is the same as `ary_second()` written above.
+  * (2) should be `Init_array_second()` function which calls `rb_define_method()`. The name `Init_array_second` should be the same as a parameter of `create_makefile` method in `extconf.rb`.
 4. `$ ruby extconf.rb` and generate Makefile.
 5. `$ make` and build `array_second.so`. You will be able to `require` this file. Example: `$ ruby -r ./array_second -e 'p [1, 2].second'` will show `2`.
 6. `$ make install` installs .so file into install directory.
 
 You can see `array_second` directory in this repository.
 
-Except `extconf.rb` and install steps, the definitions of Ruby's embedded methods/classes are same.
+Except `extconf.rb` and install steps, the definitions of Ruby's embedded methods/classes are the same.
 
 To distribute extension libraries, you need to package with files made in step 2 and 3. But gem package is more useful for users.
 
@@ -359,22 +359,22 @@ When you write a Ruby program, you may use `p(obj)` to check the `obj`. In C, yo
 If you can use gdb, break points will help you.
 `#include "vm_debug.h"` enables you to use `bp()` macro and it becomes a break point. `make gdb` will stop on this macro, similar to `binding.pry` or `binding.irb`.
 
-gdb allow you to use `p expr` to show the value of `expr` (for example, you can see a value of a variable `foo` with `p foo`). The type `VALUE` is integer value so that it is difficult to understand what kind of Object and what data represents by. Special command `rp` for gdb (defined in `ruby/.gdbinit`) is provided. It shows human readable representations for VALUE type data.
+gdb allows you to use `p expr` to show the value of `expr` (for example, you can see a value of a variable `foo` with `p foo`). The type `VALUE` is just an integer value in C, so it is difficult to understand what kind of Object it is and what data it represents. Special command `rp` for gdb (defined in `ruby/.gdbinit`) is provided. It shows human readable representations for VALUE-type data.
 
-## Advanced Exercise
+## Advanced Exercises
 
 Let's solve the following challenges. `grep` will help you to find out similar source code in MRI.
 
 * Implement `Integer#sub(n)` which returns subtract value.
 * `Array#second` returns `nil` if there is no second element. This is because `rb_ary_entry()` returns `nil` when the specified index exceeds the size of an array. So let's raise an exception when there is no second element. Use `rb_raise()` function to raise an error.
-* `String#palindrome?` is an inefficient implementation. Point out which part is inefficient and how to soleve it. Also improve the performance by solving issues.
-* `Time#day_before` is strange name. Think good method name.
+* `String#palindrome?` is an inefficient implementation. Point out which part is inefficient and how to solve it. Also improve the performance by solving issues.
+* `Time#day_before` is a strange name. Think a better method name.
 * Let's play a trick on MRI. For example, change the return value of `Integer#+` as subtracted value. This hack will break your ruby build steps so make a new git branch.
-* Let's add your favorite methods by yoru imagination.
+* Let's add your favorite methods by your imagination.
 
 These topics are discussed in next chapter, but try to think about them:
 
-* I described that `Integer#add(n)` has a bug.
-  * Write a test whcih fails with this bug.
+* I described that `Integer#add(n)` had a bug.
+  * Write a test which fails with this bug.
   * Solve an issue and check passing a test.
-* What is a problem on `Time#day_before`? Same problem is in `Integer#add(n)`.
+* What is a problem on `Time#day_before`? There is the same problem in `Integer#add(n)`.
