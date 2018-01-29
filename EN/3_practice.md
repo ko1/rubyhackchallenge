@@ -150,6 +150,7 @@ index c140148778..0f170bd20b 100644
 
 Explanation:
 
+* The suffix `_p` indicates a predicate method that returns true or false.
 * `rb_reg_regcomp(pat)` compiles the `pat` C string into a RegExp object.
 * `rb_str_new_cstr("")` generates an empty Ruby string.
 * `str_gsub()` does the same replacement as `String#gsub`.
