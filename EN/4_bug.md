@@ -1,11 +1,11 @@
-# (4) Fix bugs
+# (4) Fixing bugs
 
 ## About this document
 
-Most of the modifications on MRI are bug fixes.
-This document describes how to fix bugs with imaginary bug reports.
+Most of the modifications made to MRI are bug fixes.
+This document describes how to fix bugs with a few imaginary bug reports.
 
-## `Kernel#hello(name)` (check bugs reported by others)
+## `Kernel#hello(name)` (Scenario: review bugs reported by others)
 
 ### `Kernel#hello(name)`: Implementation
 
@@ -499,7 +499,7 @@ If you want to backport the issues, ask backporting at the ticket comment.
 
 Stable version branch maintainers manage ticket's "Backport" field. Tickets will be closed when dev version accepts the fix. Branch maintainers checks closed tickets and find out backport fixes, so please remain the status of ticket as "Close". If there are no problems, then the fixes are merged at next release timing.
 
-## `Integer#add(n)` (when you find a bug)
+## `Integer#add(n)` (Scenario: when you discover a bug)
 
 In the previous chapter, we implemented `Integer#add(n)` method and I wrote that there is a problem on that implementaiton.
 Let's assume we release a new Ruby version with this problem (in fact, there are such accidents frequently).
