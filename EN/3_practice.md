@@ -1,4 +1,4 @@
-# 3. Exercise: Add methods
+# (3) Exercise: Add methods
 
 ## About this document
 
