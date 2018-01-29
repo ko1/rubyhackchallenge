@@ -499,9 +499,9 @@ Maintainers of stable version branches manage backports using Redmine's "Backpor
 ## `Integer#add(n)` (Scenario: when you discover a bug)
 
 In the previous chapter, we implemented `Integer#add(n)` method and I wrote that there is a problem on that implementaiton.
-Let's assume we release a new Ruby version with this problem (in fact, there are such accidents frequently).
+Let's assume we release a new Ruby version with this problem (in fact, such accidents are common).
 
-You think `Integer#add` is cooler than `Integer#+` and use it many times. And you got an unexpected exception.
+You feel that `Integer#add` is way cooler than `Integer#+`, so you use it a lot in your code. One day, however, you encounter an unexpected exception.
 
 ```
 a = 3_000_000_000
@@ -518,21 +518,21 @@ You already know:
 * What happens (we got `RangeError`)
 * Repro-code (4 lines)
 
-So it is enough to report a bug. Let's make a bug report ticket.
+This is enough information to report a bug. Let's write a bug report.
 
-Before submitting your bug report, check same report. You can use redmine search, with the words `Integer#+` or `RangeError` for example.
+Before submitting your bug report, check for reports of similar problems. You can use redmine search to do this. In this case, we can use the keywords `Integer#+` or `RangeError` for example.
 
-After checking the duplication, we can't find any similar report. This is a time to create a ticket!
+After checking for duplication, we can't find any similar reports. It is a time to create a ticket!
 
-1. https://bugs.ruby-lang.org/projects/ruby-trunk/issues is a page to create a ticket. If you don't have an account on redmine, register first and login with new account.
-2. Click "New ticket" button.
-3. Choose "Tracker" as a "Bug".
-4. "Subject" should be clear. Use "Integer#add causes RangeError unexpectedly".
-5. "Description" should be also clear (say later).
-6. You don't need to touch "Status", "Assignee", "Target version" and "Priority".
-7. You should write a result of `ruby -v` into "ruby -v" field.
-8. "Preferred language" should be "ruby-core in English" if you want to use English.
-9. We don't have any attached file this time because there are no big log output.
+1. Visit https://bugs.ruby-lang.org/projects/ruby-trunk/issues to create a ticket. If you don't have an account on redmine, register first and login with new account.
+2. Click the "New ticket" button.
+3. Select "Bug" in the "Tracker" field.
+4. The "Subject" should be clear and concise. Let's use "Integer#add causes RangeError unexpectedly".
+5. "Description" should be also clear (more later).
+6. You don't need to touch the "Status", "Assignee", "Target version" and "Priority" fields.
+7. You should insert the result of `ruby -v` into the "ruby -v" field.
+8. The "Preferred language" field should be "ruby-core in English" if you want to use English (as opposed to Japanese).
+9. We don't have any file attachments this time because there is no big log output.
 
 "Description" should contain:
 
@@ -579,15 +579,15 @@ I got RangeError:
 
 Completed. Push "Create" button and make a ticket.
 
-### Narrow the problematic values
+### Narrow down the problematic values
 
-After making a ticket, nobody responds to this ticket. Nobody use it...?
-So let's debug by ourselves.
+After making a ticket, nobody responds to this ticket. Perhaps nobody uses it...?
+So let's debug it by ourselves.
 
-To find out the bug, we need to check which value causes an error.
-It seems that 2 billion (2B) is no problem and 3 billion (3B) cause error.
+To determine the cause of the bug, we need to identify which values causes an error.
+It seems that 2 billion (2B) is no problem, but 3 billion (3B) cause error.
 
-So check all values from 2B to 3B.
+Let's try checking all values between 2B and 3B.
 
 ```
 def trial low, high
@@ -615,16 +615,16 @@ end
 p point_value
 ```
 
-`trial` method tries with values from `low` to `high` and checks the return value. It finds out the timing where return value is changed from false -> true.
-Make a block which returns false if `Integer#add()` does not raise an exception and returns true if `Integer#add()` cause exception.
-Let's call `trial` method with this block and check the boundary.
+The `trial` method tries with values from `low` to `high` and checks the return value. It can find the boundary where the return value changes from false -> true.
+To explore this boundary, we implement a block which returns false if `Integer#add()` does not raise an exception and returns true if `Integer#add()` cause exception.
+Let's call the `trial` method with this block and check the boundary.
 
-Running this program, we can find that 2,147,483,648 is boundary (false -> true).
+Running this program, we discover that 2,147,483,648 is on the boundary (false -> true).
 
-BTW, we need 13 seconds to find out it. Repeating 147,483,648 times (=> 13sec / 147... = 8.8e-08 sec = 90ns / iteration).
-On this case, we can find near by 2B. If the boundary is near to 3B, this check script consumes huge time.
+BTW, this took about 13 seconds to run in my environment. Repeating 147,483,648 times (=> 13sec / 147... = 8.8e-08 sec = 90ns / iteration).
+On this case, we can find near by 2B. If the boundary was closer to 3B, this script may have taken many times longer to run.
 
-So use "binary search" in `trial` method.
+We can improve this by using a "binary search" to run the `trial` method.
 
 ```
 def linear_trial low, high
@@ -651,9 +651,9 @@ def trial low, high, &b
 end
 ```
 
-Using binary search version, we can find 2,147,483,648 with 0.20 seconds. Calcuration order reduced from O(n) to O(log n).
+Using the binary search version, we can find the boundary value of `2,147,483,648` within 0.20 seconds. In terms of calculation cost, the order has been reduced from O(n) to O(log n).
 
-After all, we can find 2,147,483,647 is okay and 2,147,483,648 is not okay (error). Report it.
+So, now we know that `2,147,483,647` is okay and `2,147,483,648` is not okay (error). Let's include add our findings to the ticket.
 
 ```
 With my observation,
@@ -662,14 +662,14 @@ With my observation,
 * There is exception if a is 2_147_483_648 or bigger
 ```
 
-A Ruby committer read the this report and could understand the problem immediately. The person fixed the issue. Congratulations!
+A Ruby committer reads this report and immediately understands the problem. The committer then fixe the issue. Congratulations!
 
 ### Answer checking
 
-Some of you can understand with the number 2,147,483,648, it is equal to 2^31. There is no problem if a < 2^31.
+Some of you may have noticed the significance of the number 2,147,483,648. It is equal to 2^31. That is, there is no problem if a < 2^31.
 
 The original error message was `integer 3000000000 too big to convert to `int' (RangeError)`.
-The convertion fails because the value exceeds the maximum number of C's integer value.
+The conversion fails because the value exceeds the maximum number of C's integer value.
 On this environment, the range of C's integer value is -2^31 ～ 2^31-1, so the value 2^31 exceeds the range.
 
 Let's check the original implementation.
@@ -692,7 +692,7 @@ int_add(VALUE self, VALUE n)
 }
 ```
 
-We can see `FIX2INT()`. An error is raised with this conversion macro. Let use `long` instead.
+Observe the usage of `FIX2INT()`. An error is raised by this conversion macro. Let's use `long` instead.
 
 ```
 static VALUE
@@ -712,20 +712,21 @@ int_add(VALUE self, VALUE n)
 }
 ```
 
-And we can fix this problem. Yay.
+And now we have fixed this problem. Yay!
 
-Ruby can represent huge numbers as long as memory is available. However, C or other languages have a limitation for integer representation.
-It is important that we need to recognize such limitation (it is not only for Ruby).
+Ruby can represent huge numbers as integers, as long as memory is available. However, C or other languages often have a limit on their integer representation.
+It is important to recognize such limitations, not only for Ruby, but for programming in general.
 
 ## Debugging tips
 
-If you have a problem with huge application, what should we do?
+If you have a problem with huge application, what should you do?
 
-Reduce the code. (If it is acceptable) delete the lines of an application.
-You should use version management system (git and so on) so it is easy to restore.
+Try to reduce the amount of code involved. If it is acceptable, you should gradually delete the lines of an application using a strategy similar to the binary search we used earlier.
+
+You should use version control (e.g. git) so that you can easily revert any changes you make. This can make it easier to aggressively delete code.
 
 There are non-deterministic bugs related to GC bugs, threading bugs, VM bugs and so on (Koichi got such errors frequently).
 
-MRI has many assertions to check assumptions. Usually we disable such assertion checking because of performance. But you can use it to debug.
+MRI has many assertions to check assumptions. Usually we disable such assertion checking because of their impact on performance. But you can use enable them to help you to debug.
 Setting `RGENGC_CHECK_MODE` in `gc.c` to 2, and `VM_CHECK_MODE` in `vm_core.h` to 1, will enable this feature.
-If you want to pass these options to C compiler, pass `-DRGENGC_CHECK_MODE=2 -DVM_CHECK_MODE=1` options as cflags (and you need to run `make clean` before this trial).
+If you want to pass these options to the C compiler, pass `-DRGENGC_CHECK_MODE=2 -DVM_CHECK_MODE=1` options as cflags (and you need to run `make clean` before this trial).
