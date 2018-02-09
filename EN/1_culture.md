@@ -6,10 +6,10 @@ This document introduces the development culture of MRI. MRI: Matz's Ruby Interp
 
 This document contains:
 
-* How to develop MRI (development flow and suppoprt tools)
+* How to develop MRI (development flow and support tools)
 * How to manage bug tickets
 * How to learn about MRI internals and how to get information about the community
-* What kind of unsolved issues are there in MRI.
+* What kind of unsolved issues are there in MRI?
 
 ## MRI development flow
 
@@ -20,7 +20,7 @@ Ruby is OSS so that anyone can participate.
 * Ruby language specification.
 * MRI implementation which is one of Ruby implementation.
 
-MRI is the reference implementation of the Ruby language, so that approved Ruby features are implemented on MRI. If we fix a bug in MRI, it means that we also change Ruby's specification. Therefore, when deciding whether to fix bugs, care must be taken to consider loss of compatibility. To be precise, several MRI-specific features exist, such as Virtual machine instructions, so not all changes to MRI result in a change to Ruby's specification.
+MRI is the reference implementation of the Ruby language, so that approved Ruby features are implemented on MRI. If we fix a bug in MRI, it means that we also change Ruby's specification. Therefore, when deciding whether to fix bugs, care must be taken to consider loss of compatibility. To be precise, several MRI-specific features exist, such as virtual machine instructions, so not all changes to MRI result in a change to Ruby's specification.
 
 ### Repository and Ruby committers
 
@@ -35,14 +35,14 @@ BTW, there is a mirror of the repository on GitHub <https://github.com/ruby/ruby
 ## Ticket management
 
 We use [Redmine](https://bugs.ruby-lang.org/issues/), a bug tracker, to discuss specification changes, bug reports, and so on. A ticket is filed for each issue.
-Notifications of new tickets and Any changes about tickets are delivered to the Ruby mailing lists.
+Notifications of new tickets and any changes about tickets are delivered to the Ruby mailing lists.
 There are mailing lists in  English (ruby-core) and Japanese (ruby-dev).
 <https://www.ruby-lang.org/en/community/mailing-lists/>
 
-Most important issues/proposals are filed in the English.
+Most important issues/proposals are filed in English.
 Tickets written in Japanese are also acceptable for easy and small issues.
 
-Tickets can be devided into two categories. "Feature request" and "Bug report".
+Tickets can be divided into two categories: "Feature request" and "Bug report".
 
 * Feature requests
   * Requests for additions or changes to the Ruby language itself.
@@ -50,7 +50,7 @@ Tickets can be devided into two categories. "Feature request" and "Bug report".
 * Bug reports
   * Strange behaviour, performance issues and so on. Everything except for changes to the specification.
 
-When you submit a ticket, you will be asked to choose a description language (English or Japanese). The forwarded  mailing list is chosen by this specified language (ruby-core or ruby-dev).
+When you submit a ticket, you will be asked to choose a description language (English or Japanese). The forwarded mailing list is chosen by this specified language (ruby-core or ruby-dev).
 
 Good bug reports should contain the following:
 
@@ -78,24 +78,24 @@ This is an extreme example: if you proposed that "this feature should be changed
 
 For further information, please check <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToRequestFeatures>.
 
-Issues or Pull Requests on GitHub are hecked occasionally. In other words, sometimes they are ignored.
-I recommend you to make a new ticket on Redmine and link to your issue or pull request on GitHub.
-Or, you can try to  contact to a Ruby committer directly.
+Issues or Pull Requests on GitHub are checked occasionally. In other words, sometimes they are ignored.
+I recommend you to make a new ticket on Redmine and link to your Issue or Pull Request on GitHub.
+Or, you can try to contact to a Ruby committer directly.
 
 ## CI on MRI
 
 MRI is a big and complex piece ofsoftware, so it is necessary to use automated testing for Quality Assurance (QA). We have about 450,000 lines of tests across some 5,000 files.
 
-We also need to prepare a variety of environments to run our tests. For example, well-known OSes such as Linux, Mac OSX, Windows, as well as lesser known OSes \*BSD, Solaris and so on.
+We also need to prepare a variety of environments to run our tests. For example, well-known OSes such as Linux, macOS, Windows, as well as lesser known OSes \*BSD, Solaris and so on.
 Usually we use Intel x86/64 CPU or ARM processors, but there are other processors that we try to test on.
 The list of Ruby's supported platforms can be found at: <https://bugs.ruby-lang.org/projects/ruby-trunk/wiki/SupportedPlatforms>.
 
 Because MRI is used on many enviroments, it is preferable to run tests on as wide a variety of environments as possible.
 It's common practice to use Continuous Integration (CI) to run automated tests. Ruby is no exception.
 
-In addition to using the popular Travis-CI service, we also run the <http://rubyci.org> site to collect test results run on a wider variety of environments. Typically, a CI system uses its own computing resources. However, our resources are limited. So, instead of preparing and managing the computers for the multitude of environments we need, we gathers the results from tests run by volunteers in the community who run tests on their own computing resources. The tool [chkbuild](https://github.com/ruby/chkbuild) builds Ruby, runs tests, generates results, and performs a diff on the output so that we can determine which versions of Ruby have particular bugs.
+In addition to using the popular Travis-CI service, we also run the <http://rubyci.org> site to collect test results run on a wider variety of environments. Typically, a CI system uses its own computing resources. However, our resources are limited. So, instead of preparing and managing the computers for the multitude of environments we need, we gather the results from tests run by volunteers in the community who run tests on their own computing resources. The tool [chkbuild](https://github.com/ruby/chkbuild) builds Ruby, runs tests, generates results, and performs a diff on the output so that we can determine which versions of Ruby have particular bugs.
 
-`chkbuild` is good test/CI framework but, for various reasons (for example, chkbuild downloads source code each time) it can be quite slow(typically tens of minutes). To overcome this limitation, we use another CI system <http://ci.rvm.jp/> that can reuse previous builds, and can build/test in parallel, reducing the time required for testing to the order of 2-3 minutes. This allows us to run our tests hundreds of times every day, which can be helpful for revealing hard-to-reproduce bugs (e.g. timing bugs).
+`chkbuild` is good test/CI framework but, for various reasons (for example, chkbuild downloads source code each time) it can be quite slow (typically tens of minutes). To overcome this limitation, we use another CI system <http://ci.rvm.jp/> that can reuse previous builds, and can build/test in parallel, reducing the time required for testing to the order of 2-3 minutes. This allows us to run our tests hundreds of times every day, which can be helpful for revealing hard-to-reproduce bugs (e.g. timing bugs).
 
 Ruby committers are expected to run tests on their own machines.
 If a Ruby committer accidentally adds a commit that doesn't pass the tests, the error should be detected on <http://ci.rvm.jp/> and hopefully committers will be alerted.
@@ -112,7 +112,7 @@ Ruby / MRI has many unresolved issues. The following issues are examples of them
     * Concurrent execution
 * Performance
   * Benchmarking framework and benchmarks
-  * Performance imprivements
+  * Performance improvements
 * Documentation
 * Bug fixes
 
@@ -137,11 +137,11 @@ If you want to hack deeply into MRI, you need to know the C language.
 * Ruby's redmine: https://bugs.ruby-lang.org/projects/ruby/
     * Ticket
     * Wiki
-* Mailing list
+* Mailing lists
     * https://www.ruby-lang.org/en/community/mailing-lists/ (En) https://www.ruby-lang.org/ja/community/mailing-lists/ (Ja)
     * ruby-core (English)
     * ruby-dev (Japanese)
-* Conference, meetup
+* Conferences, meetups
     * RubyConf and other international conferences
     * Japan domestic
         * RubyKaigi
