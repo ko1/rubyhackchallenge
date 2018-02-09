@@ -27,13 +27,13 @@ Steps:
 3. Add the statement `rb_define_method(rb_cArray, "second", ary_second, 0)` to the body of the `Init_array()` function.
 4. Write some sample code to try your new method in `ruby/test.rb`, then build and run with `make run`.
 5. Add a test in `ruby/test/ruby/test_array.rb`. These tests are written in the minitest format.
-6. `$ make test-all` will run the test code you wrote. However, it runs a tremendous number of ruby tests, so you may want to run only the Array related tests.
+6. `$ make test-all` will run the test code you wrote. However, it runs a tremendous number of ruby tests, so you may want to run only the Array-related tests.
   * `$ make test-all TESTS='ruby/test_array.rb'` will test only `ruby/test/ruby/test_array.rb`.
   * `$ make test-all TESTS='-j8'` will run in parallel with 8 processes.
 7. Add rdoc documentation of `Array#second` by referencing the documentation of other methods in `array.c`.
 
 
-One possible implementation of `ary_second()` is shown below. Line numbers may differ because `array.c` is like to have changed since this document was written.
+One possible implementation of `ary_second()` is shown below. Line numbers may differ because `array.c` is likely to have changed since this document was written.
 
 ```diff
 diff --git a/array.c b/array.c
@@ -69,7 +69,7 @@ A brief explanation follows:
 * `ary_second()` is the implementation of the method.
 * `VALUE` represents a type of Ruby object in C, and `self` is the method's receiver (i.e. for `ary.second`, the receiver is `ary`). All Ruby methods return a Ruby object, so the type of the return value should also be `VALUE`.
 * `rb_ary_entry(self, n)` does the same thing as `self[n]` in Ruby. Therefore, `rb_ary_entry(self, 1)` returns the second element (note: C uses 0-based index).
-* The function `Init_Array` is invoked by the interpreter at launch time.
+* The function `Init_Array` is invoked by the interpreter at launch-time.
 * The statement `rb_define_method(rb_cArray, "second", ary_second, 0);` defines the `second` method on the `Array` class.
   * `rb_cArray` points to the `Array` class object. The `rb_` prefix is used to indicate it is something Ruby-related, and the `c` means "Class". Therefore, we can infer that `rb_cArray` is Ruby's Array class object. BTW, the module object prefix is `m` (e.g. `rb_mEnumerable` == `Enumerable` module object) and the error class prefix is `e` (e.g. `rb_eArgError` == `ArgumentError` object).
   * `rb_define_method` is a function that defines instance methods.
@@ -215,7 +215,7 @@ The actual addition is performed in `rb_int_plus()` so we don't need to write an
 
 Let's try to modify this code to use our own implementation of addition if a given parameter is a `Fixnum` (numbers represented by `Fixnum` are small and can be easily translated both to and from a C `int`).
 
-Note that Ruby 2.4 removed the `Fixnum` and `Bignum` classes. They are now unified into a single `Integer` class. However, MRI still uses Fixnum and Bignum as internal data structures for performance reason. For example, `FIXNUM_P(bignum)` returns false.
+Note that Ruby 2.4 removed the `Fixnum` and `Bignum` classes. They are now unified into a single `Integer` class. However, MRI still uses Fixnum and Bignum as internal data structures for performance reasons. For example, `FIXNUM_P(bignum)` returns false.
 
 ```diff
 Index: numeric.c
@@ -254,7 +254,7 @@ Note: This definition has a bug. See the next document.
 
 ## `Time#day_before(n=1)`
 
-Add a method onto the Time class to return the time from `n` days ago (with a default value for `n` of 1).
+Add a method to the Time class to return the time from `n` days ago (with a default value for `n` of 1).
 
 Here is an example definition in Ruby. It returns a result with time reduced by the number of seconds in 24 hours * `n`. This is not a complete solution because it will occasionally be incorrect (e.g. when there are leap seconds, daylight saving time, etc). We'll ignore these problems here because this is simply an illustrative example.
 
@@ -321,7 +321,7 @@ Explanation:
   * The name of the method called by `rb_funcall` is specified by its `ID`, a Symbol. To generate the `ID` in C, we use `rb_intern("...")`. An `ID` is a unique value for a C string in a Ruby process. In Ruby it is called a Symbol, and in Java it is an `intern`ed string.
   * We want to call `Time.at` with 1 argument, so we specify `1` and pass the actual argument `INT2NUM(day_before_sec)` as the final parameter.
 
-There are a number of problems with this implementation. Try comparing it with Ruby's actual implementation and see if you can understand the differences
+There are a number of problems with this implementation. Try comparing it with Ruby's actual implementation and see if you can understand the differences.
 
 ## Extension libraries
 
@@ -330,11 +330,11 @@ We can make C extension libraries using almost the same process as we use to hac
 
 For example, let's make an extension library to add the `Array#second` method instead of modifying MRI itself.
 
-Steps to make `.so` file (extension library):
+Steps to make an `.so` file (extension library):
 
 1. Make a directory named `array_second/`.
 2. Make a file named `array_second/extconf.rb`.
-  * In this file, `require 'mkmf'` to enable the mkmf library. We can use mkmf to generate a Makefileand perform any configuration needed for the library.
+  * In this file, `require 'mkmf'` to enable the mkmf library. We can use mkmf to generate a Makefile and perform any configuration needed for the library.
   * After adding configuration (in this case, we don't have any configuration), call `create_makefile('array_second')`. This method creates a Makefile.
 3. Make a file named `array_second.c`.
   * Add the line `#include <ruby/ruby.h>` to the top of the file to enable the MRI C-API.
@@ -347,7 +347,7 @@ Steps to make `.so` file (extension library):
 
 A sample `array_second` directory is available in this repository for you to reference.
 
-Except for the `extconf.rb` and the installation steps, the Ruby extensions are defined in exactly the same was as Ruby's embedded methods and classes.
+Except for the `extconf.rb` and the installation steps, the Ruby extensions are defined in exactly the same way as Ruby's embedded methods and classes.
 
 To distribute extension libraries, the minimum requirement is to create a package with the files made in step 2 and 3. It's probably more convenient for your users if you package your extension as a RubyGem.
 
@@ -359,10 +359,10 @@ Browse through the MRI source code to find methods which perform functions that 
 
 When you write Ruby programs, you probably already use `p(obj)` to inspect objects. In C, you can use `rb_p(obj)` to perform the equivalent function.
 
-If you can use gdb, break points will help you.
-If you add the line `#include "vm_debug.h"`, you will be able to use the `bp()` macro to set a break point. `make gdb` will stop on this macro, similar to when you use `binding.pry` or `binding.irb`.
+If you can use gdb, breakpoints will help you.
+If you add the line `#include "vm_debug.h"`, you will be able to use the `bp()` macro to set a breakpoint. `make gdb` will stop on this macro, similar to when you use `binding.pry` or `binding.irb`.
 
-gdb allows you to use `p expr` to show the value of `expr` (for example, you can see a value of a variable `foo` with `p foo`). The type `VALUE` is just an integer value in C, so it may be difficult to determine what kind of Object it is and what data it represents. The special command `rp` for gdb (defined in `ruby/.gdbinit`) is provided to give a human readable representations for VALUE-type data.
+gdb allows you to use `p expr` to show the value of `expr` (for example, you can see a value of a variable `foo` with `p foo`). The type `VALUE` is just an integer value in C, so it may be difficult to determine what kind of Object it is and what data it represents. The special command `rp` for gdb (defined in `ruby/.gdbinit`) is provided to give a human-readable representation for VALUE-type data.
 
 
 ## Advanced Exercises
