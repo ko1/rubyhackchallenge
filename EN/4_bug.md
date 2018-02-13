@@ -191,7 +191,7 @@ This bug report lacks the following important pieces of information:
 
 But you notice the line `ruby 2.5.0dev (2017-08-23 trunk 59647) [x86_64-linux]` in the attached log file, so you guess that the report is for a SEGV bug on a Linux environment and using Ruby 2.5.0dev (the development version of MRI).
 
-It is very important to be able to reproduce the bug, so you decide to ask for code to reproduce the bucode to reproduce the bug.
+It is very important to be able to reproduce the bug, so you decide to ask for code to reproduce the bug.
 
 (Actually, this time, the attached log files contain enough information to solve the problem, but let's assume that we don't have enough information)
 
@@ -199,7 +199,7 @@ It is very important to be able to reproduce the bug, so you decide to ask for c
 Please send us your reproducible code. A small code sample would be awesome!
 ```
 
-It can be difficult to make a reproducible code sample if, say, the problem was discovered in a large production rails application, or in the case of non-deterministic bugs (where errors only occur occasionally).
+It can be difficult to make a reproducible code sample if, say, the problem was discovered in a large production Rails application, or in the case of non-deterministic bugs (where errors only occur occasionally).
 
 Let's assume that this error is in big production application, and the reporter replies that "Sorry we can't make such repro".
 
@@ -226,14 +226,14 @@ c:0002 p:0007 s:0006 e:000005 EVAL   ../../trunk/test.rb:2 [FINISH]
 c:0001 p:0000 s:0003 E:000b00 (none) [FINISH]
 ```
 
-This block shows "Control frame information", Ruby VM's frame information.
+This block shows "Control frame information", the Ruby VM's frame information.
 These lines are strongly connected with the VM implementation, and are rarely used unless debugging the VM.
 Each line contains the following information:
 
 * `c`: Frame number (cf index)
 * `p`: Program counter
 * `s`: Stack pointer (depth)
-* `e`: Environment pointer (ep) which points an area of local variables.
+* `e`: Environment pointer (ep) which points at an area of local variables.
 * Frame type. `EVAL` means a frame pushed by `eval`. `CFUNC` means a frame pushed by a method that is implemented in C.
 * Frame location. File path and line number for Ruby level frame. Method name for CFUNC.
 
@@ -245,7 +245,7 @@ Each line contains the following information:
 ../../trunk/test.rb:2:in `hello'
 ```
 
-This block shows "Ruby level backtrace information", i.e. normal Ruby level backtrace information.
+This block shows "Ruby level backtrace information", i.e. normal Ruby-level backtrace information.
 
 ```
 -- Machine register context ------------------------------------------------
@@ -351,7 +351,7 @@ In this case we only see 4 lines, but in larger applications (e.g. Ruby on Rails
 ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
 ```
 
-The above block is probably available on on Linux. It is a memory map of OS managed processes, i.e. the same as `/proc/self/maps`.
+The above block is probably available only on Linux. It is a memory map of OS-managed processes, i.e. the same as `/proc/self/maps`.
 
 ----
 
@@ -380,7 +380,7 @@ Let's take a closer look at this code. We used `RSTRING_PTR()` on the parameter 
 The macro `RSTRING_PTR()` is valid only for String objects (`T_STRING` typed objects) and MRI doesn't guarantee behavior for other type of objects. This is a likely culprit for our critical bug.
 Okay. Perhaps we can figure out this issue.
 
-To verify the hypothesis, we can try `hello(nil)`. This shoudl result in similar `[BUG]` output.
+To verify the hypothesis, we can try `hello(nil)`. This should result in similar `[BUG]` output.
 Let's add the repro-code to the ticket.
 
 ```
@@ -396,7 +396,7 @@ In this case, however, let's make a patch for this issue.
 
 Add the line `hello(nil)` to `test.rb` and run `make gdb`.
 
-(if you want to use lldb, you need to run `make lldb` and execute the `run` lldb command)
+(If you want to use lldb, you need to run `make lldb` and execute the `run` lldb command.)
 
 ```
 Program received signal SIGSEGV, Segmentation fault.
@@ -417,7 +417,7 @@ nil
 ```
 
 `p name` shows the value of `name` (a numeric value): 8. But the value `8` might be unfamiliar.
-`rp name` shows that the value `8` means `nil` in Ruby world.
+`rp name` shows that the value `8` means `nil` in the Ruby world.
 
 The location where SEGV stopped execution is `io.c:12333`, and the content of the line is `const char *name_ptr = RSTRING_PTR(name);`.
 It turns out that our hypothesis that "`RSTRING_PTR()` is an issue" seems correct.
@@ -468,13 +468,13 @@ Now that we have a fix for the problem, we should report the fix for the `f_hell
 The are several ways to report the modification.
 
 * Add a comment on Redmine with the diff
-* Make a pull request on GitHub and include the pull request URL as a comment on the redmine ticket.
+* Make a Pull Request on GitHub and include the Pull Request URL as a comment on the Redmine ticket.
 
 ### Ticket: after reporting
 
 #### If we are ignored...
 
-Even if we propose a patch, a bug is not fixed until a ruby committer commits it.
+Even if we propose a patch, a bug is not fixed until a Ruby committer commits it.
 In most cases, active committers (e.g. nobu and others) will notice and commit bug fixes.
 But it is possible for the acceptance of patches to be postponed.
 
@@ -498,7 +498,7 @@ Maintainers of stable version branches manage backports using Redmine's "Backpor
 
 ## `Integer#add(n)` (Scenario: when you discover a bug)
 
-In the previous chapter, we implemented `Integer#add(n)` method and I wrote that there is a problem on that implementaiton.
+In the previous chapter, we implemented `Integer#add(n)` method and I wrote that there is a problem on that implementation.
 Let's assume we release a new Ruby version with this problem (in fact, such accidents are common).
 
 You feel that `Integer#add` is way cooler than `Integer#+`, so you use it a lot in your code. One day, however, you encounter an unexpected exception.
@@ -520,11 +520,11 @@ You already know:
 
 This is enough information to report a bug. Let's write a bug report.
 
-Before submitting your bug report, check for reports of similar problems. You can use redmine search to do this. In this case, we can use the keywords `Integer#+` or `RangeError` for example.
+Before submitting your bug report, check for reports of similar problems. You can use Redmine search to do this. In this case, we can use the keywords `Integer#+` or `RangeError`, for example.
 
 After checking for duplication, we can't find any similar reports. It is a time to create a ticket!
 
-1. Visit https://bugs.ruby-lang.org/projects/ruby-trunk/issues to create a ticket. If you don't have an account on redmine, register first and login with new account.
+1. Visit https://bugs.ruby-lang.org/projects/ruby-trunk/issues to create a ticket. If you don't have an account on Redmine, register first and login with new account.
 2. Click the "New ticket" button.
 3. Select "Bug" in the "Tracker" field.
 4. The "Subject" should be clear and concise. Let's use "Integer#add causes RangeError unexpectedly".
@@ -532,12 +532,12 @@ After checking for duplication, we can't find any similar reports. It is a time 
 6. You don't need to touch the "Status", "Assignee", "Target version" and "Priority" fields.
 7. You should insert the result of `ruby -v` into the "ruby -v" field.
 8. The "Preferred language" field should be "ruby-core in English" if you want to use English (as opposed to Japanese).
-9. We don't have any file attachments this time because there is no big log output.
+9. We don't have any file attachments this time, because there is no big log output.
 
 "Description" should contain:
 
 * Summary
-* Repro-code and your environment (a result of `ruby -v`, OS, compier's version and so on)
+* Repro-code and your environment (a result of `ruby -v`, OS, compiler's version and so on)
 * Expected behavior
 * Actual behavior
 * (if possible) a patch to solve this problem
@@ -549,7 +549,7 @@ Let's use the following template.
 
 `Integer#+` raises unexpected exception.
 
-# Repro-code and your environment (a result of `ruby -v`, OS, compier's version and so on)
+# Repro-code and your environment (a result of `ruby -v`, OS, compiler's version and so on)
 
 We can reproduce the problem.
 
@@ -582,10 +582,10 @@ Completed. Push "Create" button and make a ticket.
 ### Narrow down the problematic values
 
 After making a ticket, nobody responds to this ticket. Perhaps nobody uses it...?
-So let's debug it by ourselves.
+So let's debug it ourselves.
 
-To determine the cause of the bug, we need to identify which values causes an error.
-It seems that 2 billion (2B) is no problem, but 3 billion (3B) cause error.
+To determine the cause of the bug, we need to identify which values cause an error.
+It seems that 2 billion (2B) is no problem, but 3 billion (3B) causes an error.
 
 Let's try checking all values between 2B and 3B.
 
@@ -616,7 +616,7 @@ p point_value
 ```
 
 The `trial` method tries with values from `low` to `high` and checks the return value. It can find the boundary where the return value changes from false -> true.
-To explore this boundary, we implement a block which returns false if `Integer#add()` does not raise an exception and returns true if `Integer#add()` cause exception.
+To explore this boundary, we implement a block which returns false if `Integer#add()` does not raise an exception and returns true if `Integer#add()` causes an exception.
 Let's call the `trial` method with this block and check the boundary.
 
 Running this program, we discover that 2,147,483,648 is on the boundary (false -> true).
@@ -653,7 +653,7 @@ end
 
 Using the binary search version, we can find the boundary value of `2,147,483,648` within 0.20 seconds. In terms of calculation cost, the order has been reduced from O(n) to O(log n).
 
-So, now we know that `2,147,483,647` is okay and `2,147,483,648` is not okay (error). Let's include add our findings to the ticket.
+So, now we know that `2,147,483,647` is okay and `2,147,483,648` is not okay (error). Let's add our findings to the ticket.
 
 ```
 With my observation,
@@ -662,7 +662,7 @@ With my observation,
 * There is exception if a is 2_147_483_648 or bigger
 ```
 
-A Ruby committer reads this report and immediately understands the problem. The committer then fixe the issue. Congratulations!
+A Ruby committer reads this report and immediately understands the problem. The committer then fixes the issue. Congratulations!
 
 ### Answer checking
 
@@ -670,7 +670,7 @@ Some of you may have noticed the significance of the number 2,147,483,648. It is
 
 The original error message was `integer 3000000000 too big to convert to `int' (RangeError)`.
 The conversion fails because the value exceeds the maximum number of C's integer value.
-On this environment, the range of C's integer value is -2^31 ～ 2^31-1, so the value 2^31 exceeds the range.
+In this environment, the range of C's integer value is -2^31 ～ 2^31-1, so the value 2^31 exceeds the range.
 
 Let's check the original implementation.
 
@@ -725,7 +725,7 @@ Try to reduce the amount of code involved. If it is acceptable, you should gradu
 
 You should use version control (e.g. git) so that you can easily revert any changes you make. This can make it easier to aggressively delete code.
 
-There are non-deterministic bugs related to GC bugs, threading bugs, VM bugs and so on (Koichi got such errors frequently).
+There are non-deterministic issues related to GC bugs, threading bugs, VM bugs and so on (Koichi gets such errors frequently).
 
 MRI has many assertions to check assumptions. Usually we disable such assertion checking because of their impact on performance. But you can use enable them to help you to debug.
 Setting `RGENGC_CHECK_MODE` in `gc.c` to 2, and `VM_CHECK_MODE` in `vm_core.h` to 1, will enable this feature.
