@@ -1,6 +1,6 @@
 # Cookpad Ruby Hack Challenge #3
 
-* 2018/03/21 @ Cookpad Bristol, UK
+* 2018/03/21 @ Cookpad Bristol, UK [[map]](https://goo.gl/maps/HCdSstcXPwm)
 * hashtag: #cookpad_rhc
 
 # About the Cookpad Ruby Hack Challenge
@@ -73,9 +73,9 @@ Feel free to join gitter channel: https://gitter.im/rubyhackchallenge/LobbyEn (E
 
 
 ----
-# Previous Events
+### Previous Events
 
-## Cookpad Ruby Hack Challenge #2
+#### Cookpad Ruby Hack Challenge #2
 
 * 2018/01/29 @ Cookpad Tokyo office
 * Event page: https://cookpad.connpass.com/event/74231/
