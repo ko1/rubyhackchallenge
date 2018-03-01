@@ -1,46 +1,42 @@
-# Cookpad Ruby Hack Challenge #2
+# Cookpad Ruby Hack Challenge #3
 
-* 2018/01/29 @ Cookpad Tokyo office
-* Event page: https://cookpad.connpass.com/event/74231/
+* 2018/03/21 @ Cookpad Bristol, UK [[map]](https://goo.gl/maps/HCdSstcXPwm)
 * hashtag: #cookpad_rhc
 
 # About the Cookpad Ruby Hack Challenge
 
 Hack the Ruby interpreter at Cookpad!
 
-The Programming language Ruby is widely used on web application development. Of course, programs written in Ruby run on Ruby interpreter.
+The Ruby Programming language is widely used for web application development. Of course, programs written in Ruby run on the Ruby interpreter.
 
 Cookpad Ruby Hack Challenge (RHC) is a one-day event where we'll teach you how to extend Ruby features, fix bugs, and to improve performance of Ruby.
 
-The first Ruby Hack Challenge was a great success, but it was offered only in Japanese. This time, the Ruby Hack Challenge will be offered in English (English lecture materials and English announcements) as well as Japanese.
+The first two Ruby Hack Challenge's were great successes, but were offered only in Japan. This time, the Ruby Hack Challenge will be offered in the UK!
 
-Lecture materials: https://github.com/ko1/rubyhackchallenge (currently being translating into English!)
+Lecture materials: https://github.com/ko1/rubyhackchallenge/EN 
 
-Note that we offer support for English at the event (English lecture materials, announcements and English hacking supports) but we don't restrict our support to English. Japanese language users are also welcome. (in Japanese: イベント自体は英語で行いますが、日本語話者も歓迎します）
-
-One more note: Koichi and another supporter Endoh-san are not native English speakers.
+Note: Koichi and Endoh-san are not native English speakers.
 
 # Details
 
-This event held over 1 day.
+This event will held over 1 day on March 21st, 2018
 
-You can choose several options what you want to do.
+You can choose what you want to do eg.
 
-* (1) Read the lecture materials at the event and try hacks along with texts.
+* (1) Read the lecture materials at the event and try hacks along with the documentation.
 * (2) Read the lecture materials in advance, and ask us if you have any questions.
 * (3) Read the lecture materials in advance, and try advanced hacking with our support.
 
-Unlike the first RHC, for RHC#2 we don't offer any lessons. We only offer lecture materials and assistants to support attendees.
-
+We offer these lecture materials in English, and will be on hand to provide assistance to support attendees.
 
 ## Requirements
 
-* You can attend the whole day
-* You bring your own laptop which is capable of building Ruby interpreters.
+* You are able to attend the whole day
+* You will bring your own laptop which is capable of building Ruby interpreters.
 
 ## Goal with lecture materials
 
-* You can understand Ruby's source code structures.
+* You can understand Ruby's source code structure.
 * You can build the Ruby interpreter.
 * You can modify Ruby interpreter internals.
 
@@ -52,16 +48,35 @@ Unlike the first RHC, for RHC#2 we don't offer any lessons. We only offer lectur
 
 # Schedule
 
-## 1/29 (Mon)
+## 3/21 (Wed)
 
-* 10:00 Opening
+* 09:30 Doors open, coffee
+* 10:00 Introduction with Matz
 * 10:30 Hack: start
 * 12:00 Lunch
 * 13:00 Hack: continue
-* 18:00 Closing
-* 18:30 After party / networking
+* 17:30 Close
 
 ## Communication channel
 
 Feel free to join gitter channel: https://gitter.im/rubyhackchallenge/LobbyEn (English) and https://gitter.im/rubyhackchallenge/Lobby (in Japanese, past RHC attendees are there) 
 
+## Hosts
+
+* Yukihiro Matsumoto
+* Koichi Sasada
+* Yusuke Endoh
+
+## Attendees
+
+* TBC
+
+
+----
+### Previous Events
+
+#### Cookpad Ruby Hack Challenge #2
+
+* 2018/01/29 @ Cookpad Tokyo office
+* Event page: https://cookpad.connpass.com/event/74231/
+* hashtag: #cookpad_rhc
