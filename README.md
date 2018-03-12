@@ -13,7 +13,7 @@ Cookpad Ruby Hack Challenge (RHC) is a one-day event where we'll teach you how t
 
 The first two Ruby Hack Challenge's were great successes, but were offered only in Japan. This time, the Ruby Hack Challenge will be offered in the UK!
 
-Lecture materials: https://github.com/ko1/rubyhackchallenge/EN 
+Lecture materials: https://github.com/ko1/rubyhackchallenge/tree/master/EN
 
 Note: Koichi and Endoh-san are not native English speakers.
 
