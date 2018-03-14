@@ -1,4 +1,4 @@
-# (4) Exercise: Add methods to Ruby
+# (3) Exercise: Add methods to Ruby
 
 ## About this document
 
@@ -28,7 +28,7 @@ Steps:
 4. Write some sample code to try your new method in `ruby/test.rb`, then build and run with `make run`.
 5. Add a test in `ruby/test/ruby/test_array.rb`. These tests are written in the minitest format.
 6. `$ make test-all` will run the test code you wrote. However, it runs a tremendous number of ruby tests, so you may want to run only the Array-related tests.
-  * `$ make test-all TESTS='ruby/test_array.rb'` will test only `ruby/test/ruby/test_array.rb`.
+  * `$ make test-all TESTS='../ruby/test/ruby/test_array.rb'` will test only `ruby/test/ruby/test_array.rb`.
   * `$ make test-all TESTS='-j8'` will run in parallel with 8 processes.
 7. Add rdoc documentation of `Array#second` by referencing the documentation of other methods in `array.c`.
 
@@ -178,7 +178,7 @@ p 1.add(3) #=> 4
 p 1.add(4.5) #=> 5.5
 ```
 
-Below is one possible solution for implementing `Integer#add?`:
+Below is one possible solution for implementing `Integer#add`:
 
 ```diff
 Index: numeric.c
