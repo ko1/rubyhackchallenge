@@ -1,4 +1,4 @@
-# (4) Exercise: Add methods to Ruby
+# (3) Exercise: Add methods to Ruby
 
 ## About this document
 
@@ -178,7 +178,7 @@ p 1.add(3) #=> 4
 p 1.add(4.5) #=> 5.5
 ```
 
-Below is one possible solution for implementing `Integer#add?`:
+Below is one possible solution for implementing `Integer#add`:
 
 ```diff
 Index: numeric.c
