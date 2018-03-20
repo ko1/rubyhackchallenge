@@ -42,8 +42,7 @@ Examples of inverse correlations:
 It's important to be aware which of these indicators need to improve, what influence that will have on the other indicators and if that changes are still in acceptable limits.
 Furthermore, as computers are constantly evolving, it might be important to reevaluate ones choices that were appropriate in the past.
 
-For instance, a long time ago, memory was the main restriction, but the amount of memory we can use has constantly grown over time.
-This time we might want to use cloud computing, which is billed per execution time, so maybe, memory consumption might not be so important now.
+For instance, a long time ago, memory was the main restriction, but the amount of memory we can use has constantly grown over time. But this time we might want to use cloud computing, where memory usage equals money, so memory consumption might be relevant yet again.
 
 It's important to decide what needs improvement right now.
 
@@ -54,7 +53,7 @@ It's important to decide what needs improvement right now.
 I know this is always said, but it is absolutely important to properly measure the current performance before trying to implement any improvements. 
 
 In case of throughput improvement, it is vital to find the correct places inside the program that are slow.
-To find out which parts of MRI need improvement, I use stackprof and the like for ruby-level analysis and Linux' perf command for system-level analysis.
+To find out which parts of MRI need improvement, you can use stackprof and the like for ruby-level analysis and Linux' perf command to analyze the details.
 
 (By the way, these tools don't always tell the truth. In the end, tools produced by humans can't be trusted 100% (especially because it's a difficult and hard to debug field). Sometimes when you have strange outputs you should doubt the tools. To clear your doubts, it's important to understand how these tools work and produce their results.)
 
