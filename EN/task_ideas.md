@@ -7,7 +7,9 @@ Before your hack, please file your hack topic as a Github issue.
 This issue should contain:
 
 * Hack topic summary
-* Your name
+* Your name (or names. Group work is also welcome)
+
+After your hack, close this ticket with your achievement summary.
 
 ## Run tests on your specific environment
 
@@ -59,6 +61,10 @@ Reproducible code with `make run` is excellent.
 
 Of course, a patch is very welcome.
 
+(1') report new bug ticket you found
+
+And do (1-1) to (1-3).
+
 (2) Feature tickets
 
 There are several feature-request tickets.
@@ -81,6 +87,13 @@ Please implement them.
 
 For example, ko1's ticket <https://bugs.ruby-lang.org/issues/14609> is very easy to implement.
 
+(2') Make your own feature request
+
+And do (2-1) to (2-3).
+
+For example, there are many methods in ActiveSupport but not in Ruby builtin/standard libary.
+Porting them is one topic (but you need to pursuade Matz to introduce it).
+
 ## Visualization
 
 Now you can modify MRI by yourself!
@@ -93,5 +106,6 @@ Add your original visualization feature on terminal, GUI, sound or something coo
 
 ruby/debug_counter.[ch] provides a feature to add/show performance counters.
 Read implementation and try them.
-After that, feel free to add your performance counters to check the *true* behaviour.
+Try to set `USE_DEBUG_COUNTER` to 1 and run your script. You can see performance counters information.
 
+After that, feel free to add your performance counters to check the *true* behaviour.
