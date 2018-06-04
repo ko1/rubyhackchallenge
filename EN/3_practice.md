@@ -330,7 +330,7 @@ We can make C extension libraries using almost the same process as we use to hac
 
 For example, let's make an extension library to add the `Array#second` method instead of modifying MRI itself.
 
-Steps to make an `.so` file (extension library):
+Steps to make an `.so` extension library file (or `.bundle` in MacOS):
 
 1. Make a directory named `array_second/`.
 2. Make a file named `array_second/extconf.rb`.
@@ -342,7 +342,7 @@ Steps to make an `.so` file (extension library):
   * (1) is the same as `ary_second()` written earlier.
   * (2) should be the `Init_array_second()` function, which calls `rb_define_method()`. The name `Init_array_second` is inferred from the argument passed to `create_makefile` in `extconf.rb`.
 4. Run `$ ruby extconf.rb` to generate the Makefile.
-5. Run `$ make` to build `array_second.so`. You will then be able to `require` this file. Example: `$ ruby -r ./array_second -e 'p [1, 2].second'` will show `2`.
+5. Run `$ make` to build `array_second.so` (or `array_second.bundle` in MacOS). You will then be able to `require` this file. Example: `$ ruby -r ./array_second -e 'p [1, 2].second'` will show `2`. In MacOS: `$ ruby -r ./array_second/array_second.bundle -e 'p [1, 2].second'`
 6. `$ make install` installs .so file into install directory.
 
 A sample `array_second` directory is available in this repository for you to reference.
