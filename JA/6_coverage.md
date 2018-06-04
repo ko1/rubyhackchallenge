@@ -243,7 +243,7 @@ $ make lcov
 
 coverage/index.html を開き、ruby → array.c のカバレッジを開いて、`ary_second` 関数を確認します。
 
-![図2](6_coverage_fig1.png)
+![図2](6_coverage_fig2.png)
 
 無事青くなりました。きちんとテストできていることが確認できて、安心できますね。
 
