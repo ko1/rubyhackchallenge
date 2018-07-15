@@ -14,6 +14,8 @@ MRI のソースコードの構造について紹介します。また、Ruby �
 
 下記のコマンドは、Linux や Mac OSX などを前提としています。Windows 等を使う場合は、別途頑張ってください。
 
+Note: docker 環境（Ubuntu 18.04 base）を作ってみました。 `docker pull koichisasada/rhc` で試してみてください。`su rubydev` でアカウントを rubydev でご利用ください。
+
 前提とするディレクトリ構造:
 
 * `workdir/`
