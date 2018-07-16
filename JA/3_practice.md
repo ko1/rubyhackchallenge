@@ -28,6 +28,7 @@ end
 5. テストを `ruby/test/ruby/test_array.rb` に記入しましょう。minitest フォーマットです。
 6. `$ make test-all` と実行すると、書いたテストが実行されます。ただし、数万のテストが走ってしまうので、Array のテストだけに絞りましょう。
   * `$ make test-all TESTS='ruby/test_array.rb'` とすることで、`ruby/test/ruby/test_array.rb` だけテストします。
+  * `$ make test-all TESTS='ruby/test_array.rb -n test_xxx' とすることで、`ruby/test_array.rb` にある `test_xxx` にマッチするテストのみ走らせます。
   * `$ make test-all TESTS='-j8'` とすることで、8 並列でテストを走らせます。
 7. ほかのメソッドを参考に、`Array#second` に rdoc ドキュメントを記入してみましょう。
 
@@ -319,7 +320,7 @@ MRI を後から機能拡張するための、C 拡張ライブラリは、ほ�
 
 例えば、`Array#second` を MRI に直接組み込むのではなく、拡張ライブラリで提供することを考えます。
 
-次の手順で `.so` を作ります。
+次の手順で `.so` を作ります（MacOS だと、`.bundle` になります）。
 
 1. ディレクトリ `array_second/` を作成する。
 2. `array_second/extconf.rb` を作成する
