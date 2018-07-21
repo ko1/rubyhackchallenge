@@ -28,7 +28,7 @@ end
 5. テストを `ruby/test/ruby/test_array.rb` に記入しましょう。minitest フォーマットです。
 6. `$ make test-all` と実行すると、書いたテストが実行されます。ただし、数万のテストが走ってしまうので、Array のテストだけに絞りましょう。
   * `$ make test-all TESTS='ruby/test_array.rb'` とすることで、`ruby/test/ruby/test_array.rb` だけテストします。
-  * `$ make test-all TESTS='ruby/test_array.rb -n test_xxx' とすることで、`ruby/test_array.rb` にある `test_xxx` にマッチするテストのみ走らせます。
+  * `$ make test-all TESTS='ruby/test_array.rb -n test_xxx'` とすることで、`ruby/test_array.rb` にある `test_xxx` にマッチするテストのみ走らせます。
   * `$ make test-all TESTS='-j8'` とすることで、8 並列でテストを走らせます。
 7. ほかのメソッドを参考に、`Array#second` に rdoc ドキュメントを記入してみましょう。
 
