@@ -52,7 +52,7 @@ $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev li
 7. `$ cd build`
 8. `$ ../ruby/configure --prefix=$PWD/../install --enable-shared`
   * `prefix` は、インストールする先のディレクトリです。絶対パスで、好きな場所を指定してください（この例では `workdir/install`）
-  * Homebrew で諸々インストールしている場合は、 ```--with-dir-openssl=`brew --prefix openssl` --with-readline-dir=`brew --prefix readline` --disable-libedit``` を付けてください。
+  * Homebrew で諸々インストールしている場合は、 ```--with-openssl-dir=`brew --prefix openssl` --with-readline-dir=`brew --prefix readline` --disable-libedit``` を付けてください。
 9. `$ make -j` # ビルドします。`-j` は並列にコンパイルなどを行うオプションです。
 10. `$ make install` # tips: `make install-nodoc` とすると、rdoc/ri ドキュメントのインストールをスキップします
 11. `$ ../install/bin/ruby -v` で、Ruby がインストールされたことを確認してください
