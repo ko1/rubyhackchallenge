@@ -326,3 +326,6 @@ Comparison:
 このように改善していった @watson1978 による記録が ["How to optimize Ruby internal."]((https://rubykaigi.org/2017/presentations/watson1978.html)
 ) にまとまっていますので参考にしてみて下さい。
 
+----
+
+（続く、かもしれない）
