@@ -23,7 +23,7 @@ end
 ```
 
 1. `array.c` を開きましょう。
-2. `ary_second()` という関数を追加しましょう。`Init_array()` の前が良いと思います。
+2. `ary_second()` という関数を追加しましょう。`Init_Array()` の前が良いと思います。
 3. `rb_define_method(rb_cArray, "second", ary_second, 0)` という行を `Init_array()` 関数に追加しましょう。
 4. ビルドし、`ruby/test.rb` にサンプルコードを記述して、`make run` で動くか試してみましょう。
 5. テストを `ruby/test/ruby/test_array.rb` に記入しましょう。minitest フォーマットです。
