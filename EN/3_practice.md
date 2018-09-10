@@ -23,8 +23,8 @@ end
 Steps:
 
 1. Open `array.c` in your editor.
-2. Add a `ary_second()` function definition into `array.c`. A good place to add it is before `Init_array()`.
-3. Add the statement `rb_define_method(rb_cArray, "second", ary_second, 0)` to the body of the `Init_array()` function.
+2. Add a `ary_second()` function definition into `array.c`. A good place to add it is before `Init_Array()`.
+3. Add the statement `rb_define_method(rb_cArray, "second", ary_second, 0)` to the body of the `Init_Array()` function.
 4. Write some sample code to try your new method in `ruby/test.rb`, then build and run with `make run`.
 5. Add a test in `ruby/test/ruby/test_array.rb`. These tests are written in the minitest format.
 6. `$ make test-all` will run the test code you wrote. However, it runs a tremendous number of ruby tests, so you may want to run only the Array-related tests.
