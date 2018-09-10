@@ -739,7 +739,7 @@ MRI には、ソースコード中にいろいろな制約チェックを行う�
 ### (1) なんか異常終了する
 
 * `$ git remote add ko1 https://github.com/ko1/ruby.git` として、笹田の GitHub 上の Ruby リポジトリを、リモートリポジトリとして登録して下さい。
-* fetch して、`rhc_fail1` ブランチを checkout して下さい。
+* fetch して、`rhc_fail1` ブランチを checkout して下さい。 `$git fetch ko1 && git checkout -b rhc_fail2 ko1/rhc_fail2`
   * このとき、diff は見ないように注意して下さい。
 * `$ make miniruby` として、`miniruby` を作って下さい。
 * `$ ./miniruby -e ...` など、`./miniruby` で何か動かしてみて下さい。きっと、派手なエラーが出てくると思います。くれぐれも diff を見ないように、ご注意下さい。
