@@ -333,8 +333,7 @@ Comparison:
 
 複数のメソッドを、`self` や引数を変えながら調べてみると、例えば「1個だけ他のメソッドに比べて遅い」とか、「あるデータを渡すとなぜか遅い」といったことが見つかるかもしれません。見つかれば、それを改善すれば、Ruby の性能改善になります。
 
-このように改善していった @watson1978 による記録が ["How to optimize Ruby internal."]((https://rubykaigi.org/2017/presentations/watson1978.html)
-) にまとまっていますので参考にしてみて下さい。
+このように改善していった @watson1978 さんによる記録が ["How to optimize Ruby internal."](https://rubykaigi.org/2017/presentations/watson1978.html) にまとまっていますので参考にしてみて下さい。
 
 ----
 
