@@ -23,7 +23,7 @@ https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/index.html
 
 また、同じページで、実行回数よりも右に青や赤で色づいた `[ + - ]` のような表示は、分岐のカバレッジを表しています。両方向に実行が進んでいたら青だけで `[ + + ]` 、片方だけの場合は青と赤で `[ + - ]` 、その分岐に到達していなかったら赤だけで `[ - - ]` となります。
 
-それから、画面一番上の ["functions" というリンク](https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/ruby/array.c.func-sort-c.html)をたどると、関数カバレッジが確認できます。これは、各関数の呼ばれたが何回を昇順に並べたものです。
+それから、画面一番上の ["functions" というリンク](https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/ruby/array.c.func-sort-c.html)をたどると、関数カバレッジが確認できます。これは、各関数が何回呼ばれたかを昇順に並べたものです。
 
 ## MRI のコードカバレッジ
 
