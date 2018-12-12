@@ -153,7 +153,7 @@ class YASM
   end
 
   def disasm
-    puts to_iseq.disasm
+    to_iseq.disasm
   end
 
   def eval
