@@ -188,7 +188,7 @@ Ruby のソースコードを修正すると、C プログラムなので容易�
 * `ruby/include/ruby/*`: 外部定義。拡張ライブラリで参照できます
 * `ruby/enc/`: エンコーディングのためのソースコードや情報
 * `ruby/defs/`: 各種定義
-* `ruby/tools/`: MRI をビルド・実行するためのツール
+* `ruby/tool/`: MRI をビルド・実行するためのツール
 * `ruby/missing/`: いくつかの OS で足りないものの実装
 * `ruby/cygwin/`, `ruby/nacl/`, `ruby/win32`, ...: OS/system 依存のソースコード
 

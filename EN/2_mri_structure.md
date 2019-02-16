@@ -151,7 +151,7 @@ At a glance, the following directory structure you can observe:
 * `ruby/include/ruby/*`: external definitions. C-extension libraries can use them.
 * `ruby/enc/`: encoding information.
 * `ruby/defs/`: various definitions.
-* `ruby/tools/`: tools to build MRI.
+* `ruby/tool/`: tools to build MRI.
 * `ruby/missing/`: implementations for features that are missing in some OSes
 * `ruby/cygwin/`, `ruby/nacl/`, `ruby/win32`, ...: OS/system dependent code.
 
