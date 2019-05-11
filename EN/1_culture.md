@@ -24,7 +24,7 @@ MRI is the reference implementation of the Ruby language, so that approved Ruby 
 
 ### Repository and Ruby committers
 
-Ruby's primary repository uses Subversion for source control <https://www.ruby-lang.org/en/community/ruby-core/>. Some people have a right to modify this repository. We call them "Ruby committers". Now we have about 100 Ruby committers all over the world (but the number of active members is much smaller. If you become a Ruby committer, you can't throw away the title of "Ruby committer").
+Ruby's primary repository uses Git for source control <https://www.ruby-lang.org/en/community/ruby-core/>. Some people have a right to modify this repository. We call them "Ruby committers". Now we have about 100 Ruby committers all over the world (but the number of active members is much smaller. If you become a Ruby committer, you can't throw away the title of "Ruby committer").
 
 Committers can modify any of the source code of MRI. However, each committer has an area of responsibility. If a committer wants to modify another area, he/she is expected to ask and respect the advice of the responsible committers. For example, ko1 is a VM developer, so that if someone want to change the VM drastically, he wants to be consulted before any changes are committed.
 
