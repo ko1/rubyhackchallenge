@@ -72,7 +72,7 @@ Ruby のプライマリリポジトリは Git で管理されています <https
 
 チケットには、大きく分けて、「機能追加要求（Feature request）」と「バグ報告（Bug report）」があります。
 
-* Feature requests 
+* Feature requests
   * Ruby 仕様の追加や修正（Ruby 言語への要求だったり、MRI への要求だったり）。
   * ところで、Redmine の URL は `bugs` で始まってますね。これは、仕様変更のための修正（いや、どんな修正にも、かな？）にはバグが混入するだろうから、`bugs` でいいんだとか。
 * Bug reports
