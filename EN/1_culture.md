@@ -147,7 +147,7 @@ If you want to hack deeply into MRI, you need to know the C language.
         * RubyKaigi
         * RegionalRubyKaigi
         * Asakusa.rb, *.rb
-* Ruby developpers meeting (Monthly meeting at Tokyo)
+* Ruby developers meeting (Monthly meeting at Tokyo)
 * Contact individually
     * Twitter
         * @yukihiro_matz
