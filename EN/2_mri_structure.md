@@ -17,6 +17,8 @@ There are the following topics:
 
 The following commands assume an Unix-like environment, such as Linux, macOS, etc. If you're using a Windows environment, you will need to refer to other resources.
 
+NOTE: We provide experimental docker image: `docker pull koichisasada/rhc`. Use `rubydev` account with `su rubydev` and enjoy hacking.
+
 We assume the use of the following directory structure:
 
 * `workdir/`
