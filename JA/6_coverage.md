@@ -15,7 +15,7 @@
 
 カバレッジの可視化例を見てみましょう。次の URL を開いてください。
 
-https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/index.html
+https://rubyci.org/coverage
 
 ここには、MRI のカバレッジ測定・可視化を定期実行した最新の結果が置かれています。たとえば、"ruby" というディレクトリを辿り、その中の ["array.c"](https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/ruby/array.c.gcov.html) というファイルを開いてみて下さい。
 
