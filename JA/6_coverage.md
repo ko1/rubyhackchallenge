@@ -17,13 +17,13 @@
 
 https://rubyci.org/coverage
 
-ここには、MRI のカバレッジ測定・可視化を定期実行した最新の結果が置かれています。たとえば、"ruby" というディレクトリを辿り、その中の ["array.c"](https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/ruby/array.c.gcov.html) というファイルを開いてみて下さい。
+ここには、MRI のカバレッジ測定・可視化を定期実行した最新の結果が置かれています。たとえば、"ruby" というディレクトリを辿り、その中の ["array.c"](https://rubyci.s3.amazonaws.com/debian9-coverage/ruby-master/lcov/ruby/array.c.gcov.html) というファイルを開いてみて下さい。
 
 各行のコードのすぐ右に書かれている数値が実行回数です。実行回数が 1 回以上の行は青く、0 回の行は赤く表示されています（白い行は、空行やコメントや記号だけなど、実行の意味を持たない行）。ほとんどの行は白か青で、ときどき赤い行があるのが確認できると思います。ごく単純に言うと、これを見て赤い行を青くするように、テストを拡充していきます（あとで述べますが、実際には、もうちょっと慎重な検討をするべきです）。このように、行単位で計測したカバレッジを行カバレッジ（ラインカバレッジ、ステートメントカバレッジなどとも）と呼びます。
 
 また、同じページで、実行回数よりも右に青や赤で色づいた `[ + - ]` のような表示は、分岐のカバレッジを表しています。両方向に実行が進んでいたら青だけで `[ + + ]` 、片方だけの場合は青と赤で `[ + - ]` 、その分岐に到達していなかったら赤だけで `[ - - ]` となります。
 
-それから、画面一番上の ["functions" というリンク](https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/ruby/array.c.func-sort-c.html)をたどると、関数カバレッジが確認できます。これは、各関数が何回呼ばれたかを昇順に並べたものです。
+それから、画面一番上の ["functions" というリンク](https://rubyci.s3.amazonaws.com/debian9-coverage/ruby-master/lcov/ruby/array.c.func-sort-c.html)をたどると、関数カバレッジが確認できます。これは、各関数が何回呼ばれたかを昇順に並べたものです。
 
 ## MRI のコードカバレッジ
 
@@ -112,7 +112,7 @@ Coverage report generated for Ruby's `make test-all` to /home/mame/work/ruby.bui
 $ make lcov
 ```
 
-これで、lcov-out/index.html が生成されます。C 言語のコードと Ruby のコードのカバレッジが両方含まれているのがわかると思います。冒頭で紹介した [CI でのコードカバレッジ測定結果](https://rubyci.s3.amazonaws.com/debian8-coverage/ruby-trunk/lcov/index.html) は、この結果をアップロードしています。
+これで、lcov-out/index.html が生成されます。C 言語のコードと Ruby のコードのカバレッジが両方含まれているのがわかると思います。冒頭で紹介した [CI でのコードカバレッジ測定結果](https://rubyci.s3.amazonaws.com/debian9-coverage/ruby-master/lcov/index.html) は、この結果をアップロードしています。
 
 
 ## コードカバレッジを見てテストを改善する
