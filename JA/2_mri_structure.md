@@ -79,6 +79,16 @@ $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev li
 
 なお、この 2 回の `make` については、`make all install` とすると、1回の呼び出しで終わります。
 
+### 久しぶりに実行したビルドでエラーが起こる場合
+
+以前にRubyを上記の方法でビルドしたことがある場合、 `make` コマンドが失敗する可能性があります。
+その場合は、
+```
+make clean
+make distclean
+```
+を実行してから再度 `make` コマンドを実行してみてください。
+
 ## 演習：ビルドした Ruby でプログラムを実行してみよう
 
 ビルドした Ruby で実際に Ruby スクリプトを実行する方法はいくつかあります。
