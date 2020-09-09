@@ -87,7 +87,7 @@ $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev li
 make clean
 make distclean
 ```
-を実行してから再度 `make` コマンドを実行してみてください。
+を実行して古いファイル・ディレクトリを削除してから再度 `make` コマンドを実行してみてください。
 
 ## 演習：ビルドした Ruby でプログラムを実行してみよう
 
