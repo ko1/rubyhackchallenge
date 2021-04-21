@@ -376,7 +376,7 @@ Try solving the following challenges. `grep` will help you to find similar imple
 * Let's play a trick on MRI. For example, change the behaviour of `Integer#+` to perform subtraction instead. This hack will break your ruby build, so make a new git branch and experiment to see what happens.
 * Use your imagination and try to add an interesting new method.
 
-The following topics are discussed in next chapter, but try to explore them yourself before proceeding:
+The following topics are discussed in the next chapter, but try to explore them yourself before proceeding:
 
 * I described that `Integer#add(n)` had a bug.
   * Write a test which fails due to this bug.
