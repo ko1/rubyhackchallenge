@@ -29,7 +29,7 @@ There are many performance indicators, I'm writing down those that currently com
 
 Some of these indicators depend on each other, in correlation or in inverse correlation.
 
-Examples of correletions:
+Examples of correlations:
 
 * by dropping memory consumption, cache misses also drop, which improves throughput.
 * by reducing the amount of created objects, throughput increases
@@ -39,8 +39,8 @@ Examples of inverse correlations:
 * to improve the real-time rate, a real-time GC is needed → throughput declines
 * having special code paths for often occurring values might increase memory or disc usage
 
-It's important to be aware which of these indicators need to improve, what influence that will have on the other indicators and if that changes are still in acceptable limits.
-Furthermore, as computers are constantly evolving, it might be important to reevaluate ones choices that were appropriate in the past.
+It's important to be aware which of these indicators need to improve, what influence that will have on the other indicators and if those changes are still in acceptable limits.
+Furthermore, as computers are constantly evolving, it might be important to reevaluate one's choices that were appropriate in the past.
 
 For instance, a long time ago, memory was the main restriction, but the amount of memory we can use has constantly grown over time. But this time we might want to use cloud computing, where memory usage equals money, so memory consumption might be relevant yet again.
 
