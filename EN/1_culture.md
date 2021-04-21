@@ -26,7 +26,7 @@ MRI is the reference implementation of the Ruby language, so that approved Ruby 
 
 Ruby's primary repository uses Git for source control <https://www.ruby-lang.org/en/community/ruby-core/>. Some people have a right to modify this repository. We call them "Ruby committers". Now we have about 100 Ruby committers all over the world (but the number of active members is much smaller. If you become a Ruby committer, you can't throw away the title of "Ruby committer").
 
-Committers can modify any of the source code of MRI. However, each committer has an area of responsibility. If a committer wants to modify another area, he/she is expected to ask and respect the advice of the responsible committers. For example, ko1 is a VM developer, so that if someone want to change the VM drastically, he wants to be consulted before any changes are committed.
+Committers can modify any of the source code of MRI. However, each committer has an area of responsibility. If a committer wants to modify another area, he/she is expected to ask and respect the advice of the responsible committers. For example, ko1 is a VM developer, so that if someone wants to change the VM drastically, he wants to be consulted before any changes are committed.
 
 There is no formal code review system. We may check committed patches and point out issues that we notice. We use `git bisect` (or similar techniques) to investigate problems (e.g. bug reports). If we have a big change, we ask other committers for a review.
 
@@ -63,7 +63,7 @@ Good bug reports should contain the following:
 For details, please check <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReport> (English)
 or Japanese version <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJ>.
 
-Good feature request should contains the following:
+Good feature request should contain the following:
 
 * Abstract (short summary)
 * Background (What is the issue you want to solve and why. Use-cases)
@@ -90,7 +90,7 @@ We also need to prepare a variety of environments to run our tests. For example,
 Usually we use Intel x86/64 CPU or ARM processors, but there are other processors that we try to test on.
 The list of Ruby's supported platforms can be found at: <https://bugs.ruby-lang.org/projects/ruby-trunk/wiki/SupportedPlatforms>.
 
-Because MRI is used on many enviroments, it is preferable to run tests on as wide a variety of environments as possible.
+Because MRI is used in many enviroments, it is preferable to run tests on as wide a variety of environments as possible.
 It's common practice to use Continuous Integration (CI) to run automated tests. Ruby is no exception.
 
 In addition to using the popular Travis-CI service, we also run the <http://rubyci.org> site to collect test results run on a wider variety of environments. Typically, a CI system uses its own computing resources. However, our resources are limited. So, instead of preparing and managing the computers for the multitude of environments we need, we gather the results from tests run by volunteers in the community who run tests on their own computing resources. The tool [chkbuild](https://github.com/ruby/chkbuild) builds Ruby, runs tests, generates results, and performs a diff on the output so that we can determine which versions of Ruby have particular bugs.
@@ -134,7 +134,7 @@ If you want to hack deeply into MRI, you need to know the C language.
 
 ### Communication channels
 
-* Ruby's redmine: https://bugs.ruby-lang.org/projects/ruby/
+* Ruby's Redmine: https://bugs.ruby-lang.org/projects/ruby/
     * Ticket
     * Wiki
 * Mailing lists
@@ -156,7 +156,7 @@ If you want to hack deeply into MRI, you need to know the C language.
 
 ## Important note
 
-This article introduces several rather pendantic "rules". However, what we interpreter developers value the most is "Hacking".
+This article introduces several rather pedantic "rules". However, what we interpreter developers value the most is "Hacking".
 If you contribute a great patch, we will support your contribution, even if you don't strictly abide by the above rules.
 
 Write code, and have fun!

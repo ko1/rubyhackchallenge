@@ -40,7 +40,7 @@ We file all issues on Redmine <https://bugs.ruby-lang.org/issues/> and there are
 
 (1) Bug tickets
 
-We need to fix many bugs but there we dont have enough resources.
+We need to fix many bugs but there we don't have enough resources.
 Please help us.
 
 (1-1) Check if the bug is reproducible or not
@@ -72,8 +72,8 @@ There are several feature-request tickets.
 (2-1) Consider the feature request
 
 Please consider new features and report your thoughts.
-Concrete use-cases based on your experiences will be help us.
-Conversely, thoughts on just your feelings is not usually enough.
+Concrete use-cases based on your experiences will help us.
+Conversely, thoughts on just your feelings are not usually enough.
 Fact is preferable (for example, consistency with other features, other languages and so on).
 
 (2-2) Try to implement a feature request
@@ -92,7 +92,7 @@ For example, ko1's ticket <https://bugs.ruby-lang.org/issues/14609> is very easy
 And do (2-1) to (2-3).
 
 For example, there are many methods in ActiveSupport but not in Ruby builtin/standard libary.
-Porting them is one topic (but you need to pursuade Matz to introduce it).
+Porting them is one topic (but you need to persuade Matz to introduce it).
 
 ## Visualization
 

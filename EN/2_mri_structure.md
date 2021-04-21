@@ -17,7 +17,7 @@ There are the following topics:
 
 The following commands assume an Unix-like environment, such as Linux, macOS, etc. If you're using a Windows environment, you will need to refer to other resources.
 
-NOTE: We provide experimental docker image: `docker pull koichisasada/rhc`. Use `rubydev` account with `su rubydev` and enjoy hacking.
+NOTE: We provide an experimental docker image: `docker pull koichisasada/rhc`. Use `rubydev` account with `su rubydev` and enjoy hacking.
 
 We assume the use of the following directory structure:
 
@@ -65,7 +65,7 @@ NOTE: Running `make` with the `V=1` option (i.e. `make V=1 -j`, etc.) will outpu
 
 ## Exercise: Execute Ruby programs with the Ruby you built
 
-There are several way to run Ruby scripts on the Ruby you built.
+There are several ways to run Ruby scripts on the Ruby you built.
 
 The simplest way is to launch the installed Ruby directly, i.e. invoke `workdir/install/bin/ruby`. This is the same as invoking a pre-built Ruby binary. However, this means you will need to run `make install` every time you make a change to the Ruby source code, which can be rather time-consuming.
 
