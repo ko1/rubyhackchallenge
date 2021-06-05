@@ -67,7 +67,7 @@ $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev li
 
 上記手順では、主に次のことをしています。
 
-* `autoconf` による `configure` スクリプトの生成
+* `autoreconf` による `configure` スクリプトの生成
 * `configure` による `Makefile` の生成
 * `make` による `./ruby` の生成（`make` 単体での実行は `make all` の意味になります）。これは、いくつかの生成が含まれています。
   * `make miniruby` による `./miniruby` の生成
