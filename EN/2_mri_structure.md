@@ -50,7 +50,7 @@ Due to limited network bandwidth at the venue, please clone the source code at h
 1. Check the required commands described above.
 2. `$ cd workdir/` # Move to `workdir`
 3. `$ cd ruby` # Move to `workdir/ruby`
-4. `$ autoconf`
+4. `$ ./autogen.sh`
 5. `$ cd ..`
 6. `$ mkdir build`
 7. `$ cd build`
