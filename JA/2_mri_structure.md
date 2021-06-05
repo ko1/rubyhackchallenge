@@ -46,7 +46,7 @@ $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev li
 1. 上記「前提とするコマンド」を確認
 2. `$ cd workdir/` # workdir に移動します
 3. `$ cd ruby` # workdir/ruby に移動します
-4. `$ autoconf`
+4. `$ ./autogen.sh`
 5. `$ cd ..`
 6. `$ mkdir build` # `workdir/build` を作成します
 7. `$ cd build`
