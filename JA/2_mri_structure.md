@@ -83,11 +83,20 @@ $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev li
 
 以前にRubyを上記の方法でビルドしたことがある場合、 `make` コマンドが失敗する可能性があります。
 その場合は、
+
 ```
 make clean
+```
+
+を実行して古いファイル・ディレクトリを削除してから再度 `make` コマンドを実行してみてください。
+
+それでも失敗する場合は、
+
+```
 make distclean
 ```
-を実行して古いファイル・ディレクトリを削除してから再度 `make` コマンドを実行してみてください。
+
+でconfigureからやり直すとうまくいく可能性があります。
 
 ## 演習：ビルドした Ruby でプログラムを実行してみよう
 
