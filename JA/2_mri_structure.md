@@ -30,7 +30,7 @@ git、ruby、autoconf、bison、gcc (or clang, etc）、make が必須です。�
 `apt-get` が使える環境では、下記のようなコマンドでインストールされます。
 
 ```
-$ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev
+$ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev libyaml-dev
 ```
 
 ## 演習: MRI のソースコードを clone

@@ -32,7 +32,7 @@ Standard Ruby extensions (such as zlib, openssl, etc.) will be built if the libr
 If you use `apt-get` (or `apt`) for package management in your environment, then you can get all dependencies with the following command:
 
 ```
-$ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev
+$ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev libyaml-dev
 ```
 
 ## Exercise: Clone the MRI source code
