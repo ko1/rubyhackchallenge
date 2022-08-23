@@ -27,11 +27,13 @@ end
 3. `rb_define_method(rb_cArray, "second", ary_second, 0);` という行を `Init_Array()` 関数に追加しましょう。
 4. ビルドし、`ruby/test.rb` にサンプルコードを記述して、`make run` で動くか試してみましょう。
 5. テストを `ruby/test/ruby/test_array.rb` に記入しましょう。minitest フォーマットです。
-6. `$ make test-all` と実行すると、書いたテストが実行されます。ただし、数万のテストが走ってしまうので、Array のテストだけに絞りましょう。
+6. `$ make -j && make install` を実行して ruby コマンドをビルドし直しましょう
+  * ruby コマンドをビルドし直すには `make -j` だけでなく `make install` も実行する必要があります
+7. `$ make test-all` と実行すると、書いたテストが実行されます。ただし、数万のテストが走ってしまうので、Array のテストだけに絞りましょう。
   * `$ make test-all TESTS='ruby/test_array.rb'` とすることで、`ruby/test/ruby/test_array.rb` だけテストします。
   * `$ make test-all TESTS='ruby/test_array.rb -n test_xxx'` とすることで、`ruby/test_array.rb` にある `test_xxx` にマッチするテストのみ走らせます。
   * `$ make test-all TESTS='-j8'` とすることで、8 並列でテストを走らせます。
-7. ほかのメソッドを参考に、`Array#second` に rdoc ドキュメントを記入してみましょう。
+8. ほかのメソッドを参考に、`Array#second` に rdoc ドキュメントを記入してみましょう。
 
 C での定義はこんな感じになります（下記 diff を取ってから時間がたっているので、行番号は、ずれていると思います）。
 

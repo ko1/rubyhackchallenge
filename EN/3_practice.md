@@ -27,10 +27,12 @@ Steps:
 3. Add the statement `rb_define_method(rb_cArray, "second", ary_second, 0);` to the body of the `Init_Array()` function.
 4. Write some sample code to try your new method in `ruby/test.rb`, then build and run with `make run`.
 5. Add a test in `ruby/test/ruby/test_array.rb`. These tests are written in the minitest format.
-6. `$ make test-all` will run the test code you wrote. However, it runs a tremendous number of ruby tests, so you may want to run only the Array-related tests.
+6. `$ make -j && make install` will rebuild ruby command.
+  * To rebuild ruby command, we need to execute `make install` in addition to `make -j`.
+7. `$ make test-all` will run the test code you wrote. However, it runs a tremendous number of ruby tests, so you may want to run only the Array-related tests.
   * `$ make test-all TESTS='ruby/test_array.rb'` will test only `ruby/test/ruby/test_array.rb`.
   * `$ make test-all TESTS='-j8'` will run in parallel with 8 processes.
-7. Add rdoc documentation of `Array#second` by referencing the documentation of other methods in `array.c`.
+8. Add rdoc documentation of `Array#second` by referencing the documentation of other methods in `array.c`.
 
 
 One possible implementation of `ary_second()` is shown below. Line numbers may differ because `array.c` is likely to have changed since this document was written.
