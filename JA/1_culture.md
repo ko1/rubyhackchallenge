@@ -111,7 +111,7 @@ GitHub への issue および Pull request は運が良ければ対応されま�
 MRI は大きく複雑なソフトウェアなので、テストによる品質保証が必要です。そのため、約 5,000ファイル、45万行程度のテスト用スクリプトが存在します（その話は次の資料で）。
 
 また、プログラムが大きいだけで無く、様々な環境で Ruby を動作させるので、テスト実行環境も沢山用意する必要があります。
-例えば OS だけでも、ULinux、Mac OSX、Windows が有名ですが、それ以外にも、*BSD、Solaris など、色々あります（今はそんなにないのかな？）。
+例えば OS だけでも、Linux、Mac OSX、Windows が有名ですが、それ以外にも、*BSD、Solaris など、色々あります（今はそんなにないのかな？）。
 ハードウェア/CPU も、多くの場合、Intel x86/64 CPU、もしくは ARM だと思いますが、それ以外のプロセッサを利用していることがあります。
 なお、Ruby がサポートするプラットフォーム一覧はこちら：<https://bugs.ruby-lang.org/projects/ruby-trunk/wiki/SupportedPlatforms>。
 
