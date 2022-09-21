@@ -33,7 +33,7 @@ git、ruby、autoconf、bison、gcc (or clang, etc）、make が必須です。�
 $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev libyaml-dev
 ```
 
-`apt-get` 以外でインストールしたい場合は、[Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki) を参照してみてください。
+`apt-get` 以外でインストールしたい場合は、例えば [Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki) を参照してみてください。
 
 ## 演習: MRI のソースコードを clone
 

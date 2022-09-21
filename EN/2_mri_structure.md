@@ -35,7 +35,7 @@ If you use `apt-get` (or `apt`) for package management in your environment, then
 $ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev libyaml-dev
 ```
 
-If you would like to install other than `apt-get`, please refer to [Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki)
+If you would like to install other than `apt-get`, see for example [Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki)
 ## Exercise: Clone the MRI source code
 
 Use the following commands:
