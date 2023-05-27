@@ -71,7 +71,7 @@ index bd24216af3..79c1c1d334 100644
 * `rb_ary_entry(self, n)` が `self[n]` の意味であり、`n = 1` なので、2番目（0 origin なので）を返します。
 * `Init_Array` という関数が、MRI 起動時に実行されます。
 * `rb_define_method(rb_cArray, "second", ary_second, 0);` で、`Array` クラスに `second` メソッドを定義しています。
-  * `rb_cArray` が Array クラスのオブジェクトです。`rb_` が Ruby の何か、`c` がクラスであることを意味しするため、`rb_cArray` が Ruby の `Array` クラスであることがわかります。ちなみに、モジュールの場合は `m`（例えば、`rb_mEnumerable`、エラークラスの場合は `e`（例えば、`rb_eArgError`）。
+  * `rb_cArray` が Array クラスのオブジェクトです。`rb_` が Ruby の何か、`c` がクラスであることを意味するため、`rb_cArray` が Ruby の `Array` クラスであることがわかります。ちなみに、モジュールの場合は `m`（例えば、`rb_mEnumerable`、エラークラスの場合は `e`（例えば、`rb_eArgError`）。
   * `rb_define_method` がインスタンスメソッドを定義する関数です。
   * 「`rb_cArray` に、`"second"` という名前のメソッドを定義しろ。メソッドが呼ばれたら `ary_second` を呼び出せ。なお、引数の数は 0 である」という意味になります。
 
