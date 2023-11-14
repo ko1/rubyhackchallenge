@@ -26,13 +26,13 @@ We assume the use of the following directory structure:
   * `build/` <- build directory (`*.o` files and other compilation artifacts are stored here)
   * `install/` <- install directory (`workdir/install/bin/ruby` is the installed binary)
 
-The commands `git`, `ruby`, `autoconf`, `bison`, `gcc` (or `clang`, etc), and `make` are required.
+The commands `git`, `ruby`, `autoconf`, `gcc` (or `clang`, etc), and `make` are required.
 Standard Ruby extensions (such as zlib, openssl, etc.) will be built if the libraries they depend on are available.
 
 If you use `apt-get` (or `apt`) for package management in your environment, then you can get all dependencies with the following command:
 
 ```
-$ sudo apt-get install git ruby autoconf bison gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev libyaml-dev
+$ sudo apt-get install git ruby autoconf gcc make zlib1g-dev libffi-dev libreadline-dev libgdbm-dev libssl-dev libyaml-dev
 ```
 
 If you would like to install other than `apt-get`, see for example [Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki)
@@ -178,14 +178,14 @@ There are two kinds of libraries.
 
 ## Ruby's build process
 
-Ruby build process is composed of several phases involving source code generation and so on. Several tools are written in Ruby, so the Ruby build process requires the Ruby interpreter. Release tarballs contain generated source code so that installing Ruby with a release tarball does not require the Ruby interpreter (and other development tools such as bison).
+Ruby build process is composed of several phases involving source code generation and so on. Several tools are written in Ruby, so the Ruby build process requires the Ruby interpreter. Release tarballs contain generated source code so that installing Ruby with a release tarball does not require the Ruby interpreter (and other development tools such as autoconf).
 
 If you want to build MRI with source code fetched by Subversion or Git repository, you need a Ruby interpreter.
 
 The following steps describe the build and install process:
 
 1. Build miniruby
-    1. parse.y -> parse.c: Compile syntax rules into C code with bison
+    1. parse.y -> parse.c: Compile syntax rules into C code with lrama
     2. insns.def -> vm.inc: Compile VM instructions into C code with ruby (`BASERUBY`)
     3. `*.c` -> `*.o` (`*.obj` on Windows): Compile C code into object files.
     4. link object files into miniruby

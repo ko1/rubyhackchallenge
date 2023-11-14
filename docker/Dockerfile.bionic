@@ -4,7 +4,7 @@ MAINTAINER Koichi Sasada
 RUN apt update && \
   apt dist-upgrade -y && \
   apt install -y gcc && \
-  apt install -y ruby subversion autoconf bison make git && \
+  apt install -y ruby subversion autoconf make git && \
   apt install -y libgmp-dev libssl-dev zlib1g-dev libffi-dev libreadline-dev libgdbm-dev && \
   apt install -y vim-tiny gdb && \
   apt install -y sudo && \
