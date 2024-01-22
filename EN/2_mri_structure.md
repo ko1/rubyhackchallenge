@@ -178,7 +178,7 @@ There are two kinds of libraries.
 
 ## Ruby's build process
 
-Ruby build process is composed of several phases involving source code generation and so on. Several tools are written in Ruby, so the Ruby build process requires the Ruby interpreter. Release tarballs contain generated source code so that installing Ruby with a release tarball does not require the Ruby interpreter (and other development tools such as autoconf).
+the Ruby build process is composed of several phases involving source code generation and so on. Several tools are written in Ruby, so the Ruby build process requires the Ruby interpreter. Release tarballs contain generated source code so that installing Ruby with a release tarball does not require the Ruby interpreter (and other development tools such as autoconf).
 
 If you want to build MRI with source code fetched by Subversion or Git repository, you need a Ruby interpreter.
 
