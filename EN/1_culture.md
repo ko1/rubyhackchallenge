@@ -84,7 +84,7 @@ Or, you can try to contact to a Ruby committer directly.
 
 ## CI on MRI
 
-MRI is a big and complex piece ofsoftware, so it is necessary to use automated testing for Quality Assurance (QA). We have about 450,000 lines of tests across some 5,000 files.
+MRI is a big and complex piece of software, so it is necessary to use automated testing for Quality Assurance (QA). We have about 450,000 lines of tests across some 5,000 files.
 
 We also need to prepare a variety of environments to run our tests. For example, well-known OSes such as Linux, macOS, Windows, as well as lesser known OSes \*BSD, Solaris and so on.
 Usually we use Intel x86/64 CPU or ARM processors, but there are other processors that we try to test on.
