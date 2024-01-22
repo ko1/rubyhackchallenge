@@ -193,7 +193,7 @@ The following steps describe the build and install process:
     1. translate enc/... to appropriate C code with `miniruby`
     2. compile C code
 3. Build C-extension libraries
-    1. Make `Makefile` from `extconf.rb` with `mkmf.rb` and `miniruby`
+    1. Generate `Makefile` from `extconf.rb` with `mkmf.rb` and `miniruby`
     2. Run `make` using generated `Makefile`.
 4. Build `ruby` command
 5. Generate documentation (`rdoc`, `ri`)
