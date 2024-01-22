@@ -107,7 +107,7 @@ If you want to run the "normal" Ruby, which can load extension libraries, you ca
 
 NOTE: Running `gdb` on macOS can be quite difficult. The following commands assume a Linux environment.
 
-When modifying the MRI source code, you can easily introduces critical problems that result in a SEGV. To debug such problems, we provide Makefile rules to support debugging with gdb. Of course, you can also debug with break points.
+When modifying the MRI source code, you can easily introduce critical problems that result in a SEGV. To debug such problems, we provide Makefile rules to support debugging with gdb. Of course, you can also debug with break points.
 
 1. Write in `ruby/test.rb` what you want to check. Note that you can't use gems or extension libraries in `test.rb`.
 3. Invoke `$ make gdb` to run miniruby with gdb. If there are no problems, gdb finishes silently.
