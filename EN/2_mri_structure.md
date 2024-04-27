@@ -55,7 +55,7 @@ Due to limited network bandwidth at the venue, please clone the source code at h
 5. `$ cd ..`
 6. `$ mkdir build`
 7. `$ cd build`
-8. `$ ../ruby/configure --prefix=$PWD/../install --enable-shared`
+8. `$ ../configure --prefix=$PWD/../install --enable-shared`
   * the `prefix` option specifies an install directory. You can specify the directory of your choice by supplying the full absolute path (in this case, `workdir/install` is specified).
   * users of `Homebrew` will need to add the following options `--with-openssl-dir="$(brew --prefix openssl)" --with-readline-dir="$(brew --prefix readline)" --disable-libedit`
 9. `$ make -j` # Run build. `-j` specifies *parallel build*.

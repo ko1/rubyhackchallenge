@@ -52,12 +52,12 @@ $ sudo apt-get install git ruby autoconf gcc make zlib1g-dev libffi-dev libreadl
 5. `$ cd ..`
 6. `$ mkdir build` # `workdir/build` を作成します
 7. `$ cd build`
-8. `$ ../ruby/configure --prefix=$PWD/../install --enable-shared`
+8. `$ ../configure --prefix=$PWD/../install --enable-shared`
   * `prefix` は、インストールする先のディレクトリです。絶対パスで、好きな場所を指定してください（この例では `workdir/install`）
   * Homebrew で諸々インストールしている場合は、 ```--with-openssl-dir=`brew --prefix openssl` --with-readline-dir=`brew --prefix readline` --disable-libedit``` を付けてください。
 9. `$ make -j` # ビルドします。`-j` は並列にコンパイルなどを行うオプションです。
   * この時点で、`ruby` コマンドと `miniruby` コマンドが `workdir/build` にできているはずです。
-  * また、`.ext/` に拡張ライブラリが格納されています。 
+  * また、`.ext/` に拡張ライブラリが格納されています。
 10. `$ make install`
   * この時点で、`../install`、つまり `workdir/install` に諸々インストールされます。実際に何が入っているか確認してみましょう。
   * > tips: `make install-nodoc` とすると、rdoc/ri ドキュメントのインストールをスキップします
