@@ -88,7 +88,7 @@ Ruby が利用している Redmine では、チケットを登録する際、チ
 * 実際に得られた挙動
 * （可能なら）その問題を修正するためのパッチ
 
-詳細は、英語 <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReport> (English) もしくは日本語 <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJa> のドキュメントがありますのでご参照ください。
+詳細は、英語 <https://github.com/ruby/ruby/wiki/How-To-Report> (English) もしくは日本語 <https://github.com/ruby/ruby/wiki/How-To-Report-Ja> のドキュメントがありますのでご参照ください。
 
 良い Feature request （機能追加要求）には、次のような内容が含まれていることが期待されます。
 
@@ -102,7 +102,7 @@ Ruby が利用している Redmine では、チケットを登録する際、チ
 
 機能追加要求では「実際にどんなユースケースがあるのか」という点が（最近だととくに）よく求められます。例えば、「使わないけど、整合性のためにはこういう機能があるほうがいいのではないか」という提案は、あまり通らないことが多いです（この場合、整合性よりも互換性のほうが優先されます）。
 
-さらなる詳細は <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToRequestFeatures> （英語）をご参照ください。
+さらなる詳細は <https://github.com/ruby/ruby/wiki/How-To-Request-Features> （英語）をご参照ください。
 
 GitHub への issue および Pull request は運が良ければ対応されますが、運が悪ければ放置されます。それらを作成した場合、Redmine への issue を別途作成し、Github の当該 URL を示す、というのが良いと思います（もしくは、誰かコミッタに連絡すれば、対応してくれるかもしれません）。
 

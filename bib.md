@@ -3,8 +3,8 @@
 ## English
 
 * Redmine wiki
-    * https://bugs.ruby-lang.org/projects/ruby/wiki
-    * https://bugs.ruby-lang.org/projects/ruby/wiki/DeveloperHowto
+    * https://github.com/ruby/ruby/wiki
+    * https://github.com/ruby/ruby/wiki/Developer-How-To
 * [Ruby Hacking Guide](https://ruby-hacking-guide.github.io/) by @minero-aoki
   * MRI Internal complete guide for Ruby 1.8 era.
   * Part 1, 2 (GC, Parser) are valuable yet.
@@ -16,8 +16,8 @@
 ## Japanese
 
 * Redmine wiki
-   * https://bugs.ruby-lang.org/projects/ruby/wiki
-   * https://bugs.ruby-lang.org/projects/ruby/wiki/DeveloperHowto
+   * https://github.com/ruby/ruby/wiki
+   * https://github.com/ruby/ruby/wiki/Developer-How-To
 * [Rubyの拡張ライブラリの作り方](https://docs.ruby-lang.org/en/2.4.0/extension_ja_rdoc.html)
    * Ruby (MRI) の拡張ライブラリの作り方と、詳細な API の情報がまとまっています。
 * [Ruby Hacking Guide](http://i.loveruby.net/ja/rhg/) by @minero-aoki
