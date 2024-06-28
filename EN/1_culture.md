@@ -60,8 +60,8 @@ Good bug reports should contain the following:
 * Actual behaviour exhibited.
 * A patch which solves the issue (if possible).
 
-For details, please check <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReport> (English)
-or Japanese version <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToReportJ>.
+For details, please check <https://github.com/ruby/ruby/wiki/How-To-Report> (English)
+or Japanese version <https://github.com/ruby/ruby/wiki/How-To-Report-JA>.
 
 Good feature request should contain the following:
 
@@ -76,7 +76,7 @@ Good feature request should contain the following:
 For example, if you submit a "Feature request", then you will certainly be asked "what are your actual use cases?"
 This is an extreme example: if you proposed that "this feature should be changed because of inconsistency, but I don't use this feature any more", then your proposal will be rejected (fixing inconsistency is not more important than compatibility).
 
-For further information, please check <https://bugs.ruby-lang.org/projects/ruby/wiki/HowToRequestFeatures>.
+For further information, please check <https://github.com/ruby/ruby/wiki/How-To-Request-Features>.
 
 Issues or Pull Requests on GitHub are checked occasionally. In other words, sometimes they are ignored.
 I recommend you to make a new ticket on Redmine and link to your Issue or Pull Request on GitHub.
