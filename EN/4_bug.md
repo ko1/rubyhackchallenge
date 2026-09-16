@@ -63,7 +63,7 @@ Write some code to call `hello` in `test.rb`, and then run `$ make run`. Did it 
 
 ### Bug report
 
-Let's consider that a new Ruby (such as Ruby 2.6.0) is released including the `hello()` method. The `hello()` method is popular, and many Ruby users use this `hello()` method in their applications. You built a reputation by writing this method. Congratulations!
+Let's consider that a new Ruby (such as Ruby 4.0.0) is released including the `hello()` method. The `hello()` method is popular, and many Ruby users use this `hello()` method in their applications. You built a reputation by writing this method. Congratulations!
 
 As with anything that has many users, inevitably, bugs are discovered. One day, the following bug report is filed as a ticket on Redmine.
 
@@ -206,6 +206,8 @@ Let's assume that this error is in big production application, and the reporter 
 It's time to start debugging with a log file.
 
 ### How to read `[BUG]` log files
+
+> Note: the log read in this section was taken in 2017, with Ruby 2.5.0dev. Recent versions print more information and change the format here and there (for example, since Ruby 3.4 a method in a backtrace is quoted as `'hello'` instead of `` `hello' ``). The way to read the log has not changed, so make MRI print a `[BUG]` of your own and compare.
 
 `[BUG]` is displayed when MRI encounters critical errors. Generally, these are interpreter bugs.
 
@@ -524,7 +526,7 @@ Before submitting your bug report, check for reports of similar problems. You ca
 
 After checking for duplication, we can't find any similar reports. It is a time to create a ticket!
 
-1. Visit https://bugs.ruby-lang.org/projects/ruby-trunk/issues to create a ticket. If you don't have an account on Redmine, register first and login with new account.
+1. Visit https://bugs.ruby-lang.org/projects/ruby-master/issues to create a ticket. If you don't have an account on Redmine, register first and login with new account.
 2. Click the "New ticket" button.
 3. Select "Bug" in the "Tracker" field.
 4. The "Subject" should be clear and concise. Let's use "Integer#add causes RangeError unexpectedly".

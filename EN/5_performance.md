@@ -75,7 +75,7 @@ end
 n = Integer(ARGV.shift || 35)
 puts "fib(#{n}) = #{fib(n)}"
 ```
-A general improvement would be to develop a JIT compiler (Just-in-Time compiler, compiling at run time), which would ease the workload by substituting the recursive method calls with jump instructions. But we would get a performance improvement of several times to hundred times at best (well, you could argue that that much of an improvement would be fine on its on). 
+A general improvement would be to develop a JIT compiler (Just-in-Time compiler, compiling at run time), which would ease the workload by substituting the recursive method calls with jump instructions. But we would get a performance improvement of several times to hundred times at best (well, you could argue that that much of an improvement would be fine on its on). (Since this document was written, MRI got its JIT compilers: YJIT and ZJIT. Try `ruby --yjit`.) 
 
 Of course, there's a faster algorithm to compute the Fibonacci numbers.
 
@@ -118,7 +118,7 @@ These are places of MRI that can be improved
   * Inspecting the object memory layout.
 * VM
   * Review the instruction set.
-  * Consider JIT compilation.
+  * JIT compilation. MRI now has two JIT compilers written in Rust: YJIT (since Ruby 3.1) and ZJIT (since Ruby 4.0), in `yjit/` and `zjit/`.
   * Consider optimizations of the compiler such as instruction replacement, inlining, etc.
 
 And I think there are yet many other places.

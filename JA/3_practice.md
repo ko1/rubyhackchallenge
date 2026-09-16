@@ -351,7 +351,7 @@ MRI を後から機能拡張するための、C 拡張ライブラリは、ほ�
 
 ## Tips: 開発のヒント
 
-https://docs.ruby-lang.org/en/2.4.0/extension_ja_rdoc.html に詳細説明があるのでチェックしましょう。
+https://docs.ruby-lang.org/en/master/extension_ja_rdoc.html に詳細説明があるのでチェックしましょう。
 
 MRI のソースコードを検索し、似たようなことをやっているメソッドを探しましょう。
 

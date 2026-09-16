@@ -24,13 +24,11 @@ MRI is the reference implementation of the Ruby language, so that approved Ruby 
 
 ### Repository and Ruby committers
 
-Ruby's primary repository uses Git for source control <https://www.ruby-lang.org/en/community/ruby-core/>. Some people have a right to modify this repository. We call them "Ruby committers". Now we have about 100 Ruby committers all over the world (but the number of active members is much smaller. If you become a Ruby committer, you can't throw away the title of "Ruby committer").
+MRI is developed on GitHub: <https://github.com/ruby/ruby> (the repository is also available at <https://git.ruby-lang.org/ruby.git>). Some people have a right to modify this repository. We call them "Ruby committers". Now we have about 100 Ruby committers all over the world (but the number of active members is much smaller. If you become a Ruby committer, you can't throw away the title of "Ruby committer").
 
 Committers can modify any of the source code of MRI. However, each committer has an area of responsibility. If a committer wants to modify another area, he/she is expected to ask and respect the advice of the responsible committers. For example, ko1 is a VM developer, so that if someone wants to change the VM drastically, he wants to be consulted before any changes are committed.
 
-There is no formal code review system. We may check committed patches and point out issues that we notice. We use `git bisect` (or similar techniques) to investigate problems (e.g. bug reports). If we have a big change, we ask other committers for a review.
-
-BTW, there is a mirror of the repository on GitHub <https://github.com/ruby/ruby/>.
+Changes used to be pushed directly to the repository. Nowadays, committers and non-committers alike propose changes as pull requests, CI runs on GitHub Actions, and the change is merged after review. This is not a rule, though: a committer may merge a change in their own area without a review. For a big change, we ask other committers for a review. We use `git bisect` (or similar techniques) to investigate problems (e.g. bug reports), as we always did.
 
 ## Ticket management
 
@@ -46,7 +44,7 @@ Tickets can be divided into two categories: "Feature request" and "Bug report".
 
 * Feature requests
   * Requests for additions or changes to the Ruby language itself.
-  * incidentally, Redmine's URL <https://bugs.ruby-lang.org/projects/ruby-trunk/> contains the word "bugs" :)
+  * incidentally, Redmine's URL <https://bugs.ruby-lang.org/projects/ruby-master/> contains the word "bugs" :)
 * Bug reports
   * Strange behaviour, performance issues and so on. Everything except for changes to the specification.
 
@@ -78,51 +76,56 @@ This is an extreme example: if you proposed that "this feature should be changed
 
 For further information, please check <https://github.com/ruby/ruby/wiki/How-To-Request-Features>.
 
-Issues or Pull Requests on GitHub are checked occasionally. In other words, sometimes they are ignored.
-I recommend you to make a new ticket on Redmine and link to your Issue or Pull Request on GitHub.
-Or, you can try to contact to a Ruby committer directly.
+Note that the issue tracker is disabled on <https://github.com/ruby/ruby>: Redmine is the primary place for bug reports and proposals. Pull requests, on the other hand, are used every day. If you have a bug fix, a documentation fix or a performance patch, sending a pull request is the most straightforward way to contribute.
+
+However, a change of the language specification (a new feature, or an incompatible change) is not decided by a pull request. File a ticket on Redmine, discuss it there, and it will eventually be discussed at a developer meeting where matz makes the decision.
+If your pull request gets no response, file a ticket on Redmine and link to it, or try to contact a Ruby committer directly.
 
 ## CI on MRI
 
-MRI is a big and complex piece of software, so it is necessary to use automated testing for Quality Assurance (QA). We have about 450,000 lines of tests across some 5,000 files.
+MRI is a big and complex piece of software, so it is necessary to use automated testing for Quality Assurance (QA). At the time of writing, `ruby/test/` has about 900 files and 290,000 lines, and `ruby/spec/` has about 5,000 files and 360,000 lines.
 
 We also need to prepare a variety of environments to run our tests. For example, well-known OSes such as Linux, macOS, Windows, as well as lesser known OSes \*BSD, Solaris and so on.
 Usually we use Intel x86/64 CPU or ARM processors, but there are other processors that we try to test on.
-The list of Ruby's supported platforms can be found at: <https://bugs.ruby-lang.org/projects/ruby-trunk/wiki/SupportedPlatforms>.
+The list of Ruby's supported platforms can be found at: <https://bugs.ruby-lang.org/projects/ruby-master/wiki/SupportedPlatforms> (the "Supported platforms" section of each release's NEWS also lists the changes).
 
 Because MRI is used in many enviroments, it is preferable to run tests on as wide a variety of environments as possible.
 It's common practice to use Continuous Integration (CI) to run automated tests. Ruby is no exception.
 
-In addition to using the popular Travis-CI service, we also run the <http://rubyci.org> site to collect the results of tests performed on a wider variety of environments. Typically, a CI system uses its own computing resources. However, our resources are limited. So, instead of preparing and managing the computers for the multitude of environments we need, we gather the results from tests run by volunteers in the community who run tests on their own computing resources. The tool [chkbuild](https://github.com/ruby/chkbuild) builds Ruby, runs tests, generates results, and performs a diff on the output so that we can determine which versions of Ruby have particular bugs.
+The first CI to report back in daily development is GitHub Actions. Every pull request to `ruby/ruby`, and every push to master, is built and tested on Linux (Ubuntu), macOS, Windows (MSVC/MinGW/Cygwin/WSL), several compilers, YJIT/ZJIT, WebAssembly and cross-compilation targets. The definitions are in `.github/workflows/`.
+
+The environments GitHub Actions can offer are limited, though. To test on a wider variety of environments, we also run the <https://rubyci.org> site, which collects the results of tests performed elsewhere. Typically, a CI system uses its own computing resources. However, our resources are limited. So, instead of preparing and managing the computers for the multitude of environments we need, we gather the results from tests run by volunteers in the community who run tests on their own computing resources. The tool [chkbuild](https://github.com/ruby/chkbuild) builds Ruby, runs tests, generates results, and performs a diff on the output so that we can determine which versions of Ruby have particular bugs.
 
 `chkbuild` is good test/CI framework but, for various reasons (for example, chkbuild downloads source code each time) it can be quite slow (typically tens of minutes). To overcome this limitation, we use another CI system <http://ci.rvm.jp/> that can reuse previous builds, and can build/test in parallel, reducing the time required for testing to the order of 2-3 minutes. This allows us to run our tests hundreds of times every day, which can be helpful for revealing hard-to-reproduce bugs (e.g. timing bugs).
 
 Ruby committers are expected to run tests on their own machines.
-If a Ruby committer accidentally adds a commit that doesn't pass the tests, the error should be detected on <http://ci.rvm.jp/> and hopefully committers will be alerted.
+If a Ruby committer accidentally merges a change that doesn't pass the tests, the error should be detected on GitHub Actions or <http://ci.rvm.jp/>, and committers are alerted on their Slack.
 
 ## Unresolved issues on MRI
 
 Ruby / MRI has many unresolved issues. The following issues are examples of them.
 
 * Specification
-  * Ruby 2.6, ...
-  * Ruby 3
-    * JIT compilation (only for performance? drop backward compatibility?)
-    * Static checking
-    * Concurrent execution
+  * New features and incompatible changes for each release (Redmine tickets and developer meetings)
+  * Turning experimental features into normal ones (Ractor, `Ruby::Box`, ...)
 * Performance
+  * Make ZJIT (the new JIT compiler introduced in Ruby 4.0) faster than YJIT and production-ready
+  * Steady improvements of the interpreter, GC and method dispatch
   * Benchmarking framework and benchmarks
-  * Performance improvements
+* Concurrency and parallelism
+  * Graduate Ractor from "experimental" (stable API, performance, usable libraries)
+  * The M:N thread scheduler and the Fiber scheduler
 * Documentation
 * Bug fixes
 
-The following issues are internal problems I (ko1)  want to fix:
+The following issues are problems I (ko1) want to fix:
 
-* Improve performance and quality of bytecode serializer.
-* Improve method dispatch mechanism.
-* Inlining code.
-* Increase generational GC supported objects (especially on `T_DATA`).
-* Provide CI service to tests gems on trunk.
+* Make Ractor practical to use
+  * Libraries to share state between Ractors (<https://github.com/ko1/ractor-sharing>)
+  * A nicer API to write parallel programs with Ractors (<https://github.com/ko1/ractor-pipeline>)
+  * Application servers written with Ractors (<https://github.com/ko1/punions>)
+* Performance of the per-Ractor GC and of the M:N thread scheduler
+* Provide a CI service to test and benchmark gems on master
 
 ## Information about Ruby development
 
@@ -134,25 +137,27 @@ If you want to hack deeply into MRI, you need to know the C language.
 
 ### Communication channels
 
-* Ruby's Redmine: https://bugs.ruby-lang.org/projects/ruby/
+* Ruby's Redmine: https://bugs.ruby-lang.org/projects/ruby-master/
     * Ticket
     * Wiki
+* GitHub: https://github.com/ruby/ruby
+    * Pull requests and reviews (the issue tracker is disabled)
 * Mailing lists
     * https://www.ruby-lang.org/en/community/mailing-lists/ (En) https://www.ruby-lang.org/ja/community/mailing-lists/ (Ja)
     * ruby-core (English)
     * ruby-dev (Japanese)
 * Conferences, meetups
-    * RubyConf and other international conferences
+    * RubyConf, EURUKO and other international conferences
     * Japan domestic
         * RubyKaigi
-        * RegionalRubyKaigi
+        * Regional RubyKaigi
         * Asakusa.rb, *.rb
-* Ruby developers meeting (Monthly meeting at Tokyo)
+* Ruby developers meeting (monthly)
+    * The agenda is collected in advance on a "DevMeeting" ticket on Redmine. If you have something to ask, write it there and it will be discussed.
+* Chat
+    * The chat rooms of the Ruby community (Discord and others) are listed on <https://www.ruby-lang.org/en/community/>.
 * Contact individually
-    * Twitter
-        * @yukihiro_matz
-        * ...
-* Gitter <https://gitter.im/ruby/ruby>
+    * Social networks (matz is @yukihiro_matz on X, for example)
 
 ## Important note
 

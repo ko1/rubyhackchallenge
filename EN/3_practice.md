@@ -248,7 +248,7 @@ Index: numeric.c
 ```
 
 `FIXNUM_P(self) && FIXNUM_P(n)` checks to see if `self` and `n` are both `Fixnum`.
-If they are `Fixnum`, they are converted into C `int` values with `FIX2INT()`, and then addition is performed using C `int` values. The result is then converted from a C integer value back into Ruby's Integer value with `FIX2NUM()`.
+If they are `Fixnum`, they are converted into C `int` values with `FIX2INT()`, and then addition is performed using C `int` values. The result is then converted from a C integer value back into Ruby's Integer value with `INT2NUM()`.
 
 Note: This definition has a bug. See the next document.
 
@@ -353,7 +353,7 @@ To distribute extension libraries, the minimum requirement is to create a packag
 
 ## Tips: Debugging
 
-Please refer to https://docs.ruby-lang.org/en/2.5.0/extension_rdoc.html for a detailed explanation of writing Ruby extensions.
+Please refer to https://docs.ruby-lang.org/en/master/extension_rdoc.html for a detailed explanation of writing Ruby extensions.
 
 Browse through the MRI source code to find methods which perform functions that are similar to what you want to add.
 

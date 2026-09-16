@@ -14,7 +14,7 @@ After your hack, close this ticket with your achievement summary.
 ## Run tests on your specific environment
 
 Ruby has test suites (explained in lecture materials).
-We run tests on some environments (you can check https://rubyci.org) periodically, but not all environments.
+We run tests on some environments (GitHub Actions for every pull request, and https://rubyci.org and http://ci.rvm.jp/ periodically), but not all environments.
 
 Please try and run the test suite on your environment, and if you have any trouble:
 
@@ -36,7 +36,7 @@ Please add information such as examples and so on.
 
 ## Check unresolved issues
 
-We file all issues on Redmine <https://bugs.ruby-lang.org/issues/> and there are many unresolved tickets.
+We file all issues on Redmine <https://bugs.ruby-lang.org/projects/ruby-master/issues> and there are many unresolved tickets.
 
 (1) Bug tickets
 
@@ -85,7 +85,7 @@ Some tickets contains patches to implement it. Try it and report how you like it
 Some tickets do not contain patches.
 Please implement them.
 
-For example, ko1's ticket <https://bugs.ruby-lang.org/issues/14609> is very easy to implement.
+Open feature tickets are listed at <https://bugs.ruby-lang.org/projects/ruby-master/issues?set_filter=1&tracker_id=2>. Some of them are small enough to be a good first hack; an implementation often moves a stalled discussion forward.
 
 (2') Make your own feature request
 
@@ -101,6 +101,18 @@ You can insert any "printf" into MRI c source code to see the behavior.
 This is a very simple *Visualization*.
 
 Add your original visualization feature on terminal, GUI, sound or something cool.
+
+## Dig through unresolved tickets with an agent
+
+Redmine has many bug tickets that stalled because nobody could reproduce them (see [(1)](1_culture.md)).
+Handing a ticket to a coding agent — write a reproduction script from the description, run it on the Ruby you built, run `git bisect` once you have a lead — takes a lot of the mechanical work off you.
+
+Then **check for yourself that it really reproduces, and that the cause is really the cause**, and comment on the ticket.
+Pinning down a reproduction is more than half of solving the bug.
+
+## Play with Ractor
+
+See [(7) Let's try Ractor](7_ractor.md). Write a parallel program with Ractors, find something that doesn't work well (an error message that doesn't tell you enough, a library that can't be used from a Ractor, a case that doesn't scale), and report it. Reports from actual use are exactly what Ractor needs right now.
 
 ## Add your performance counter
 

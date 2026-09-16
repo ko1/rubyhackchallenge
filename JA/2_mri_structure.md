@@ -6,6 +6,7 @@ MRI のソースコードの構造について紹介します。また、Ruby �
 
 * 演習: MRI のソースコードを clone
 * 演習: MRI のビルド、およびインストール
+* LLM・コーディングエージェントの使いどころ
 * MRI の構造の紹介
 * 演習: ビルドした Ruby でプログラムを実行
 * 演習： バージョン表記を変更してみよう
@@ -14,7 +15,7 @@ MRI のソースコードの構造について紹介します。また、Ruby �
 
 下記のコマンドは、Linux や Mac OSX などを前提としています。Windows 等を使う場合は、別途頑張ってください。
 
-> Note: docker 環境（Ubuntu 18.04 base）を作ってみました。 `docker pull koichisasada/rhc` で試してみてください。`su rubydev` でアカウントを rubydev でご利用ください。
+> Note: ビルドに必要なパッケージを入れた Docker 環境の例が、このリポジトリの [`docker/`](../docker/) にあります（`docker build -f docker/Dockerfile.noble .`）。手元の環境を汚したくない場合にどうぞ。
 
 前提とするディレクトリ構造:
 
@@ -27,6 +28,8 @@ MRI のソースコードの構造について紹介します。また、Ruby �
 
 git、ruby、autoconf、gcc (or clang, etc）、make が必須です。その他、依存ライブラリがあれば、拡張ライブラリが作成されます。
 
+ruby が必要なのは、ビルド中にソースコードを生成するツールが Ruby で書かれているためです（`BASERUBY` と呼ばれます）。ある程度新しい ruby（現時点では 3.1 以降）が必要なので、OS 添付の ruby が古い場合は、rbenv などで入れたものを使ってください。
+
 `apt-get` が使える環境では、下記のようなコマンドでインストールされます。
 
 ```
@@ -34,6 +37,10 @@ $ sudo apt-get install git ruby autoconf gcc make zlib1g-dev libffi-dev libreadl
 ```
 
 `apt-get` 以外でインストールしたい場合は、例えば [Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki) を参照してみてください。
+
+> Note: Ruby には YJIT と ZJIT という 2 つの JIT コンパイラがあり、これらは Rust で書かれています。`rustc` があれば自動的に一緒にビルドされます（YJIT は rustc 1.58 以降、ZJIT は 1.85 以降が必要）。無くてもビルドは通り、JIT 無しの ruby ができます。明示的に外したい場合は `configure` に `--disable-yjit --disable-zjit` を指定してください。
+
+> Note: 依存関係の最新の情報は、ソースコード中の [`doc/contributing/building_ruby.md`](https://github.com/ruby/ruby/blob/master/doc/contributing/building_ruby.md) にあります。
 
 ## 演習: MRI のソースコードを clone
 
@@ -55,6 +62,8 @@ $ sudo apt-get install git ruby autoconf gcc make zlib1g-dev libffi-dev libreadl
 8. `$ ../ruby/configure --prefix=$PWD/../install --enable-shared`
   * `prefix` は、インストールする先のディレクトリです。絶対パスで、好きな場所を指定してください（この例では `workdir/install`）
   * Homebrew で諸々インストールしている場合は、 ```--with-openssl-dir=`brew --prefix openssl` --with-readline-dir=`brew --prefix readline` --disable-libedit``` を付けてください。
+  * `-C`（`--config-cache`）を付けておくと、2 回目以降の `configure` が速くなります。
+  * デバッグしながらハックするなら、最適化を切り、デバッグ用のコードを有効にしたビルドが便利です: `cppflags="-DRUBY_DEBUG=1" --enable-debug-env optflags="-O0 -fno-omit-frame-pointer"`（`RUBY_DEBUG=1` を付けると assertion などが有効になり、バグに早く気づけます）。
 9. `$ make -j` # ビルドします。`-j` は並列にコンパイルなどを行うオプションです。
   * この時点で、`ruby` コマンドと `miniruby` コマンドが `workdir/build` にできているはずです。
   * また、`.ext/` に拡張ライブラリが格納されています。 
@@ -99,6 +108,34 @@ make distclean
 ```
 
 でconfigureからやり直すとうまくいく可能性があります。
+
+## LLM・コーディングエージェントを使い倒しましょう
+
+MRI のハックは、「C 言語」「巨大なソースコード」「独特の作法」という三重の壁があって、昔は最初の一歩までが大変でした。いまは LLM（コーディングエージェント）があるので、**その壁はだいぶ低くなっています。遠慮なく使ってください。**
+
+この資料も、皆さんにビルドで消耗してもらうために書いているわけではありません。「Ruby のソースコードを clone してビルドして」と頼めば、そこまでやってくれることも多いでしょう。それで先に進めるなら、それが一番です。
+
+とくに効くのは、次のような場面です。
+
+* **ビルドを通す**：ビルドエラーの大半は環境依存の問題（ライブラリが足りない、バージョンが古い、Homebrew の場所が違う……）です。実行したコマンドとエラーメッセージを、OS とバージョンを添えてそのまま貼れば、たいてい当たりを付けてくれます。
+* **ソースコードの道案内**：「`rb_ary_entry()` は何をする関数？」「この関数はどこから呼ばれる？」「`rb_control_frame_t` のこのフィールドは何？」。全体を把握していなくても、読む場所の当たりが速くつきます。
+* **MRI の作法を教えてもらう**：`rb_define_method()` の最後の引数の意味、`VALUE` と C の値の変換（`INT2NUM` / `NUM2INT` など）、`rb_scan_args()` の書式、例外の上げ方。この手の「知っていれば一瞬、知らないと 30 分」という知識は、聞くのが一番速いです。
+* **デバッガの使い方**：gdb / lldb のコマンド、バックトレースの読み方、ブレイクポイントの張り方。`[BUG]` のログを丸ごと貼って「これはどう読む？」と聞くのも有効です（[(4) バグの修正](4_bug.md) でやります）。
+* **テストを書く**：どのファイルに、どの流儀で書くか（`bootstraptest/`、`test/`、`spec/` の使い分け）。
+* **パッチのたたき台**：「`Array#second` を C で書いて」と頼んで、出てきたものを**自分で読んで直す**。ゼロから書くより速く、しかも「なぜそう書くのか」を考える材料になります。
+* **英語**：チケットの本文、コミットメッセージ、Pull Request の説明。英語が理由で報告をためらうくらいなら、書いてもらって、内容を自分で確認して出しましょう。
+
+### ただし、「確かめる」のは自分の仕事です
+
+LLM は、存在しない `configure` のオプションや C の API を、もっともらしく答えることがあります。MRI は内部 API がよく変わるので、学習した時点の古い情報を答えることもあります。そこで、**答えを鵜呑みにせず、手元で確かめる**習慣が大事になります。幸い、確かめる道具はこの資料で全部紹介します。
+
+* 関数や API が本当にあるかは `grep` で確認できます（例: `$ grep -rn "rb_ary_entry" *.c *.h`）。
+* 「本当にそう動くのか」は、`printf` を入れて `make run`、あるいは gdb で止めて見れば分かります。
+* 「直ったのか」は、テスト（`make test-all` など）が答えます。
+
+MRI をハックする面白さは、**中で何が起きているかを、推測ではなく自分の目で確かめられる**ことにあります。LLM は、そこへ辿り着くまでの時間を短くしてくれる、とても良い道具です。両方使いましょう。
+
+> Note: 出来上がったパッチを Redmine や Pull Request に出すときは、自分で内容を理解し、テストを通してから出してください。AI を使って書いたこと自体は、まったく問題ありません。ただ、自分でも読んでいないコードをレビューしてもらうのは、相手の時間の使い方としてもったいないです。
 
 ## 演習：ビルドした Ruby でプログラムを実行してみよう
 
@@ -195,8 +232,10 @@ Ruby のソースコードを修正すると、C プログラムなので容易�
             * `vm_core.h`: VM データ構造の定義
             * `insns.def`: VM の命令定義
         * `compile.c, iseq.[ch]`: 命令列関係の処理
-        * `gc.c`: GC とメモリ管理
-        * `thread*.[ch]`: スレッド管理
+        * `gc.c`, `gc/`: GC とメモリ管理（`gc/` には差し替え可能な GC の実装が入っています。`gc/default/` が標準の GC、`gc/mmtk/` が実験的な MMTk 版）
+        * `shape.[ch]`: オブジェクトのインスタンス変数のレイアウト管理（object shape）
+        * `thread*.[ch]`: スレッド管理（M:N スレッドスケジューラを含む）
+        * `ractor.[ch]`, `ractor.rb`, `ractor_sync.c`, `ractor_core.h`: Ractor（[(7) Ractor を触ってみよう](7_ractor.md) で紹介します）
         * `variable.c`: 変数管理
         * `dln*.c`: C拡張のためのダイナミックリンクライブラリ管理
         * `main.c`, `ruby.c`: MRI のエントリーポイント
@@ -206,12 +245,16 @@ Ruby のソースコードを修正すると、C プログラムなので容易�
         * `array.c`: Array class
         * ... (だいたい、クラス名に対応するファイル名に定義が格納されています）
 * `ruby/*.h`: 内部定義。拡張ライブラリは基本的に使えません
+* `ruby/internal/`: 内部定義（こちらも拡張ライブラリからは使えません）
 * `ruby/include/ruby/*`: 外部定義。拡張ライブラリで参照できます
+* `ruby/prism/`: デフォルトのパーサ Prism（`ruby/prism` リポジトリからコピーされてきます）
+* `ruby/yjit/`, `ruby/zjit/`, `ruby/jit/`: JIT コンパイラ（Rust で書かれています）
 * `ruby/enc/`: エンコーディングのためのソースコードや情報
+* `ruby/coroutine/`: Fiber のためのコンテキストスイッチの実装（CPU/ABI ごと）
 * `ruby/defs/`: 各種定義
 * `ruby/tool/`: MRI をビルド・実行するためのツール
 * `ruby/missing/`: いくつかの OS で足りないものの実装
-* `ruby/cygwin/`, `ruby/nacl/`, `ruby/win32`, ...: OS/system 依存のソースコード
+* `ruby/cygwin/`, `ruby/win32/`, `ruby/wasm/`, ...: OS/system 依存のソースコード
 
 ### ライブラリ
 
@@ -230,20 +273,23 @@ Ruby のソースコードを修正すると、C プログラムなので容易�
 ### misc
 
 * `ruby/doc/`, `ruby/man/`: ドキュメント
+    * `ruby/doc/contributing/` には、ビルド・テスト・貢献の方法がまとまっています（[building_ruby.md](https://github.com/ruby/ruby/blob/master/doc/contributing/building_ruby.md)、[testing_ruby.md](https://github.com/ruby/ruby/blob/master/doc/contributing/testing_ruby.md) など）
+* `ruby/benchmark/`: ベンチマーク（`make benchmark` で実行できます）
+* `ruby/misc/`: エディタ・デバッガ用の設定など
 
 ## Ruby のビルドプロセス
 
 Ruby のビルドでは、ソースコードを生成しながらビルドを進めていきます。ソースコードを生成するいくつかのツールは Ruby を用いるため、Ruby のビルドには Ruby が必要になります。ソースコード配布用の tar ball には、これら生成されたソースコードもあわせて配布しているので、tar ball を用いるのであれば、Ruby のビルドに Ruby （や、その他 autoconf などの外部ツール）は不要です。
 
-逆に言うと、Subversion や Git リポジトリからソースコードを取得した場合は、Ruby インタプリタ（や、autoconf などの外部ツール）が必要になります。
+逆に言うと、Git リポジトリからソースコードを取得した場合は、Ruby インタプリタ（や、autoconf などの外部ツール）が必要になります。
 
 ビルド・インストールは、次のように進みます（要するに、`make all` がやっていること）。
 
 1. miniruby のビルド
-    1. parse.y -> parse.c: Compile syntax rules to C code by lrama
-    2. insns.def -> vm.inc: Compile VM instructions to C code by ruby (`BASERUBY`)
-    3. `*.c` -> `*.o` (`*.obj` on Windows): Compile C codes to object files.
-    4. link object files into miniruby
+    1. parse.y -> parse.c: パーサジェネレータ lrama で文法定義を C のコードへ変換
+    2. insns.def -> vm.inc: VM の命令定義を、ruby（`BASERUBY`）で C のコードへ変換
+    3. `*.c` -> `*.o` (`*.obj` on Windows): C のコードをコンパイル
+    4. できたオブジェクトファイルをリンクして miniruby を作る
 2. エンコーディングのビルド
     1. translate enc/... to appropriate C code by `miniruby`
     2. compile C code
@@ -255,6 +301,8 @@ Ruby のビルドでは、ソースコードを生成しながらビルドを進
 6. 生成されたファイルのインストール（インストール先は `configure` の `--prefix` で指定したもの）
 
 実は、本当はもっと色々やっているのですが、書き切れないし、私も把握していないので、省略しています。`common.mk` といった make 用のルール集に、いろいろなファイルが入っています。
+
+> Note: Ruby 3.4 から、デフォルトのパーサは `parse.y` ではなく [Prism](https://github.com/ruby/prism)（`prism/` にあります）になりました。`ruby -v` の出力に `+PRISM` と出ていれば Prism を使っています。`parse.y` のパーサも残っており、`ruby --parser=parse.y` で切り替えられます。
 
 ## 演習：バージョン表記の修正（改造）
 

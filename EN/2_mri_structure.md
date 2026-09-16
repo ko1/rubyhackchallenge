@@ -9,6 +9,7 @@ There are the following topics:
 
 * Exercise: Clone the MRI source code.
 * Exercise: Build MRI and install built binaries.
+* Where LLMs and coding agents help.
 * Exercise: Execute Ruby programs with built Ruby.
 * MRI source code structures.
 * Exercise: The 1st hack. Change the version description.
@@ -17,7 +18,7 @@ There are the following topics:
 
 The following commands assume an Unix-like environment, such as Linux, macOS, etc. If you're using a Windows environment, you will need to refer to other resources.
 
-NOTE: We provide an experimental docker image: `docker pull koichisasada/rhc`. Use `rubydev` account with `su rubydev` and enjoy hacking.
+NOTE: Example Dockerfiles with the packages needed for building MRI are available in [`docker/`](../docker/) of this repository (`docker build -f docker/Dockerfile.noble .`). Use them if you don't want to install the dependencies on your machine.
 
 We assume the use of the following directory structure:
 
@@ -29,6 +30,8 @@ We assume the use of the following directory structure:
 The commands `git`, `ruby`, `autoconf`, `gcc` (or `clang`, etc), and `make` are required.
 Standard Ruby extensions (such as zlib, openssl, etc.) will be built if the libraries they depend on are available.
 
+A `ruby` command is required because some of the tools that generate source code during the build are written in Ruby (it is called `BASERUBY`). It needs to be reasonably new (3.1 or later at the time of writing), so if the `ruby` shipped with your OS is old, use one installed with rbenv or similar.
+
 If you use `apt-get` (or `apt`) for package management in your environment, then you can get all dependencies with the following command:
 
 ```
@@ -36,6 +39,11 @@ $ sudo apt-get install git ruby autoconf gcc make zlib1g-dev libffi-dev libreadl
 ```
 
 If you would like to install other than `apt-get`, see for example [Home · rbenv/ruby\-build Wiki](https://github.com/rbenv/ruby-build/wiki)
+
+NOTE: Ruby has two JIT compilers, YJIT and ZJIT, and both are written in Rust. If `rustc` is available, they are built together with Ruby (YJIT needs rustc 1.58 or later, ZJIT needs 1.85 or later). Without `rustc` the build still succeeds and you get a Ruby without JIT. Pass `--disable-yjit --disable-zjit` to `configure` if you want to leave them out explicitly.
+
+NOTE: The up-to-date list of dependencies is in the source tree: [`doc/contributing/building_ruby.md`](https://github.com/ruby/ruby/blob/master/doc/contributing/building_ruby.md).
+
 ## Exercise: Clone the MRI source code
 
 Use the following commands:
@@ -58,11 +66,41 @@ Due to limited network bandwidth at the venue, please clone the source code at h
 8. `$ ../ruby/configure --prefix=$PWD/../install --enable-shared`
   * the `prefix` option specifies an install directory. You can specify the directory of your choice by supplying the full absolute path (in this case, `workdir/install` is specified).
   * users of `Homebrew` will need to add the following options `--with-openssl-dir="$(brew --prefix openssl)" --with-readline-dir="$(brew --prefix readline)" --disable-libedit`
+  * `-C` (or `--config-cache`) makes the next `configure` runs faster.
+  * If you are going to hack and debug MRI, a build without optimization and with the debugging code enabled is convenient: `cppflags="-DRUBY_DEBUG=1" --enable-debug-env optflags="-O0 -fno-omit-frame-pointer"` (with `RUBY_DEBUG=1`, assertions are enabled and you notice your bugs earlier).
 9. `$ make -j` # Run build. `-j` specifies *parallel build*.
 10. `$ make install` # Tip: for a faster install, instead run `make install-nodoc` to install ruby without rdoc.
 11. `$ ../install/bin/ruby -v` will show the version description of your installed ruby command.
 
 NOTE: Running `make` with the `V=1` option (i.e. `make V=1 -j`, etc.) will output the full commands that are executed during the build. By default, `V=0` is specified and detailed output is suppressed.
+
+## Use LLMs and coding agents as much as you like
+
+Hacking MRI used to have three walls in front of the first step: the C language, a huge source tree, and a set of conventions you just had to know. With LLMs (and coding agents), **those walls are a lot lower now. Please use them.**
+
+This document was not written to make you suffer through builds. "Clone the Ruby source code and build it" is often something you can just ask an agent to do. If that gets you moving, that is the best outcome.
+
+They are especially good at:
+
+* **Getting the build to pass.** Most build errors are environment-specific: a missing library, a version that is too old, Homebrew putting things somewhere else. Paste the command you ran and the error message, with your OS and versions, and you usually get a good guess right away.
+* **Navigating the source.** "What does `rb_ary_entry()` do?" "Who calls this function?" "What is this field of `rb_control_frame_t`?" You don't need to understand the whole tree to find where to look.
+* **Learning MRI's conventions.** The meaning of the last argument of `rb_define_method()`, converting between `VALUE` and C values (`INT2NUM` / `NUM2INT` and friends), the format string of `rb_scan_args()`, how to raise an exception. This is the kind of knowledge that takes a second if you know it and half an hour if you don't.
+* **Using the debugger.** gdb / lldb commands, how to read a backtrace, where to set a breakpoint. Pasting a whole `[BUG]` log and asking "how do I read this?" works well too (see [(4) Fixing bugs](4_bug.md)).
+* **Writing tests.** Which file to put a test in, and in which style (`bootstraptest/`, `test/`, `spec/`).
+* **A first draft of a patch.** Ask for "`Array#second` written in C", then **read it yourself and fix it**. It is faster than starting from nothing, and it gives you something concrete to think about.
+* **English.** Ticket descriptions, commit messages, pull request text. If English is what stops you from reporting something, write it with help, check it yourself, and send it.
+
+### But checking is your job
+
+An LLM can confidently invent a `configure` option or a C API that doesn't exist. MRI's internal APIs change often, so it can also answer with information that was true a few versions ago. So don't take an answer at face value — check it on your machine. The good news is that this document introduces all the tools you need for that.
+
+* Whether a function or API really exists is a `grep` away (`$ grep -rn "rb_ary_entry" *.c *.h`).
+* Whether it really behaves that way is answered by a `printf` and `make run`, or by stopping in gdb.
+* Whether it is really fixed is answered by the tests (`make test-all` and friends).
+
+The fun part of hacking MRI is that you can see what is going on inside with your own eyes, instead of guessing. An LLM is a very good tool for getting there faster. Use both.
+
+> Note: when you send the resulting patch to Redmine or as a pull request, make sure you understand it and that the tests pass. There is nothing wrong with having written it with AI; asking someone to review code that you haven't read yourself is just not a good use of their time.
 
 ## Exercise: Execute Ruby programs with the Ruby you built
 
@@ -140,8 +178,10 @@ At a glance, the following directory structure you can observe:
             * `vm_core.h`: definitions of VM data structure
             * `insns.def`: definitions of VM instructions
         * `compile.c, iseq.[ch]`: instruction sequence (bytecode)
-        * `gc.c`: GC and memory management
-        * `thread*.[ch]`: thread management
+        * `gc.c`, `gc/`: GC and memory management (`gc/` contains pluggable GC implementations: `gc/default/` is the standard one, `gc/mmtk/` is an experimental MMTk-based one)
+        * `shape.[ch]`: layout of instance variables (object shapes)
+        * `thread*.[ch]`: thread management (including the M:N thread scheduler)
+        * `ractor.[ch]`, `ractor.rb`, `ractor_sync.c`, `ractor_core.h`: Ractor (see [(7) Let's try Ractor](7_ractor.md))
         * `variable.c`: variable management
         * `dln*.c`: dll management for extension libraries
         * `main.c`, `ruby.c`: the entry point of MRI
@@ -151,12 +191,16 @@ At a glance, the following directory structure you can observe:
         * `array.c`: Array class
         * ... (file names show class names, such as time.c for Time class)
 * `ruby/*.h`: internal definitions. C-extension libraries can't use them.
+* `ruby/internal/`: internal definitions, too.
 * `ruby/include/ruby/*`: external definitions. C-extension libraries can use them.
+* `ruby/prism/`: Prism, the default parser (copied from the `ruby/prism` repository).
+* `ruby/yjit/`, `ruby/zjit/`, `ruby/jit/`: the JIT compilers (written in Rust).
 * `ruby/enc/`: encoding information.
+* `ruby/coroutine/`: context switching for Fibers (per CPU/ABI).
 * `ruby/defs/`: various definitions.
 * `ruby/tool/`: tools to build MRI.
 * `ruby/missing/`: implementations for features that are missing in some OSes
-* `ruby/cygwin/`, `ruby/nacl/`, `ruby/win32`, ...: OS/system dependent code.
+* `ruby/cygwin/`, `ruby/win32/`, `ruby/wasm/`, ...: OS/system dependent code.
 
 ### Libraries
 
@@ -175,17 +219,20 @@ There are two kinds of libraries.
 ### misc
 
 * `ruby/doc/`, `ruby/man/`: documentation
+    * `ruby/doc/contributing/` describes how to build, test and contribute ([building_ruby.md](https://github.com/ruby/ruby/blob/master/doc/contributing/building_ruby.md), [testing_ruby.md](https://github.com/ruby/ruby/blob/master/doc/contributing/testing_ruby.md) and so on)
+* `ruby/benchmark/`: benchmarks (`make benchmark` runs them)
+* `ruby/misc/`: configurations for editors and debuggers
 
 ## Ruby's build process
 
 the Ruby build process is composed of several phases involving source code generation and so on. Several tools are written in Ruby, so the Ruby build process requires the Ruby interpreter. Release tarballs contain generated source code so that installing Ruby with a release tarball does not require the Ruby interpreter (and other development tools such as autoconf).
 
-If you want to build MRI with source code fetched by Subversion or Git repository, you need a Ruby interpreter.
+If you want to build MRI with source code fetched from the Git repository, you need a Ruby interpreter.
 
 The following steps describe the build and install process:
 
 1. Build miniruby
-    1. parse.y -> parse.c: Compile syntax rules into C code with lrama
+    1. parse.y -> parse.c: Compile syntax rules into C code with the lrama parser generator
     2. insns.def -> vm.inc: Compile VM instructions into C code with ruby (`BASERUBY`)
     3. `*.c` -> `*.o` (`*.obj` on Windows): Compile C code into object files.
     4. link object files into miniruby
@@ -200,6 +247,8 @@ The following steps describe the build and install process:
 6. Install MRI (to the install directory specified by the `configure --prefix` option)
 
 There are actually many more steps in the process. It is difficult, however, to comprehensively list all the steps (even I don't know all of them!), so the above is an abbreviated sequence of steps. If you are curious, you can see all the rules in `common.mk` and related files.
+
+NOTE: Since Ruby 3.4, the default parser is not `parse.y` but [Prism](https://github.com/ruby/prism) (found in `prism/`). If `ruby -v` shows `+PRISM`, Prism is in use. The `parse.y` parser is still there and you can switch to it with `ruby --parser=parse.y`.
 
 ## Exercise: the 1st hack. Change the version description
 
