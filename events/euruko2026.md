@@ -26,6 +26,14 @@ The full material is in [(7) Let's try Ractor](../EN/7_ractor.md). You can work 
 
 **What we want from you**: what you wanted to write and couldn't, error messages that didn't tell you enough, and programs that didn't get faster. Ractor needs reports from actual use more than anything else right now, and ko1 (the author of Ractor) will be in the room.
 
+## Ask us things — that is what the room is for
+
+**Everything in this material, an AI agent can tell you.** How to build MRI, what `Ractor::Port` is, what that error message means, how to parallelize your script: ask, and you will get an answer, usually a good one. This material was itself written with Claude Code — the examples were run, and the claims checked against ruby/ruby master.
+
+What is harder to get that way is everything underneath: why the API ended up like this and not another way, what was tried and dropped, which parts are settled and which are experimental and may change next month, and what the interpreter is actually doing while your program runs. The details are hard to see from outside.
+
+That is what an afternoon in the same room is for. **So please ask.** Anything you got curious about — while reading this material, while building Ruby, while your parallel program stubbornly failed to get faster. Half-formed questions are welcome ("I don't see why this is prohibited" is a good question). Bring what your agent told you and ask whether it is true. We think that is where the value of this workshop is.
+
 ## Before you come
 
 **Please build Ruby from the `master` branch before the workshop.** The conference network will not enjoy 40 people cloning `ruby/ruby` at the same time, and a build takes a while.
