@@ -15,8 +15,6 @@ Ractor is still an **experimental feature**. Using it prints a warning, and the 
 
 The examples in this document were checked with `ruby 4.1.0dev (2026-09-14T04:56:14Z master d568c61094)`.
 
-> Note: this chapter was written for the workshop at [EURUKO 2026](https://2026.euruko.org/) (Brno, on the afternoon of September 18, 2026; [details](../events/euruko2026.md)). You can of course work through it on your own.
-
 ## Preparation
 
 Build Ruby from the `master` branch, following [(2) MRI source code structure](2_mri_structure.md). Check the version of the Ruby you built:

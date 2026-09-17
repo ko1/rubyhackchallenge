@@ -4,12 +4,12 @@
 * Conference days: September 17 (Thu) and 18 (Fri), 2026 (the BRUG meetup and welcome drinks are on the 16th)
 * This workshop: one of the workshops on **Friday afternoon, September 18**
 * Agenda and workshop registration: <https://2026.euruko.org/agenda.html>
-* Material for the afternoon: [(7) Let's try Ractor](../EN/7_ractor.md) and [(8) Let's try Ruby::Box](../EN/8_box.md), both written for this workshop
-* The rest of the [Ruby Hack Challenge](https://github.com/ko1/rubyhackchallenge) — building MRI, adding methods, fixing bugs, performance — is there to take further afterwards
+* Material: the whole [Ruby Hack Challenge](https://github.com/ko1/rubyhackchallenge) — building MRI, adding methods, fixing bugs, performance — including [(7) Let's try Ractor](../EN/7_ractor.md) and [(8) Let's try Ruby::Box](../EN/8_box.md), the two chapters added this month
+* **Work on whichever part of it you like on the day** (see below)
 
 ## What we will do
 
-Ractor is Ruby's mechanism for parallel programming, and it is still experimental — the API changed in Ruby 4.0 and is changing again in 4.1. In this workshop we run Ractors on the **latest Ruby (the `master` branch)**, together, and see what works, what doesn't, and what is awkward.
+Ractor is Ruby's mechanism for parallel programming, and it is still experimental — the API changed in Ruby 4.0 and is changing again in 4.1. The thread we will lead is running Ractors on the **latest Ruby (the `master` branch)**, together, and seeing what works, what doesn't, and what is awkward.
 
 Roughly:
 
@@ -23,17 +23,30 @@ Roughly:
 8. Play with [ractor-pipeline](https://github.com/ko1/ractor-pipeline), [ractor-sharing](https://github.com/ko1/ractor-sharing) and [punions](https://github.com/ko1/punions)
 9. If there is time: `Ruby::Box`, the other experimental feature of Ruby 4.0 — two versions of one library in one process ([(8) Let's try Ruby::Box](../EN/8_box.md))
 
-The two chapters for the afternoon are [(7) Let's try Ractor](../EN/7_ractor.md) and [(8) Let's try Ruby::Box](../EN/8_box.md). You can work through them on your own, before or after the workshop.
+Both chapters — [(7) Let's try Ractor](../EN/7_ractor.md) and [(8) Let's try Ruby::Box](../EN/8_box.md) — stand on their own, so you can work through them before or after the workshop, or instead of it.
 
 **What we want from you**: what you wanted to write and couldn't, error messages that didn't tell you enough, and programs that didn't get faster. Ractor needs reports from actual use more than anything else right now, and ko1 (the author of Ractor) will be in the room.
 
+## Or hack on whatever you like
+
+That thread is what we will lead, not what you have to do. **The whole Ruby Hack Challenge is on the table for the afternoon**, and any of it is a good way to spend it:
+
+* [(2) MRI source code structure](../EN/2_mri_structure.md) — build MRI, then make `ruby -v` print your own version string
+* [(3) Exercise: Add methods to Ruby](../EN/3_practice.md) — `Array#second`, `String#palindrome?`, or a method of your own, in C
+* [(4) Fixing bugs](../EN/4_bug.md) — read a `[BUG]` log, find where it crashed, fix it
+* [(5) Performance improvements](../EN/5_performance.md) — measure something in MRI, then make it faster
+* [Task ideas](../EN/task_ideas.md) — unresolved tickets, documentation, running the test suite on your platform, your own performance counter
+* Or the thing you have been meaning to try in MRI and never had an afternoon for
+
+Bring your own itch, in other words. ko1 is in the room for all of it, not only for Ractor.
+
 ## Ask us things — that is what the room is for
 
-**Everything in these materials, an AI agent can tell you.** How to build MRI, what `Ractor::Port` is, what that error message means, how to parallelize your script: ask, and you will get an answer, usually a good one. The two chapters for this workshop were themselves written with Claude Code — every example run on `master`, every claim checked against the source — and the older Ruby Hack Challenge chapters were brought up to date the same way this month.
+**Everything in these materials, an AI agent can tell you.** How to build MRI, what `Ractor::Port` is, what that error message means, how to parallelize your script: ask, and you will get an answer, usually a good one. The two new chapters, (7) and (8), were themselves written with Claude Code — every example run on `master`, every claim checked against the source — and the older chapters were brought up to date the same way this month.
 
 What is harder to get that way is everything underneath: why the API ended up like this and not another way, what was tried and dropped, which parts are settled and which are experimental and may change next month, and what the interpreter is actually doing while your program runs. The details are hard to see from outside.
 
-That is what an afternoon in the same room is for. **So please ask.** Anything you got curious about — while reading this material, while building Ruby, while your parallel program stubbornly failed to get faster. Half-formed questions are welcome ("I don't see why this is prohibited" is a good question). Bring what your agent told you and ask whether it is true. We think that is where the value of this workshop is.
+That is what an afternoon in the same room is for. **So please ask.** Anything you got curious about — while reading these materials, while building Ruby, while your parallel program stubbornly failed to get faster. It does not have to be about Ractor, or about anything on the schedule. Half-formed questions are welcome ("I don't see why this is prohibited" is a good question). Bring what your agent told you and ask whether it is true. We think that is where the value of this workshop is.
 
 ## Before you come
 
