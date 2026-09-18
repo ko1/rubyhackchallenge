@@ -7,6 +7,10 @@
 * Material: the whole [Ruby Hack Challenge](https://github.com/ko1/rubyhackchallenge) — building MRI, adding methods, fixing bugs, performance — including [(7) Let's try Ractor](../EN/7_ractor.md) and [(8) Let's try Ruby::Box](../EN/8_box.md), the two chapters added this month
 * **Work on whichever part of it you like on the day** (see below)
 
+## Feedback is welcome
+
+I'm happy if I can heard your feedback (what are your achievements, what do you think on the resource materials, etc).
+
 ## What we will do
 
 Ractor is Ruby's mechanism for parallel programming, and it is still experimental — the API changed in Ruby 4.0 and is changing again in 4.1. The thread we will lead is running Ractors on the **latest Ruby (the `master` branch)**, together, and seeing what works, what doesn't, and what is awkward.
