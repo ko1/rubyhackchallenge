@@ -9,7 +9,7 @@
 
 ## Feedback is welcome
 
-I'm happy if I can heard your feedback (what are your achievements, what do you think on the resource materials, etc).
+I'm happy if I can hear your feedback (what are your achievements, what do you think on the resource materials, etc).
 
 ## What we will do
 
